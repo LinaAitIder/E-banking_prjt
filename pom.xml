@@ -89,6 +89,13 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Pour Lire le Fichier .env en Java  -->
+    <dependency>
+      <groupId>io.github.cdimascio</groupId>
+      <artifactId>dotenv-java</artifactId>
+      <version>3.0.0</version>
+    </dependency>
   </dependencies>
 
 
