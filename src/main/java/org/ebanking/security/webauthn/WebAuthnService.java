@@ -16,24 +16,24 @@ import com.webauthn4j.util.Base64Util;
 import org.ebanking.dao.WebAuthnCredentialRepository;
 import org.ebanking.model.*;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.*;
 
+@Service
 @Transactional
 public class WebAuthnService {
 
     private final String rpId = "localhost";
     private final ObjectConverter objectConverter = new ObjectConverter();
     private final WebAuthnCredentialRepository credentialRepository;
-    private final AuthenticatorAssertionResponse authenticatorAssertionResponse;
 
-    public WebAuthnService(WebAuthnCredentialRepository credentialRepository,
-                           AuthenticatorAssertionResponse authenticatorAssertionResponse) {
+    public WebAuthnService(WebAuthnCredentialRepository credentialRepository) {
         this.credentialRepository = credentialRepository;
-        this.authenticatorAssertionResponse = authenticatorAssertionResponse;
+
     }
 
     public PublicKeyCredentialCreationOptions generateRegistrationOptions(Client client) {

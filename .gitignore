@@ -40,8 +40,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
-<<<<<<< HEAD
-=======
 
->>>>>>> 7e5c1cedb241ff8d14ef44b5bcff4d09a42ddbbf
-.env
+
+### Secrets ###
+!**/src/main/resources/database.properties

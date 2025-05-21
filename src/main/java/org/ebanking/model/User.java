@@ -1,4 +1,4 @@
-package org.example.model;
+package org.ebanking.model;
 
 public class User {
 }

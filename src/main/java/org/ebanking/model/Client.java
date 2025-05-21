@@ -8,6 +8,7 @@ import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "clienttest")
 public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
