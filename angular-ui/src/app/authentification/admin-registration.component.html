@@ -1,0 +1,7 @@
+<form [formGroup]="adminForm" (ngSubmit)="registerAdmin()">
+    <input formControlName="fullName" placeholder="Full Name" />
+    <input formControlName="email" placeholder="Email" type="email" />
+    <input formControlName="phoneNumber" placeholder="Phone Number" />
+    <input formControlName="password" placeholder="Password" type="password" />
+    <button type="submit">Register Admin</button>
+</form>

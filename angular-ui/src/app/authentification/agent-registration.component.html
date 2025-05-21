@@ -1,0 +1,8 @@
+<form [formGroup]="agentForm" (ngSubmit)="registerAgent()">
+    <input formControlName="fullName" placeholder="Full Name" />
+    <input formControlName="email" type="email" placeholder="Email" />
+    <input formControlName="phoneNumber" placeholder="Phone Number" />
+    <input formControlName="agencyCode" placeholder="Agency Code" />
+    <input formControlName="password" type="password" placeholder="Password" />
+    <button type="submit">Register Agent</button>
+</form>
