@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "clienttest")
 public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +20,21 @@ public class Client implements Serializable {
     private String nationalId;
     private String email;
     private String password;
+
+    @Column(name = "phone_number", unique = true)
+    @Pattern(regexp = "^\\+[1-9]\\d{1,14}$", message = "Format E.164 requis")
     private String phone;
+
+    @Column(name = "phone_verified", nullable = false)
+    private boolean phoneVerified = false;
+
     private String address;
     private String city;
     private String country;
     private Boolean termsAccepted;
 
     @Column(nullable = false)
-    private Boolean webAuthnEnabled = false;
+    private boolean webAuthnEnabled = false;
 
     // @Column(nullable = false)
     //private boolean isActive = true; // Par défaut tout client est actif, uncomment later
@@ -42,7 +49,7 @@ public class Client implements Serializable {
     public WebAuthnCredential getFirstWebAuthnCredential() {
         return webAuthnCredentials.iterator().next();}
 
-    public Boolean isWebAuthnEnabled() { return webAuthnEnabled; }
+    public boolean isWebAuthnEnabled() { return webAuthnEnabled; }
 
     @Transient // Non persisté en base
     private transient String challenge; // Stocké temporairement pour WebAuthn
@@ -50,15 +57,16 @@ public class Client implements Serializable {
     public Client() {}
 
     public Client(String fullName, Date dateOfBirth, String nationalId,
-                  String email, String password, String phone, String address,
-                  String city, String country, Boolean termsAccepted,
-                  Boolean webAuthnEnabled, Set<WebAuthnCredential> webAuthnCredentials ) {
+                  String email, String password, String phone, boolean phoneVerified,
+                  String address, String city, String country, Boolean termsAccepted,
+                  boolean webAuthnEnabled, Set<WebAuthnCredential> webAuthnCredentials ) {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.nationalId = nationalId;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.phoneVerified = phoneVerified;
         this.address = address;
         this.city = city;
         this.country = country;
@@ -123,6 +131,11 @@ public class Client implements Serializable {
         this.phone = phone;
     }
 
+    public boolean isPhoneVerified() { return phoneVerified; }
+
+    public void setPhoneVerified(boolean phoneVerified) {
+        this.phoneVerified = phoneVerified; }
+
     public String getAddress() {
         return address;
     }
@@ -155,11 +168,11 @@ public class Client implements Serializable {
         this.termsAccepted = termsAccepted;
     }
 
-    public Boolean getWebAuthnEnabled() {
+    public boolean getWebAuthnEnabled() {
         return webAuthnEnabled;
     }
 
-    public void setWebAuthnEnabled(Boolean webAuthnEnabled) {
+    public void setWebAuthnEnabled(boolean webAuthnEnabled) {
         this.webAuthnEnabled = webAuthnEnabled;
     }
 
