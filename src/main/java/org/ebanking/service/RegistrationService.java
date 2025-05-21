@@ -43,4 +43,8 @@ public class RegistrationService {
         client.setWebAuthnEnabled(true);
         clientRepository.save(client);
     }
+
+    public boolean phoneNumberExists(String phoneNumber) {
+        return clientRepository.existsByPhoneNumber(phoneNumber);
+    }
 }
