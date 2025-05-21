@@ -1,4 +1,4 @@
-package org.example.config;
+package org.ebanking.config;
 
 
 import org.springframework.context.annotation.ComponentScan;

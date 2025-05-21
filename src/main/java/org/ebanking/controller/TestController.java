@@ -1,7 +1,6 @@
-package org.example.controller;
+package org.ebanking.controller;
 
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -1,4 +1,4 @@
-package org.example.config;
+package org.ebanking.config;
 
 public class CorsConfig {
 }
