@@ -1,30 +1,42 @@
-package org.ebanking;
-
-import org.ebanking.config.AppConfig;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRegistration;
-
-public class App implements WebApplicationInitializer {
-
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        // Create Spring context
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(AppConfig.class);
-
-        // Create and register DispatcherServlet
-        DispatcherServlet servlet = new DispatcherServlet(context);
-        ServletRegistration.Dynamic registration = servletContext.addServlet("dispatcher", servlet);
-
-        registration.setLoadOnStartup(1);
-        registration.addMapping("/api/*");
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Application configured for Tomcat deployment");
-    }
-}
+// Used for testing database Connection
+//
+//package org.ebanking;
+//
+//import org.ebanking.config.AppConfig;
+//import org.ebanking.model.Client;
+//import org.ebanking.dao.ClientRepository;
+//import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+//
+//import java.util.Date;
+//
+//public class App {
+//    public static void main(String[] args) {
+//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+//
+//        try {
+//            ClientRepository clientRepository = context.getBean(ClientRepository.class);
+//
+//            Client client = new Client();
+//            client.setFullName("Alice Johnson");
+//            client.setDateOfBirth(new Date());
+//            client.setNationalId("ABC123456");
+//            client.setEmail("alice.johnson@example.com");
+//            client.setPassword("securePassword123");
+//            client.setPhone("+1234567890");
+//            client.setAddress("123 Main St");
+//            client.setCity("Springfield");
+//            client.setCountry("Neverland");
+//            client.setTermsAccepted(true);
+//            client.setWebAuthnEnabled(false);
+//
+//            clientRepository.save(client);
+//
+//            System.out.println("Client saved successfully with ID: " + client.getId());
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            context.close();
+//        }
+//    }
+//}
