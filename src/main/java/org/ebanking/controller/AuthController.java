@@ -41,4 +41,9 @@ public class AuthController {
                 .header("Authorization", "Bearer " + token)
                 .body(new LoginResponse(token, client.isWebAuthnEnabled()));
     }
+
+    // NEED AN API TO VERIFY THE PASSWORD
+    // AUTH/VERIFICATION/PASSWORD
+    // RETURNS CHALLENGE FOR BIOMETRIC AUTHENTICATION
+    // RECEIVES BIOMETRIC CREDENTIAL AND COMPARE WITH THOSE IN DATABASE
 }
