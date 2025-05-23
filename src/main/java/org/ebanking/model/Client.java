@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
+@Table(name = "clients")
 public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +48,9 @@ public class Client implements Serializable {
         credential.setClient(this);
     }
     public WebAuthnCredential getFirstWebAuthnCredential() {
+        if (webAuthnCredentials == null || webAuthnCredentials.isEmpty()) {
+            return null;
+        }
         return webAuthnCredentials.iterator().next();}
 
     public boolean isWebAuthnEnabled() { return webAuthnEnabled; }

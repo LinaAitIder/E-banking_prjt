@@ -9,7 +9,7 @@ public class WebAuthnCredential {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
