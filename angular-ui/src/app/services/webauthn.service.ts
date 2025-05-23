@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {User} from "../model/user.model";
 import {AuthenService} from "./authen.service";
+import {firstValueFrom} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,13 @@ export class WebauthnService {
   constructor(private authenService:AuthenService) { }
 
   // Asynchrounous since we are waiing for the user to enter its biometric credentials
-  async registerWebAuthenCredentials( challenge: any, user: { email: string; fullName: string; [key: string]: any }, role: string) {
+  async registerWebAuthenCredentials(
+      challenge: any,
+      user: { email: string; fullName: string; [key: string]: any },
+      role: string
+  ): Promise<boolean> {
     const publicKey: PublicKeyCredentialCreationOptions = {
-      challenge: challenge,
+      challenge,
       rp: {
         name: "E-banking Application"
       },
@@ -32,23 +37,28 @@ export class WebauthnService {
       timeout: 60000,
       attestation: "direct"
     };
+
     try {
       const credential = await navigator.credentials.create({ publicKey }) as PublicKeyCredential;
-      console.log("Registration successful!", credential);
-      this.authenService.saveCredentials(this.serializeCredential(credential), challenge, role).subscribe({
-        next: res=>{
-          console.log("Saved Client")
-        }
-      })
-    } catch (err) {
-      console.error("Registration failed:", err);
-      throw err;
+      const serializedCredentials = this.serializeCredential(credential);
+      console.log("this is the user sent ", user)
+      console.log("this is the credential sent :",serializedCredentials);
+      const verificationResult = await this.verifyAuthenticator(serializedCredentials.response.attestationObject, user);
+      console.log(verificationResult);
+      console.log("Biometric Registration succeeded!");
+        return true;
+    } catch (error) {
+      console.error("Biometric Registration failed:", error);
+      window.alert("Biometric Registration FAILED!");
+      return false;
     }
-
   }
 
+  async verifyAuthenticator(attestationObject: any, user: { email: string; fullName: string; [key: string]: any }): Promise<any> {
+    return firstValueFrom(this.authenService.verifyAuthenticatorRequest(attestationObject, user));
+  }
 
-   async login(challenge: ArrayBuffer, user: User, allowedCredentialId: ArrayBuffer) {
+  async login(challenge: ArrayBuffer, user: User, allowedCredentialId: ArrayBuffer) {
     const publicKey: PublicKeyCredentialRequestOptions = {
       challenge: challenge,
       allowCredentials: [{
@@ -87,8 +97,12 @@ export class WebauthnService {
   }
 
   private arrayBufferToBase64(buffer: ArrayBuffer): string {
-    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      const binary = String.fromCharCode(...new Uint8Array(buffer));
+      const base64 = btoa(binary);
+      return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
+
+
 
 
 }

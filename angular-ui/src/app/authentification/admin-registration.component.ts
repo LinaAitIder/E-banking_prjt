@@ -23,6 +23,7 @@ export class AdminRegistrationComponent {
         });
     }
 
+    // Method Will be updated To handle new 2fa logic
     registerAdmin() {
         if (this.adminForm.valid) {
             const adminData: Admin = this.adminForm.value;
