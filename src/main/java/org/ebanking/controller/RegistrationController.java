@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:4200")
 public class RegistrationController {
 
     @Autowired
@@ -43,15 +44,16 @@ public class RegistrationController {
     @PostMapping("/register")
     public ResponseEntity<Client> registerClient(@RequestBody Client client) {
         // Verification que le SMS a ete valide
-        if (!client.isPhoneVerified()) {
-            throw new IllegalStateException("Numéro non vérifié");
-        }
+//        if (!client.isPhoneVerified()) {
+//            throw new IllegalStateException("Numéro non vérifié");
+//        }
         // 1. Enregistrement basique
         Client registeredClient = registrationService.registerClient(client);
 
         // 2. Préparation pour WebAuthn
         String challenge = webAuthnService.prepareWebAuthnRegistration(registeredClient);
 
+        System.out.println(registeredClient);
         return ResponseEntity.ok()
                 .header("X-WebAuthn-Challenge", challenge)
                 .body(registeredClient);
@@ -59,7 +61,7 @@ public class RegistrationController {
 
     @PostMapping("/register/verify")
     public ResponseEntity<?> verifyRegistration(
-            @RequestParam String attestation,
+            @RequestParam("attestation") String attestation,
             @RequestBody Client client) {
 
         webAuthnService.verifyRegistration(attestation, client);
