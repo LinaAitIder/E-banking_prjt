@@ -13,6 +13,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     boolean existsByNationalId(String nationalId);
 
-    @Query("SELECT COUNT(c) > 0 FROM Client c WHERE c.phoneNumber = :phoneNumber")
+    @Query("SELECT COUNT(c) > 0 FROM Client c WHERE c.phone = :phoneNumber")
     boolean existsByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 }

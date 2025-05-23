@@ -13,6 +13,7 @@ import com.webauthn4j.data.client.Origin;
 import com.webauthn4j.data.client.challenge.*;
 import com.webauthn4j.server.*;
 import com.webauthn4j.util.Base64Util;
+import org.ebanking.dao.ClientRepository;
 import org.ebanking.dao.WebAuthnCredentialRepository;
 import org.ebanking.model.*;
 import jakarta.transaction.Transactional;
@@ -30,10 +31,11 @@ public class WebAuthnService {
     private final String rpId = "localhost";
     private final ObjectConverter objectConverter = new ObjectConverter();
     private final WebAuthnCredentialRepository credentialRepository;
+    private final ClientRepository clientRepository;
 
-    public WebAuthnService(WebAuthnCredentialRepository credentialRepository) {
+    public WebAuthnService(WebAuthnCredentialRepository credentialRepository, ClientRepository clientRepository) {
         this.credentialRepository = credentialRepository;
-
+        this.clientRepository = clientRepository;
     }
 
     public PublicKeyCredentialCreationOptions generateRegistrationOptions(Client client) {
@@ -60,11 +62,21 @@ public class WebAuthnService {
     public void verifyRegistration(String attestationObject, Client client) {
         try {
             // 1. Convertir en objets WebAuthn4j
-            AttestationObject attestationObj = objectConverter.getCborConverter()
-                    .readValue(Base64Util.decode(attestationObject), AttestationObject.class);
+            AttestationObject attestationObj;
+            try {
+                byte[] decodedAttestation = Base64.getUrlDecoder().decode(attestationObject);
+                attestationObj = objectConverter.getCborConverter()
+                        .readValue(decodedAttestation, AttestationObject.class);
 
-            CollectedClientData clientData = objectConverter.getJsonConverter()
-                    .readValue(new String(client.getChallenge().getBytes(), StandardCharsets.UTF_8), CollectedClientData.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to parse attestationObject", e);
+            }
+            System.out.println("Received attestationObject: " + attestationObject);
+            System.out.println("Received Client: " + client);
+
+//            CollectedClientData clientData = objectConverter.getJsonConverter()
+//                    .readValue(new String(client.getChallenge().getBytes(), StandardCharsets.UTF_8), CollectedClientData.class);
 
             // 2. Validation basique
             if (attestationObj == null) {
@@ -86,9 +98,14 @@ public class WebAuthnService {
                     .writeValueAsBytes(attestedData.getCOSEKey());
 
             // 4. Enregistrement
+            System.out.println("the client "+ client);
+            System.out.println("credentialId "+ credentialId);
+            System.out.println("the client "+ publicKey);
+
             saveCredentials(client, credentialId, publicKey);
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("WebAuthn verification failed", e);
         }
     }
@@ -163,6 +180,7 @@ public class WebAuthnService {
     }
 
     public String prepareWebAuthnRegistration(Client client) {
+
         byte[] challenge = new byte[32];
         new SecureRandom().nextBytes(challenge);
         String challengeBase64 = Base64.getUrlEncoder().encodeToString(challenge);
