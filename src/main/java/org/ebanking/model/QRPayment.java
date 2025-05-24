@@ -1,70 +1,97 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * Represents a QR code payment transaction with expiration tracking.
+ */
 @Entity
-@Table(name = "paiement_qr")
+@Table(name = "qr_payment")
 public class QRPayment {
+
     @Id
-    @ColumnDefault("nextval('paiement_qr_id_seq')")
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transaction_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_transaction")
-    private org.ebanking.model.Transaction idTransaction;
+    private Transaction transaction;
+
+    @NotBlank
+    @Lob
+    @Column(name = "qr_code", nullable = false)
+    private String qrCode;
 
     @NotNull
-    @Column(name = "code_qr", nullable = false, length = Integer.MAX_VALUE)
-    private String codeQr;
+    @Column(name = "expiration_time", nullable = false)
+    private Instant expirationTime;
 
-    @NotNull
-    @Column(name = "date_expiration", nullable = false)
-    private Instant expirationDate;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20)
+    private QRStatus status = QRStatus.PENDING;
 
-    public Integer getId() {
-        return id;
+    @Column(name = "amount", precision = 15, scale = 2)
+    private BigDecimal amount;
+
+    @Size(max = 3)
+    @Column(name = "currency", length = 3)
+    private String currency;
+
+    // QR Payment status
+    public enum QRStatus {
+        PENDING,
+        SCANNED,
+        COMPLETED,
+        EXPIRED,
+        FAILED
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    // Constructors
+    public QRPayment() {}
+
+    public QRPayment(String qrCode, Instant expirationTime, BigDecimal amount, String currency) {
+        this.qrCode = qrCode;
+        this.expirationTime = expirationTime;
+        this.amount = amount;
+        this.currency = currency;
     }
 
-    public org.ebanking.model.Transaction getIdTransaction() {
-        return idTransaction;
+    // Business Methods
+    public boolean isExpired() {
+        return Instant.now().isAfter(expirationTime);
     }
 
-    public void setIdTransaction(org.ebanking.model.Transaction idTransaction) {
-        this.idTransaction = idTransaction;
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Transaction getTransaction() { return transaction; }
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
-    public String getCodeQr() {
-        return codeQr;
+    public String getQrCode() { return qrCode; }
+    public void setQrCode(String qrCode) { this.qrCode = qrCode; }
+
+    public Instant getExpirationTime() { return expirationTime; }
+    public void setExpirationTime(Instant expirationTime) {
+        this.expirationTime = expirationTime;
     }
 
-    public void setCodeQr(String codeQr) {
-        this.codeQr = codeQr;
-    }
+    public QRStatus getStatus() { return status; }
+    public void setStatus(QRStatus status) { this.status = status; }
 
-    public Instant getexpirationDate() {
-        return expirationDate;
-    }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public void setexpirationDate(Instant expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
 }

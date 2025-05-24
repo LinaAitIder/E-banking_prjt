@@ -1,84 +1,50 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.ebanking.model.enums.Operator;
+import org.ebanking.model.enums.ServiceType;
 
 @Entity
 @Table(name = "recharge")
-public class Recharge {
-    @Id
-    @Column(name = "id_transaction", nullable = false)
-    private Integer id;
+@PrimaryKeyJoinColumn(name = "transaction_id")
+public class Recharge extends Transaction {
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_transaction", nullable = false)
-    private org.ebanking.model.Transaction transaction;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service_type", nullable = false)
+    private ServiceType serviceType;
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "type_service", nullable = false, length = 50)
-    private String typeService;
-
-    @Size(max = 50)
-    @NotNull
-    @Column(name = "numero_recharge", nullable = false, length = 50)
+    @Column(name = "recharge_number", nullable = false)
     private String rechargeNumber;
 
-    @Size(max = 50)
     @NotNull
-    @Column(name = "operateur", nullable = false, length = 50)
-    private String operateur;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "operator", nullable = false)
+    private Operator operator;
 
-    public Integer getId() {
-        return id;
+    // Getters and setters
+    public ServiceType getServiceType() { return serviceType; }
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public org.ebanking.model.Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(org.ebanking.model.Transaction transaction) {
-        this.transaction = transaction;
-    }
-
-    public String getTypeService() {
-        return typeService;
-    }
-
-    public void setTypeService(String typeService) {
-        this.typeService = typeService;
-    }
-
-    public String getrechargeNumber() {
+    public String getRechargeNumber() {
         return rechargeNumber;
     }
 
-    public void setrechargeNumber(String rechargeNumber) {
+    public void setRechargeNumber(String rechargeNumber) {
         this.rechargeNumber = rechargeNumber;
     }
 
-    public String getOperateur() {
-        return operateur;
+    public Operator getOperator() {
+        return operator;
     }
 
-    public void setOperateur(String operateur) {
-        this.operateur = operateur;
+    public void setOperator(Operator operator) {
+        this.operator = operator;
     }
-
 }
+

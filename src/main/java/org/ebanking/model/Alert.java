@@ -1,109 +1,87 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import jakarta.validation.constraints.*;
+import org.ebanking.model.enums.AlertType;
+import org.hibernate.annotations.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * Represents a notification alert for banking clients.
+ * Tracks alert type, status, and threshold conditions.
+ */
 @Entity
-@Table(name = "alerte")
+@Table(name = "alert")
 public class Alert {
+
     @Id
-    @ColumnDefault("nextval('alerte_id_seq')")
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_client", nullable = false)
     private Client client;
 
-    @Size(max = 50)
     @NotNull
-    @Column(name = "type", nullable = false, length = 50)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "alert_type", nullable = false, length = 50)
+    private AlertType type;
 
     @NotNull
-    @Column(name = "message", nullable = false, length = Integer.MAX_VALUE)
+    @Lob
+    @Column(name = "message", nullable = false)
     private String message;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "date")
-    private Instant date;
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt = Instant.now();
 
     @ColumnDefault("false")
-    @Column(name = "est_lue")
-    private Boolean isRead;
+    @Column(name = "is_read", nullable = false)
+    private Boolean isRead = false;
 
-    @Column(name = "seuil", precision = 15, scale = 2)
+    @Column(name = "threshold", precision = 15, scale = 2)
     private BigDecimal threshold;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    // Constructors
+    public Alert() {}
 
-    public Client getclient() {
-        return client;
-    }
-
-    public void setclient(Client client) {
+    public Alert(Client client, AlertType type, String message) {
         this.client = client;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
         this.type = type;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
         this.message = message;
     }
 
-    public Instant getDate() {
-        return date;
+    // Business Methods
+    public boolean isThresholdExceeded(BigDecimal currentValue) {
+        return threshold != null && currentValue.compareTo(threshold) > 0;
     }
 
-    public void setDate(Instant date) {
-        this.date = date;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Boolean getisRead() {
-        return isRead;
-    }
+    public Client getClient() { return client; }
+    public void setClient(Client client) { this.client = client; }
 
-    public void setisRead(Boolean isRead) {
-        this.isRead = isRead;
-    }
+    public AlertType getType() { return type; }
+    public void setType(AlertType type) { this.type = type; }
 
-    public BigDecimal getthreshold() {
-        return threshold;
-    }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
 
-    public void setthreshold(BigDecimal threshold) {
-        this.threshold = threshold;
-    }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 
+    public Boolean isRead() { return isRead; }
+    public void setRead(Boolean read) { isRead = read; }
+
+    public BigDecimal getThreshold() { return threshold; }
+    public void setThreshold(BigDecimal threshold) { this.threshold = threshold; }
 }

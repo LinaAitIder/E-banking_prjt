@@ -1,69 +1,53 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Interest-bearing savings account with specific rate management.
+ * Inherits core account properties from Account base class.
+ */
 @Entity
-@Table(name = "compte_epargne")
-public class SavingsAccount {
-    @Id
-    @Column(name = "id_compte", nullable = false)
-    private Integer id;
+@Table(name = "savings_account")
+@PrimaryKeyJoinColumn(name = "account_id")  // Matches Account's ID column
+@DiscriminatorValue("SAVINGS")             // Value for account_type discriminator
+public class SavingsAccount extends Account {
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_compte", nullable = false)
-    private Account account;
-
-    @NotNull
-    @Column(name = "taux_interet", nullable = false, precision = 5, scale = 2)
+    @Column(name = "interest_rate", precision = 5, scale = 2)
     private BigDecimal interestRate;
 
-    @Column(name = "date_prochain_interet")
+    @Column(name = "next_interest_date")
     private LocalDate nextInterestDate;
 
-    public Integer getId() {
-        return id;
+    // Constructors
+    public SavingsAccount() {
+        // Default constructor for JPA
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public SavingsAccount(String accountNumber, BigDecimal balance, String currency,
+                          BigDecimal interestRate) {
+        this.setAccountNumber(accountNumber);
+        this.setBalance(balance);
+        this.setCurrency(currency);
+        this.interestRate = interestRate;
+        this.nextInterestDate = LocalDate.now().plusMonths(1);
     }
 
-    public Account getCompte() {
-        return account;
-    }
-
-    public void setCompte(Account account) {
-        this.account = account;
-    }
-
-    public BigDecimal getinterestRate() {
+    // Getters and Setters
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
-    public void setinterestRate(BigDecimal interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 
-    public LocalDate getnextInterestDate() {
+    public LocalDate getNextInterestDate() {
         return nextInterestDate;
     }
 
-    public void setnextInterestDate(LocalDate nextInterestDate) {
+    public void setNextInterestDate(LocalDate nextInterestDate) {
         this.nextInterestDate = nextInterestDate;
     }
 
