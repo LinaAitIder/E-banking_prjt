@@ -17,7 +17,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:database.properties")
-@EnableJpaRepositories(basePackages = "org.ebanking.repository")
+@EnableJpaRepositories(basePackages = "org.ebanking.dao")
 public class PersistenceConfig {
 
     @Value("${db.url}")
