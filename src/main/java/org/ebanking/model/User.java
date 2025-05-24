@@ -48,11 +48,16 @@ public abstract class User {
 
     @ColumnDefault("true")
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private Boolean isActive = false;
 
-    // Common getters/setters for all user types
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private UserRole role = UserRole.CLIENT;
+
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
     // ... other getters/setters
 
     public String getLastName() {

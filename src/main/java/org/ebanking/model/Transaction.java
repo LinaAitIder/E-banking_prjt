@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @Table(name = "transaction", indexes = {
@@ -64,9 +65,113 @@ public abstract class Transaction {
     @Column(name = "verification_comment", columnDefinition = "TEXT")
     private String verificationComment;
 
+    @OneToMany(mappedBy = "transaction")
+    private Set<BiometricPayment> biometricPayments;
+
+    @OneToMany(mappedBy = "transaction")
+    private Set<QRPayment> qrPayments;
+
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     // ... other getters/setters
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public BankAgent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(BankAgent agent) {
+        this.agent = agent;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public Instant getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(Instant transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public Instant getVerificationDate() {
+        return verificationDate;
+    }
+
+    public void setVerificationDate(Instant verificationDate) {
+        this.verificationDate = verificationDate;
+    }
+
+    public String getVerificationComment() {
+        return verificationComment;
+    }
+
+    public void setVerificationComment(String verificationComment) {
+        this.verificationComment = verificationComment;
+    }
+
+    public Set<BiometricPayment> getBiometricPayments() {
+        return biometricPayments;
+    }
+
+    public void setBiometricPayments(Set<BiometricPayment> biometricPayments) {
+        this.biometricPayments = biometricPayments;
+    }
+
+    public Set<QRPayment> getQrPayments() {
+        return qrPayments;
+    }
+
+    public void setQrPayments(Set<QRPayment> qrPayments) {
+        this.qrPayments = qrPayments;
+    }
+
+
 }
 

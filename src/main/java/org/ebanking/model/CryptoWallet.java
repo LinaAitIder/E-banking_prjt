@@ -9,6 +9,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents a cryptocurrency wallet linked to a banking account.
@@ -44,6 +45,9 @@ public class CryptoWallet {
 
     @Column(name = "api_key_encrypted", length = 512)
     private String encryptedApiKey;
+
+    @OneToMany(mappedBy = "wallet")
+    private Set<CryptoTransaction> transactions;
 
     @Size(max = 50)
     @Column(name = "exchange_name")
@@ -102,4 +106,16 @@ public class CryptoWallet {
 
     public Boolean isActive() { return isActive; }
     public void setActive(Boolean active) { isActive = active; }
+
+    public Set<CryptoTransaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<CryptoTransaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
 }
