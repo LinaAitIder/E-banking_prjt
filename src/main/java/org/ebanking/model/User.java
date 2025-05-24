@@ -2,8 +2,10 @@ package org.ebanking.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.ebanking.model.enums.UserRole;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
@@ -12,10 +14,10 @@ import java.time.Instant;
 })
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class User {
+public abstract class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(columnDefinition="BIGINT")
     private Long id;
 
     @Size(max = 100)
@@ -54,11 +56,27 @@ public abstract class User {
     @Column(name = "role", nullable = false)
     private UserRole role = UserRole.CLIENT;
 
+    @Column(nullable = false)
+    private boolean webAuthnEnabled = false;
+
+    @Transient // Non persisté en base
+    private transient String challenge; // Stocké temporairement pour WebAuthn
+
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     // ... other getters/setters
+
+    public boolean isWebAuthnEnabled() { return webAuthnEnabled; }
+
+    public void setWebAuthnEnabled(boolean webAuthnEnabled) {
+        this.webAuthnEnabled = webAuthnEnabled;
+    }
+
+    public String getChallenge() { return challenge; }
+
+    public void setChallenge(String challenge) { this.challenge=challenge;}
 
     public String getLastName() {
         return lastName;
