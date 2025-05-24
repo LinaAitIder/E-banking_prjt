@@ -7,6 +7,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {
@@ -61,6 +63,19 @@ public abstract class User implements Serializable {
 
     @Transient // Non persisté en base
     private transient String challenge; // Stocké temporairement pour WebAuthn
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
+
+    public void addWebAuthnCredential(WebAuthnCredential credential) {
+        this.webAuthnCredentials.add(credential);
+        //credential.setUser(this);
+    }
+    public WebAuthnCredential getFirstWebAuthnCredential() {
+        if (webAuthnCredentials == null || webAuthnCredentials.isEmpty()) {
+            return null;
+        }
+        return webAuthnCredentials.iterator().next();}
 
 
     public Long getId() { return id; }
