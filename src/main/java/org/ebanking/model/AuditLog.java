@@ -5,16 +5,19 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 import org.ebanking.model.enums.ActionType;
+import org.ebanking.model.enums.SecurityLevel;
 import org.hibernate.annotations.*;
 import java.time.Instant;
 
 /**
  * Represents an audit log entry tracking system activities and user actions.
- */
+ **/
 @Entity
 @Table(name = "audit_log", indexes = {
         @Index(name = "idx_audit_log_user", columnList = "user_id"),
-        @Index(name = "idx_audit_log_action_date", columnList = "action_date")
+        @Index(name = "idx_audit_log_action_date", columnList = "action_date"),
+        @Index(name = "idx_audit_affected_entity", columnList = "affected_entity_type,affected_entity_id"),
+        @Index(name = "idx_audit_security", columnList = "security_level")
 })
 public class AuditLog {
 
@@ -54,8 +57,25 @@ public class AuditLog {
     @Column(name = "action_type", length = 20)
     private ActionType actionType;
 
+    // Nouveaux champs pour RGPD et traçabilité avancée
+    @Column(name = "contains_personal_data", nullable = false)
+    private boolean containsPersonalData = false;
 
-    // Constructors
+    @Column(name = "affected_entity_type", length = 50)
+    private String affectedEntityType;
+
+    @Column(name = "affected_entity_id")
+    private Long affectedEntityId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "security_level", length = 10)
+    private SecurityLevel securityLevel = SecurityLevel.MEDIUM;
+
+    @Size(max = 36)
+    @Column(name = "consent_reference")
+    private String consentReference;
+
+    // constructor
     public AuditLog() {}
 
     public AuditLog(String action, String ipAddress) {
@@ -63,7 +83,17 @@ public class AuditLog {
         this.ipAddress = ipAddress;
     }
 
-    // Getters and Setters
+    // useful methods
+    public void markHighSecurity() {
+        this.securityLevel = SecurityLevel.HIGH;
+    }
+
+    public void linkToEntity(String entityType, Long entityId) {
+        this.affectedEntityType = entityType;
+        this.affectedEntityId = entityId;
+    }
+
+    // Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -87,4 +117,29 @@ public class AuditLog {
 
     public ActionType getActionType() { return actionType; }
     public void setActionType(ActionType actionType) { this.actionType = actionType; }
+
+    public boolean isContainsPersonalData() { return containsPersonalData; }
+    public void setContainsPersonalData(boolean containsPersonalData) {
+        this.containsPersonalData = containsPersonalData;
+    }
+
+    public String getAffectedEntityType() { return affectedEntityType; }
+    public void setAffectedEntityType(String affectedEntityType) {
+        this.affectedEntityType = affectedEntityType;
+    }
+
+    public Long getAffectedEntityId() { return affectedEntityId; }
+    public void setAffectedEntityId(Long affectedEntityId) {
+        this.affectedEntityId = affectedEntityId;
+    }
+
+    public SecurityLevel getSecurityLevel() { return securityLevel; }
+    public void setSecurityLevel(SecurityLevel securityLevel) {
+        this.securityLevel = securityLevel;
+    }
+
+    public String getConsentReference() { return consentReference; }
+    public void setConsentReference(String consentReference) {
+        this.consentReference = consentReference;
+    }
 }

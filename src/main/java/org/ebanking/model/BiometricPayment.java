@@ -34,6 +34,9 @@ public class BiometricPayment {
     @Column(name = "last_used_date")
     private Instant lastUsedDate = Instant.now();
 
+    @ManyToOne
+    private TwoFactorAuthentication twoFactorAuth;
+
     // Constructors
     public BiometricPayment() {}
 
@@ -57,5 +60,13 @@ public class BiometricPayment {
     public Instant getLastUsedDate() { return lastUsedDate; }
     public void setLastUsedDate(Instant lastUsedDate) {
         this.lastUsedDate = lastUsedDate;
+    }
+
+    public TwoFactorAuthentication getTwoFactorAuth() {
+        return twoFactorAuth;
+    }
+
+    public void setTwoFactorAuth(TwoFactorAuthentication twoFactorAuth) {
+        this.twoFactorAuth = twoFactorAuth;
     }
 }
