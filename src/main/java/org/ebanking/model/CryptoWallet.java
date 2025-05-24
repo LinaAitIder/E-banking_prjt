@@ -1,105 +1,105 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Represents a cryptocurrency wallet linked to a banking account.
+ * Stores wallet addresses and cryptocurrency balances.
+ */
 @Entity
-@Table(name = "portefeuille_crypto", indexes = {
-        @Index(name = "idx_portefeuille_compte", columnList = "id_compte")
-}, uniqueConstraints = {
-        @UniqueConstraint(name = "portefeuille_crypto_id_compte_key", columnNames = {"id_compte"}),
-        @UniqueConstraint(name = "portefeuille_crypto_adresse_key", columnNames = {"adresse"})
-})
+@Table(name = "crypto_wallet",
+        indexes = @Index(name = "idx_crypto_wallet_account", columnList = "account_id"),
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_crypto_wallet_account", columnNames = {"account_id"}),
+                @UniqueConstraint(name = "uk_crypto_wallet_address", columnNames = {"wallet_address"})
+        })
 public class CryptoWallet {
+
     @Id
-    @ColumnDefault("nextval('portefeuille_crypto_id_seq')")
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_compte")
-    private Account idAccount;
+    private Account linkedAccount;
 
+    @NotBlank
     @Size(max = 255)
-    @NotNull
-    @Column(name = "adresse", nullable = false)
-    private String adresse;
+    @Column(name = "wallet_address", nullable = false)
+    private String walletAddress;
 
-    @ColumnDefault("'[]'")
-    @Column(name = "crypto_monnaies")
     @JdbcTypeCode(SqlTypes.JSON)
-    private Map<String, Object> CryptoCurrency;
+    @Column(name = "crypto_balances", columnDefinition = "jsonb default '{}'")
+    private Map<String, BigDecimal> cryptoBalances;
 
-    @Column(name = "api_key", length = Integer.MAX_VALUE)
-    private String apiKey;
+    @Column(name = "api_key_encrypted", length = 512)
+    private String encryptedApiKey;
 
     @Size(max = 50)
-    @Column(name = "exchange", length = 50)
-    private String exchange;
+    @Column(name = "exchange_name")
+    private String exchangeName;
 
-    public Integer getId() {
-        return id;
+    @ColumnDefault("false")
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = false;
+
+    // Enums for supported exchanges
+    public enum Exchange {
+        BINANCE, COINBASE, KRAKEN, FTX
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    // Constructors
+    public CryptoWallet() {}
+
+    public CryptoWallet(Account linkedAccount, String walletAddress) {
+        this.linkedAccount = linkedAccount;
+        this.walletAddress = walletAddress;
     }
 
-    public Account getIdCompte() {
-        return idAccount;
+    // Business Methods
+    public void addCryptoBalance(String symbol, BigDecimal amount) {
+        this.cryptoBalances.merge(symbol, amount, BigDecimal::add);
     }
 
-    public void setIdCompte(Account idAccount) {
-        this.idAccount = idAccount;
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Account getLinkedAccount() { return linkedAccount; }
+    public void setLinkedAccount(Account linkedAccount) {
+        this.linkedAccount = linkedAccount;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getWalletAddress() { return walletAddress; }
+    public void setWalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public Map<String, BigDecimal> getCryptoBalances() { return cryptoBalances; }
+    public void setCryptoBalances(Map<String, BigDecimal> cryptoBalances) {
+        this.cryptoBalances = cryptoBalances;
     }
 
-    public Map<String, Object> getCryptoCurrency() {
-        return CryptoCurrency;
+    public String getEncryptedApiKey() { return encryptedApiKey; }
+    public void setEncryptedApiKey(String encryptedApiKey) {
+        this.encryptedApiKey = encryptedApiKey;
     }
 
-    public void setCryptoCurrency(Map<String, Object> CryptoCurrency) {
-        this.CryptoCurrency = CryptoCurrency;
+    public String getExchangeName() { return exchangeName; }
+    public void setExchangeName(String exchangeName) {
+        this.exchangeName = exchangeName;
     }
 
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
-    public String getExchange() {
-        return exchange;
-    }
-
-    public void setExchange(String exchange) {
-        this.exchange = exchange;
-    }
-
+    public Boolean isActive() { return isActive; }
+    public void setActive(Boolean active) { isActive = active; }
 }

@@ -1,80 +1,74 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
 @Entity
-@Table(name = "utilisateur", uniqueConstraints = {
-        @UniqueConstraint(name = "utilisateur_email_key", columnNames = {"email"})
+@Table(name = "user", uniqueConstraints = {
+        @UniqueConstraint(name = "user_email_key", columnNames = {"email"})
 })
-public class User {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class User {
     @Id
-    @ColumnDefault("nextval('utilisateur_id_seq')")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "nom", nullable = false, length = 100)
-    private String nom;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "prenom", nullable = false, length = 100)
-    private String prenom;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    @Size(max = 100)
+    @Email
     @NotNull
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "mot_de_passe", nullable = false)
-    private String motDePasse;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Size(max = 20)
-    @Column(name = "telephone", length = 20)
-    private String telephone;
+    @Column(name = "phone")
+    private String phone;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "date_creation")
-    private Instant dateCreation;
+    @Column(name = "created_at")
+    private Instant createdAt;
 
     @ColumnDefault("true")
-    @Column(name = "est_actif")
-    private Boolean isActive;
+    @Column(name = "is_active")
+    private Boolean isActive = true;
 
-    public Integer getId() {
-        return id;
+    // Common getters/setters for all user types
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    // ... other getters/setters
+
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getNom() {
-        return nom;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {
@@ -85,36 +79,35 @@ public class User {
         this.email = email;
     }
 
-    public String getMotDePasse() {
-        return motDePasse;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public Instant getDateCreation() {
-        return dateCreation;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDateCreation(Instant dateCreation) {
-        this.dateCreation = dateCreation;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Boolean getisActive() {
+    public Boolean getActive() {
         return isActive;
     }
 
-    public void setisActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
-
 }

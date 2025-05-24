@@ -1,72 +1,59 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * Cryptocurrency account extending base Account functionality.
+ * Stores wallet addresses and supported cryptocurrencies.
+ */
 @Entity
-@Table(name = "compte_crypto")
-public class CryptoAccount {
-    @Id
-    @Column(name = "id_compte", nullable = false)
-    private Integer id;
+@Table(name = "crypto_account")
+@PrimaryKeyJoinColumn(name = "account_id")  // Matches Account's ID column
+@DiscriminatorValue("CRYPTO")              // Value for account_type discriminator
+public class CryptoAccount extends Account {
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_compte", nullable = false)
-    private Account account;
-
-    @Column(name = "cryptos_supports")
     @JdbcTypeCode(SqlTypes.JSON)
-    private Map<String, Object> cryptosSupports;
+    @Column(name = "supported_cryptos", columnDefinition = "jsonb")
+    private Map<String, Object> supportedCryptos;
 
     @Size(max = 255)
-    @Column(name = "adresse_portefeuille")
+    @Column(name = "wallet_address", unique = true)
     private String walletAddress;
 
-    public Integer getId() {
-        return id;
+    // Constructors
+    public CryptoAccount() {
+        // Default constructor for JPA
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public CryptoAccount(String accountNumber, String currency,
+                         String walletAddress, Map<String, Object> supportedCryptos) {
+        this.setAccountNumber(accountNumber);
+        this.setCurrency(currency);
+        this.setBalance(BigDecimal.ZERO);  // Crypto accounts typically start with 0 balance
+        this.walletAddress = walletAddress;
+        this.supportedCryptos = supportedCryptos;
     }
 
-    public Account getCompte() {
-        return account;
+    // Getters and Setters
+    public Map<String, Object> getSupportedCryptos() {
+        return supportedCryptos;
     }
 
-    public void setCompte(Account account) {
-        this.account = account;
+    public void setSupportedCryptos(Map<String, Object> supportedCryptos) {
+        this.supportedCryptos = supportedCryptos;
     }
 
-    public Map<String, Object> getCryptosSupports() {
-        return cryptosSupports;
-    }
-
-    public void setCryptosSupports(Map<String, Object> cryptosSupports) {
-        this.cryptosSupports = cryptosSupports;
-    }
-
-    public String getwalletAddress() {
+    public String getWalletAddress() {
         return walletAddress;
     }
 
-    public void setwalletAddress(String walletAddress) {
+    public void setWalletAddress(String walletAddress) {
         this.walletAddress = walletAddress;
     }
-
 }

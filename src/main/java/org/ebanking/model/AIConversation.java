@@ -1,114 +1,103 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.*;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+/**
+ * Represents a conversation between a client and an AI assistant.
+ * Tracks conversation metadata and interaction history.
+ */
 @Entity
-@Table(name = "conversation_ia", indexes = {
-        @Index(name = "idx_conversation_client", columnList = "id_client")
+@Table(name = "ai_conversation", indexes = {
+        @Index(name = "idx_ai_conversation_client", columnList = "client_id")
 })
 public class AIConversation {
+
     @Id
-    @ColumnDefault("nextval('conversation_ia_id_seq')")
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_client", nullable = false)
     private Client client;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "assistant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_assistant", nullable = false)
-    private AIAssistant idAssistant;
+    private AIAssistant assistant;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "date_debut")
-    private Instant startDate;
+    @Column(name = "start_date", nullable = false)
+    private Instant startDate = Instant.now();
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "dernier_echange")
-    private Instant lastExchange;
+    @Column(name = "last_exchange", nullable = false)
+    private Instant lastExchange = Instant.now();
 
     @Size(max = 100)
-    @Column(name = "sujet", length = 100)
+    @Column(name = "subject", length = 100)
     private String subject;
 
     @Size(max = 2)
-    @ColumnDefault("'FR'")
-    @Column(name = "langue", length = 2)
-    private String language;
+    @ColumnDefault("'EN'")
+    @Column(name = "language", length = 2)
+    private String language = "EN";
 
-    public Integer getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AIMessage> messages = new LinkedHashSet<>();
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    // Constructors
+    public AIConversation() {}
 
-    public Client getclient() {
-        return client;
-    }
-
-    public void setclient(Client client) {
+    public AIConversation(Client client, AIAssistant assistant) {
         this.client = client;
+        this.assistant = assistant;
     }
 
-    public AIAssistant getIdAssistant() {
-        return idAssistant;
+    // Business Methods
+    public void updateLastExchange() {
+        this.lastExchange = Instant.now();
     }
 
-    public void setIdAssistant(AIAssistant idAssistant) {
-        this.idAssistant = idAssistant;
+    public void addMessage(AIMessage message) {
+        messages.add(message);
+        message.setConversation(this);
+        updateLastExchange();
     }
 
-    public Instant getstartDate() {
-        return startDate;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setstartDate(Instant startDate) {
-        this.startDate = startDate;
-    }
+    public Client getClient() { return client; }
+    public void setClient(Client client) { this.client = client; }
 
-    public Instant getlastExchange() {
-        return lastExchange;
-    }
+    public AIAssistant getAssistant() { return assistant; }
+    public void setAssistant(AIAssistant assistant) { this.assistant = assistant; }
 
-    public void setlastExchange(Instant lastExchange) {
-        this.lastExchange = lastExchange;
-    }
+    public Instant getStartDate() { return startDate; }
+    public void setStartDate(Instant startDate) { this.startDate = startDate; }
 
-    public String getsubject() {
-        return subject;
-    }
+    public Instant getLastExchange() { return lastExchange; }
+    public void setLastExchange(Instant lastExchange) { this.lastExchange = lastExchange; }
 
-    public void setsubject(String subject) {
-        this.subject = subject;
-    }
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
 
-    public String getlanguage() {
-        return language;
-    }
+    public String getLanguage() { return language; }
+    public void setLanguage(String language) { this.language = language; }
 
-    public void setlanguage(String language) {
-        this.language = language;
-    }
-
+    public Set<AIMessage> getMessages() { return messages; }
+    protected void setMessages(Set<AIMessage> messages) { this.messages = messages; }
 }

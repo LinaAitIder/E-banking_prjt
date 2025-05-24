@@ -1,98 +1,110 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.*;
 import java.math.BigDecimal;
 
+/**
+ * Represents a budget category with allocated spending limits and tracking.
+ */
 @Entity
-@Table(name = "categorie_budget")
+@Table(name = "budget_category")
 public class BudgetCategory {
+
     @Id
-    @ColumnDefault("nextval('categorie_budget_id_seq')")
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "budget_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_budget", nullable = false)
-    private Budget idBudget;
+    private Budget budget;
 
+    @NotBlank
     @Size(max = 50)
-    @NotNull
-    @Column(name = "nom", nullable = false, length = 50)
-    private String nom;
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
 
     @NotNull
-    @Column(name = "montant_alloue", nullable = false, precision = 15, scale = 2)
+    @PositiveOrZero
+    @Column(name = "allocated_amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal allocatedAmount;
 
-    @ColumnDefault("0.0")
-    @Column(name = "montant_depense", precision = 15, scale = 2)
-    private BigDecimal spentAmount;
+    @ColumnDefault("0.00")
+    @PositiveOrZero
+    @Column(name = "spent_amount", precision = 19, scale = 2)
+    private BigDecimal spentAmount = BigDecimal.ZERO;
 
-    @Size(max = 7)
-    @ColumnDefault("'#000000'")
-    @Column(name = "couleur", length = 7)
-    private String color;
+    @Pattern(regexp = "^#[0-9A-Fa-f]{6}$")
+    @ColumnDefault("'#CCCCCC'")
+    @Column(name = "color", length = 7)
+    private String color = "#CCCCCC";
 
-    public Integer getId() {
-        return id;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category_type", length = 20)
+    private CategoryType type;
+
+    // Budget category types
+    public enum CategoryType {
+        FOOD,
+        TRANSPORTATION,
+        HOUSING,
+        ENTERTAINMENT,
+        UTILITIES,
+        SAVINGS
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    // Constructors
+    public BudgetCategory() {}
+
+    public BudgetCategory(Budget budget, String name,
+                          BigDecimal allocatedAmount, CategoryType type) {
+        this.budget = budget;
+        this.name = name;
+        this.allocatedAmount = allocatedAmount;
+        this.type = type;
     }
 
-    public Budget getIdBudget() {
-        return idBudget;
+    // Business Methods
+    public BigDecimal getRemainingAmount() {
+        return allocatedAmount.subtract(spentAmount);
     }
 
-    public void setIdBudget(Budget idBudget) {
-        this.idBudget = idBudget;
+    public boolean isOverBudget() {
+        return spentAmount.compareTo(allocatedAmount) > 0;
     }
 
-    public String getNom() {
-        return nom;
+    public void addExpense(BigDecimal amount) {
+        this.spentAmount = this.spentAmount.add(amount);
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public BigDecimal getallocatedAmount() {
-        return allocatedAmount;
-    }
+    public Budget getBudget() { return budget; }
+    public void setBudget(Budget budget) { this.budget = budget; }
 
-    public void setallocatedAmount(BigDecimal allocatedAmount) {
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public BigDecimal getAllocatedAmount() { return allocatedAmount; }
+    public void setAllocatedAmount(BigDecimal allocatedAmount) {
         this.allocatedAmount = allocatedAmount;
     }
 
-    public BigDecimal getspentAmount() {
-        return spentAmount;
-    }
-
-    public void setspentAmount(BigDecimal spentAmount) {
+    public BigDecimal getSpentAmount() { return spentAmount; }
+    public void setSpentAmount(BigDecimal spentAmount) {
         this.spentAmount = spentAmount;
     }
 
-    public String getcolor() {
-        return color;
-    }
+    public String getColor() { return color; }
+    public void setColor(String color) { this.color = color; }
 
-    public void setcolor(String color) {
-        this.color = color;
-    }
-
+    public CategoryType getType() { return type; }
+    public void setType(CategoryType type) { this.type = type; }
 }

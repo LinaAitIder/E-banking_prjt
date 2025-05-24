@@ -8,8 +8,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * AI Assistant entity representing conversational AI capabilities.
+ * Manages supported languages and conversation history.
+ */
 @Entity
-@Table(name = "assistant_ia")
+@Table(name = "ai_assistant")
 public class AIAssistant {
 
     @Id
@@ -17,63 +21,61 @@ public class AIAssistant {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "model", nullable = false, length = 50)
-    private String model;
+    @Column(name = "model_name", nullable = false, length = 50)
+    private String modelName;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "langues_supports", columnDefinition = "jsonb default '[\"FR\", \"EN\"]'")
+    @Column(name = "supported_languages", columnDefinition = "jsonb default '[\"EN\", \"FR\"]'")
     private List<String> supportedLanguages;
 
-    @Column(name = "date_creation", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
-    private Instant creationDate;
+    @Column(name = "creation_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Instant creationDate = Instant.now();
 
-    @Column(name = "est_actif", columnDefinition = "boolean default true")
-    private Boolean isActive;
+    @Column(name = "is_active", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean isActive = true;
 
-    @OneToMany(mappedBy = "idAssistant")
-    private Set<org.ebanking.model.AIConversation> AIConversations = new LinkedHashSet<>();
-
-    public Set<org.ebanking.model.AIConversation> getAIConversations() {
-        return AIConversations;
-    }
-
-    public void setAIConversations(Set<org.ebanking.model.AIConversation> AIConversations) {
-        this.AIConversations = AIConversations;
-    }
+    @OneToMany(mappedBy = "assistant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AIConversation> conversations = new LinkedHashSet<>();
 
     // Constructors
-    public AIAssistant() {
-    }
+    public AIAssistant() {}
 
-    public AIAssistant(String model, List<String> supportedLanguages) {
-        this.model = model;
+    public AIAssistant(String modelName, List<String> supportedLanguages) {
+        this.modelName = modelName;
         this.supportedLanguages = supportedLanguages;
     }
 
-    // Getters and setters
-    public Long getId() {
-        return id;
+    // Business Methods
+    public void addConversation(AIConversation conversation) {
+        conversations.add(conversation);
+        conversation.setAssistant(this);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void removeConversation(AIConversation conversation) {
+        conversations.remove(conversation);
+        conversation.setAssistant(null);
     }
 
-    public String getModel() {
-        return model;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
+    public String getModelName() { return modelName; }
+    public void setModelName(String modelName) { this.modelName = modelName; }
 
-    public List<String> getSupportedLanguages() {
-        return supportedLanguages;
-    }
-
+    public List<String> getSupportedLanguages() { return supportedLanguages; }
     public void setSupportedLanguages(List<String> supportedLanguages) {
         this.supportedLanguages = supportedLanguages;
     }
 
+    public Instant getCreationDate() { return creationDate; }
+    public void setCreationDate(Instant creationDate) { this.creationDate = creationDate; }
 
+    public Boolean getActive() { return isActive; }
+    public void setActive(Boolean active) { isActive = active; }
+
+    public Set<AIConversation> getConversations() { return conversations; }
+    protected void setConversations(Set<AIConversation> conversations) {
+        this.conversations = conversations;
+    }
 }

@@ -1,99 +1,78 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import jakarta.validation.constraints.*;
+import org.ebanking.model.enums.MessageSentiment;
+import org.hibernate.annotations.*;
 import java.time.Instant;
 
+/**
+ * Represents a message in an AI conversation, tracking content, authorship, and sentiment.
+ */
 @Entity
-@Table(name = "message_ia", indexes = {
-        @Index(name = "idx_message_conversation", columnList = "id_conversation")
+@Table(name = "ai_message", indexes = {
+        @jakarta.persistence.Index(name = "idx_ai_message_conversation", columnList = "conversation_id")
 })
 public class AIMessage {
+
     @Id
-    @ColumnDefault("nextval('message_ia_id_seq')")
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "conversation_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_conversation", nullable = false)
-    private AIConversation idConversation;
+    private AIConversation conversation;
 
     @NotNull
-    @Column(name = "contenu", nullable = false, length = Integer.MAX_VALUE)
+    @Lob
+    @Column(name = "content", nullable = false)
     private String content;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "horodatage")
-    private Instant timestamp;
+    @Column(name = "timestamp", nullable = false)
+    private Instant timestamp = Instant.now();
 
     @NotNull
-    @Column(name = "est_utilisateur", nullable = false)
-    private Boolean isUser  = false;
+    @Column(name = "is_from_user", nullable = false)
+    private Boolean isFromUser = false;
 
-    @Size(max = 20)
+    @Enumerated(EnumType.STRING)
     @Column(name = "sentiment", length = 20)
-    private String sentiment;
+    private MessageSentiment sentiment;
 
-    public Integer getId() {
-        return id;
-    }
+    // Constructors
+    public AIMessage() {}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public AIConversation getIdConversation() {
-        return idConversation;
-    }
-
-    public void setIdConversation(AIConversation idConversation) {
-        this.idConversation = idConversation;
-    }
-
-    public String getcontent() {
-        return content;
-    }
-
-    public void setcontent(String content) {
+    public AIMessage(String content, boolean isFromUser) {
         this.content = content;
+        this.isFromUser = isFromUser;
     }
 
-    public Instant gettimestamp() {
-        return timestamp;
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public AIConversation getConversation() { return conversation; }
+    public void setConversation(AIConversation conversation) {
+        this.conversation = conversation;
     }
 
-    public void settimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
-    }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
 
-    public Boolean getisUser () {
-        return isUser ;
-    }
+    public Instant getTimestamp() { return timestamp; }
+    public void setTimestamp(Instant timestamp) { this.timestamp = timestamp; }
 
-    public void setisUser (Boolean isUser ) {
-        this.isUser  = isUser ;
-    }
+    public Boolean isFromUser() { return isFromUser; }
+    public void setFromUser(Boolean fromUser) { isFromUser = fromUser; }
 
-    public String getSentiment() {
-        return sentiment;
-    }
-
-    public void setSentiment(String sentiment) {
+    public MessageSentiment getSentiment() { return sentiment; }
+    public void setSentiment(MessageSentiment sentiment) {
         this.sentiment = sentiment;
     }
-
 }
+

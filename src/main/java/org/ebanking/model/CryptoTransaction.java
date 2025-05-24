@@ -1,139 +1,127 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * Represents a cryptocurrency transaction with blockchain verification.
+ */
 @Entity
-@Table(name = "transaction_crypto", uniqueConstraints = {
-        @UniqueConstraint(name = "transaction_crypto_hash_key", columnNames = {"hash"})
+@Table(name = "crypto_transaction", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_crypto_transaction_hash", columnNames = {"blockchain_hash"})
 })
 public class CryptoTransaction {
+
     @Id
-    @ColumnDefault("nextval('transaction_crypto_id_seq')")
-    @Column(name = "id", nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "wallet_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_portefeuille", nullable = false)
-    private CryptoWallet walletId;
-
-    @Size(max = 10)
-    @NotNull
-    @Column(name = "type_crypto", nullable = false, length = 10)
-    private String cryptoType;
+    private CryptoWallet wallet;
 
     @NotNull
-    @Column(name = "quantite", nullable = false, precision = 18, scale = 8)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "crypto_type", nullable = false, length = 10)
+    private CryptoType cryptoType;
+
+    @NotNull
+    @Positive
+    @Column(name = "quantity", nullable = false, precision = 24, scale = 8) // Supports 8 decimal places
     private BigDecimal quantity;
 
     @NotNull
-    @Column(name = "valeur_moment", nullable = false, precision = 15, scale = 2)
+    @PositiveOrZero
+    @Column(name = "current_value", nullable = false, precision = 19, scale = 2)
     private BigDecimal currentValue;
 
-    @Size(max = 10)
     @NotNull
-    @Column(name = "type_operation", nullable = false, length = 10)
-    private String operationType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "operation_type", nullable = false, length = 10)
+    private OperationType operationType;
 
-    @Size(max = 255)
-    @Column(name = "hash")
-    private String hash;
+    @Size(max = 66) // Standard blockchain hash length
+    @Column(name = "blockchain_hash", unique = true)
+    private String blockchainHash;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "date_transaction")
-    private Instant transactionDate;
+    @Column(name = "transaction_date", nullable = false)
+    private Instant transactionDate = Instant.now();
 
-    @Size(max = 20)
-    @ColumnDefault("'Confirmée'")
-    @Column(name = "statut", length = 20)
-    private String status;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private TransactionStatus status = TransactionStatus.CONFIRMED;
 
-    public Integer getId() {
-        return id;
+    // Enums for type safety
+    public enum CryptoType {
+        BTC, ETH, XRP, LTC, BNB
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public enum OperationType {
+        BUY, SELL, TRANSFER, SWAP
     }
 
-    public CryptoWallet getwalletId() {
-        return walletId;
+    public enum TransactionStatus {
+        PENDING, CONFIRMED, FAILED, REVERTED
     }
 
-    public void setwalletId(CryptoWallet walletId) {
-        this.walletId = walletId;
-    }
+    // Constructors
+    public CryptoTransaction() {}
 
-    public String getcryptoType() {
-        return cryptoType;
-    }
-
-    public void setcryptoType(String cryptoType) {
+    public CryptoTransaction(CryptoWallet wallet, CryptoType cryptoType,
+                             BigDecimal quantity, BigDecimal currentValue,
+                             OperationType operationType) {
+        this.wallet = wallet;
         this.cryptoType = cryptoType;
-    }
-
-    public BigDecimal getquantity() {
-        return quantity;
-    }
-
-    public void setquantity(BigDecimal quantity) {
         this.quantity = quantity;
-    }
-
-    public BigDecimal getcurrentValue() {
-        return currentValue;
-    }
-
-    public void setcurrentValue(BigDecimal currentValue) {
         this.currentValue = currentValue;
-    }
-
-    public String getoperationType() {
-        return operationType;
-    }
-
-    public void setoperationType(String operationType) {
         this.operationType = operationType;
     }
 
-    public String getHash() {
-        return hash;
+    // Business Methods
+    public BigDecimal calculateTotalValue() {
+        return quantity.multiply(currentValue);
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public CryptoWallet getWallet() { return wallet; }
+    public void setWallet(CryptoWallet wallet) { this.wallet = wallet; }
+
+    public CryptoType getCryptoType() { return cryptoType; }
+    public void setCryptoType(CryptoType cryptoType) { this.cryptoType = cryptoType; }
+
+    public BigDecimal getQuantity() { return quantity; }
+    public void setQuantity(BigDecimal quantity) { this.quantity = quantity; }
+
+    public BigDecimal getCurrentValue() { return currentValue; }
+    public void setCurrentValue(BigDecimal currentValue) { this.currentValue = currentValue; }
+
+    public OperationType getOperationType() { return operationType; }
+    public void setOperationType(OperationType operationType) {
+        this.operationType = operationType;
     }
 
-    public Instant gettransactionDate() {
-        return transactionDate;
+    public String getBlockchainHash() { return blockchainHash; }
+    public void setBlockchainHash(String blockchainHash) {
+        this.blockchainHash = blockchainHash;
     }
 
-    public void settransactionDate(Instant transactionDate) {
+    public Instant getTransactionDate() { return transactionDate; }
+    public void setTransactionDate(Instant transactionDate) {
         this.transactionDate = transactionDate;
     }
 
-    public String getstatus() {
-        return status;
-    }
-
-    public void setstatus(String status) {
-        this.status = status;
-    }
-
+    public TransactionStatus getStatus() { return status; }
+    public void setStatus(TransactionStatus status) { this.status = status; }
 }
