@@ -13,12 +13,14 @@ import org.ebanking.model.User;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
+
 @Entity
 @Table(name = "admin")
-public class Admin {
+public class Admin extends User{
     @Id
     @Column(name = "id_admin", nullable = false)
-    private Integer id;
+    private Long id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -30,15 +32,16 @@ public class Admin {
     @Column(name = "departement", length = 100)
     private String departement;
 
-    @Size(max = 50)
-    @Column(name = "role", length = 50)
-    private String role;
+    @Override
+    public List<String> getRoles() {
+        return List.of("ROLE_ADMIN");
+    }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,14 +59,6 @@ public class Admin {
 
     public void setDepartement(String departement) {
         this.departement = departement;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
 }

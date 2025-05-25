@@ -1,25 +1,24 @@
 package org.ebanking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "utilisateur", uniqueConstraints = {
         @UniqueConstraint(name = "utilisateur_email_key", columnNames = {"email"})
 })
-public class User {
+public abstract class User {
     @Id
     @ColumnDefault("nextval('utilisateur_id_seq')")
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Size(max = 100)
     @NotNull
@@ -53,11 +52,38 @@ public class User {
     @Column(name = "est_actif")
     private Boolean isActive;
 
-    public Integer getId() {
+    @Column(nullable = false)
+    private boolean webAuthnEnabled = false;
+
+    @Transient // Non persisté en base
+    private transient String challenge; // Stocké temporairement pour WebAuthn
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
+
+    public void addWebAuthnCredential(WebAuthnCredential credential) {
+        this.webAuthnCredentials.add(credential);
+        credential.setUser(this);
+    }
+    public WebAuthnCredential getFirstWebAuthnCredential() {
+        if (webAuthnCredentials == null || webAuthnCredentials.isEmpty()) {
+            return null;
+        }
+        return webAuthnCredentials.iterator().next();}
+
+    public abstract List<String> getRoles();
+
+    public String getRole() {
+        if (this instanceof Client) return "CLIENT";
+        if (this instanceof BankAgent) return "AGENT";
+        if (this instanceof Admin) return "ADMIN";
+        return "USER";}
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -117,4 +143,21 @@ public class User {
         this.isActive = isActive;
     }
 
+    public boolean isWebAuthnEnabled() { return webAuthnEnabled; }
+
+    public void setWebAuthnEnabled(boolean webAuthnEnabled) {
+        this.webAuthnEnabled = webAuthnEnabled;
+    }
+
+    public String getChallenge() { return challenge; }
+
+    public void setChallenge(String challenge) { this.challenge = challenge; }
+
+    public Set<WebAuthnCredential> getWebAuthnCredentials() {
+        return webAuthnCredentials;
+    }
+
+    public void setWebAuthnCredentials(Set<WebAuthnCredential> webAuthnCredentials) {
+        this.webAuthnCredentials = webAuthnCredentials;
+    }
 }

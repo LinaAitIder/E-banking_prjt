@@ -3,6 +3,7 @@ package org.ebanking.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -10,7 +11,7 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "clients")
-public class Client implements Serializable {
+public class Client extends User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "BIGINT")
@@ -37,33 +38,23 @@ public class Client implements Serializable {
     @Column(nullable = false)
     private boolean webAuthnEnabled = false;
 
-    // @Column(nullable = false)
-    //private boolean  = true; // Par défaut tout client est actif, uncomment later
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
-
-    public void addWebAuthnCredential(WebAuthnCredential credential) {
-        this.webAuthnCredentials.add(credential);
-        credential.setClient(this);
-    }
-    public WebAuthnCredential getFirstWebAuthnCredential() {
-        if (webAuthnCredentials == null || webAuthnCredentials.isEmpty()) {
-            return null;
-        }
-        return webAuthnCredentials.iterator().next();}
 
     public boolean isWebAuthnEnabled() { return webAuthnEnabled; }
 
     @Transient // Non persisté en base
     private transient String challenge; // Stocké temporairement pour WebAuthn
 
+    @Override
+    public List<String> getRoles() {
+        return List.of("ROLE_CLIENT");
+    }
+
     public Client() {}
 
     public Client(String fullName, Date dateOfBirth, String nationalId,
                   String email, String password, String phone, boolean phoneVerified,
                   String address, String city, String country, Boolean termsAccepted,
-                  boolean webAuthnEnabled, Set<WebAuthnCredential> webAuthnCredentials ) {
+                  boolean webAuthnEnabled) {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.nationalId = nationalId;
@@ -76,7 +67,6 @@ public class Client implements Serializable {
         this.country = country;
         this.termsAccepted = termsAccepted;
         this.webAuthnEnabled = webAuthnEnabled;
-        this.webAuthnCredentials = webAuthnCredentials;
     }
 
     public Long getId() {
@@ -178,14 +168,6 @@ public class Client implements Serializable {
 
     public void setWebAuthnEnabled(boolean webAuthnEnabled) {
         this.webAuthnEnabled = webAuthnEnabled;
-    }
-
-    public Set<WebAuthnCredential> getWebAuthnCredentials() {
-        return webAuthnCredentials;
-    }
-
-    public void setWebAuthnCredentials(Set<WebAuthnCredential> webAuthnCredentials) {
-        this.webAuthnCredentials = webAuthnCredentials;
     }
 
     public String getChallenge() {

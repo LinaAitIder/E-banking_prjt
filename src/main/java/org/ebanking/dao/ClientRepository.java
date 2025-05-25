@@ -9,10 +9,6 @@ import java.util.Optional;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    Optional<Client> findByEmail(String email);
-
     boolean existsByNationalId(String nationalId);
 
-    @Query("SELECT COUNT(c) > 0 FROM Client c WHERE c.phone = :phoneNumber")
-    boolean existsByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 }

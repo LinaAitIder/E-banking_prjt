@@ -1,5 +1,7 @@
 package org.ebanking.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -19,6 +21,7 @@ public class JwtUtil {
 
     private final SecretKey secretKey;
     private final long expirationMs;
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public JwtUtil(
             @Value("${jwt.secret}") String secret,
@@ -64,23 +67,9 @@ public class JwtUtil {
         return false;
     }
 
-    public String getUsernameFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-    }
-
     public List<String> getRolesFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        return (List<String>) claims.get("roles", List.class);
+        Claims claims = extractAllClaims(token);
+        return mapper.convertValue(claims.get("roles"), new TypeReference<List<String>>() {});
     }
 
     public static String generateSecureSecretKey() {
@@ -93,5 +82,26 @@ public class JwtUtil {
         return getRolesFromToken(token).stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<GrantedAuthority> extractAuthorities(String token) {
+        Claims claims = extractAllClaims(token);
+        List<String> roles = claims.get("auth", List.class);
+
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role))
+                .collect(Collectors.toList());
+    }
+
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
     }
 }

@@ -15,14 +15,16 @@ import org.ebanking.model.User;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
+
 @Entity
 @Table(name = "agent_banque", uniqueConstraints = {
         @UniqueConstraint(name = "agent_banque_code_agent_key", columnNames = {"code_agent"})
 })
-public class BankAgent {
+public class BankAgent extends User{
     @Id
     @Column(name = "id_agent", nullable = false)
-    private Integer id;
+    private Long id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -40,11 +42,16 @@ public class BankAgent {
     @Column(name = "agence", nullable = false, length = 100)
     private String agency;
 
-    public Integer getId() {
+    @Override
+    public List<String> getRoles() {
+        return List.of("ROLE_BANKAGENT");
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
