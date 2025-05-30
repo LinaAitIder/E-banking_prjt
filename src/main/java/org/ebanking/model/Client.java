@@ -38,7 +38,7 @@ public class Client implements Serializable {
     private boolean webAuthnEnabled = false;
 
     // @Column(nullable = false)
-    //private boolean  = true; // Par défaut tout client est actif, uncomment later
+    //private boolean isActive = true; // Par défaut tout client est actif, uncomment later
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
