@@ -1,0 +1,53 @@
+<nav class="sidebar">
+    <div class="logo">eBanking</div>
+    <ul class="menu">
+        <li>
+            <a routerLink="/admin/dashboard" routerLinkActive="active">
+                <i class="fas fa-home" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/admin/clients" routerLinkActive="active">
+                <i class="fas fa-user" aria-hidden="true"></i>
+                <span>Clients</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/admin/accounts" routerLinkActive="active">
+                <i class="fas fa-university" aria-hidden="true"></i>
+                <span>Accounts</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/admin/transactions" routerLinkActive="active">
+                <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+                <span>Transactions</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/admin/settings" routerLinkActive="active">
+                <i class="fas fa-cog" aria-hidden="true"></i>
+                <span>Settings</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/admin/security" routerLinkActive="active">
+                <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                <span>Security</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/admin/support" routerLinkActive="active">
+                <i class="fas fa-life-ring" aria-hidden="true"></i>
+                <span>Support</span>
+            </a>
+        </li>
+        <li>
+            <a (click)="logout()" class="logout-link">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
+</nav>

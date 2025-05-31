@@ -1,0 +1,67 @@
+<div class="profile-container">
+    <header class="profile-header">
+        <h1>{{ client.name }}</h1>
+        <div class="role-badge">{{ client.role }}</div>
+    </header>
+
+    <main class="profile-grid">
+        <section class="info-card">
+            <h2>Contact Information</h2>
+            <div class="info-item">
+                <span>Email</span>
+                <p>{{ client.email }}</p>
+            </div>
+            <div class="info-item">
+                <span>Phone</span>
+                <p>{{ client.phone }}</p>
+            </div>
+            <div class="info-item">
+                <span>Date of Birth</span>
+                <p>{{ client.dob }}</p>
+            </div>
+        </section>
+
+        <section class="info-card">
+            <h2>Accounts</h2>
+            <div *ngFor="let account of client.accounts" class="account-item">
+                <div class="account-header">
+                    <strong>{{ account.name }}</strong>
+                    <span>{{ formatAmount(account.amount) }}</span>
+                </div>
+                <p>{{ account.iban }}</p>
+            </div>
+        </section>
+
+        <section class="info-card">
+            <h2>Personal Details</h2>
+            <div class="info-item">
+                <span>Address</span>
+                <p>{{ client.address }}</p>
+            </div>
+            <div class="info-item">
+                <span>RIB</span>
+                <p>{{ client.rib }}</p>
+            </div>
+            <div class="info-item">
+                <span>Nationality</span>
+                <p>{{ client.nationality }}</p>
+            </div>
+        </section>
+
+        <section class="security-card">
+            <h2>Security Info</h2>
+            <div class="info-item">
+                <span>Password</span>
+                <p>{{ client.security.password }}</p>
+            </div>
+            <div class="info-item">
+                <span>Two-Factor Authentication</span>
+                <p>{{ client.security.twoFactor ? 'Enabled' : 'Disabled' }}</p>
+            </div>
+
+            <button class="edit-button">
+                EDIT PROFILE
+            </button>
+        </section>
+    </main>
+</div>
