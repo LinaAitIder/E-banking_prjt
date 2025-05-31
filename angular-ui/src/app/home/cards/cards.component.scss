@@ -1,0 +1,34 @@
+.cards-section {
+  display: flex;
+  justify-content: space-around;
+  padding: 3rem 2rem;
+  background: linear-gradient(to right, #ffe6f0, #ffb6c1); // fond baby pink clair
+  color: #4a0033; // texte sombre mais doux
+
+  .card {
+    background: radial-gradient(circle at top left, #ff99bb, #ff6699); // dégradé rose baby doux
+    padding: 2rem;
+    border-radius: 20px;
+    width: 25%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(255, 102, 153, 0.3); // ombre rose claire
+    transition: transform 0.3s ease;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #4a0033;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #5a005a; // texte légèrement plus foncé
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(255, 102, 153, 0.5); // ombre plus intense au hover
+    }
+  }
+}

@@ -1,0 +1,55 @@
+<div class="activity-container">
+    <!-- Recent Activity Table -->
+    <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Client</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let tx of transactions">
+                    <td>{{ tx.date }}</td>
+                    <td>{{ tx.client }}</td>
+                    <td>{{ tx.amount | currency }}</td>
+                    <td>
+              <span [class]="'status-badge ' + tx.status.toLowerCase()">
+                {{ tx.status }}
+              </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Crypto & Stats Section -->
+    <div class="crypto-stats">
+        <div class="crypto-market">
+            <h3>Crypto Market Overview</h3>
+            <div class="crypto-list">
+                <div class="crypto-item" *ngFor="let crypto of cryptoData">
+                    <span class="crypto-name">{{ crypto.name }}</span>
+                    <span class="crypto-price">{{ crypto.price | currency }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="account-stats">
+            <div class="stat-item">
+                <h4>Total Balance</h4>
+                <div class="stat-value">{{ stats.totalBalance | currency }}</div>
+            </div>
+
+            <div class="stat-item">
+                <h4>Transactions</h4>
+                <div class="stat-value">{{ stats.transactionsCount }}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<h3>Liste des abonnés</h3>
+<ul>
+    <li *ngFor="let abonne of abonnes; index as i">
+        {{ abonne.nom }} - {{ abonne.email }}
+        <div class="btn-group">
+            <button (click)="modifier(i)" class="btn-edit">Modifier</button>
+            <button (click)="supprimer(i)" class="btn-delete">Supprimer</button>
+        </div>
+    </li>
+</ul>

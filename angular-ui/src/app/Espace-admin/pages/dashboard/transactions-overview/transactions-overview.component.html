@@ -1,0 +1,27 @@
+<div class="dashboard-row">
+    <!-- Bloc gauche : Transactions Overview -->
+    <div class="transactions-overview">
+        <h3>Transactions Overview</h3>
+        <div class="chart-container" *ngIf="isBrowser">
+            <canvas
+                    baseChart
+                    [type]="'line'"
+                    [data]="lineChartData"
+                    [options]="lineChartOptions">
+            </canvas>
+        </div>
+    </div>
+
+    <!-- Bloc droit : Account Types -->
+    <div class="account-types">
+        <h3>Account Types</h3>
+        <div class="chart-container" *ngIf="isBrowser">
+            <canvas
+                    baseChart
+                    [type]="'doughnut'"
+                    [data]="accountChartData"
+                    [options]="accountChartOptions">
+            </canvas>
+        </div>
+    </div>
+</div>
