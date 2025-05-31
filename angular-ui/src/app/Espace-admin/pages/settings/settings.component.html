@@ -1,0 +1,89 @@
+<div class="settings-container">
+    <h2 class="section-title">Banking Settings</h2>
+
+    <div class="settings-cards">
+        <!-- Exchange Rates -->
+        <div class="card">
+            <h3>Exchange Rates</h3>
+            <table>
+                <thead>
+                <tr><th>Currency</th><th>Rate</th></tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let rate of exchangeRates">
+                    <td>{{ rate.currency }}</td>
+                    <td><input type="number" [(ngModel)]="rate.rate" step="0.0001" /></td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn-primary" (click)="updateRates()">Update Rates</button>
+        </div>
+
+        <!-- Transaction Limits -->
+        <div class="card">
+            <h3>Transaction Limits</h3>
+            <div class="form-group">
+                <label>Daily Limit</label>
+                <input type="number" [(ngModel)]="transactionLimits.dailyLimit" />
+            </div>
+            <div class="form-group">
+                <label>Per Transaction Limit</label>
+                <input type="number" [(ngModel)]="transactionLimits.perTransactionLimit" />
+            </div>
+            <button class="btn-primary" (click)="updateLimits()">Save Limits</button>
+        </div>
+
+        <!-- Crypto Fees -->
+        <div class="card">
+            <h3>Cryptocurrency Fees</h3>
+            <div class="form-group">
+                <label>Bitcoin (BTC)</label>
+                <input type="number" [(ngModel)]="cryptoFees.btc" step="0.0001" />
+            </div>
+            <div class="form-group">
+                <label>Ethereum (ETH)</label>
+                <input type="number" [(ngModel)]="cryptoFees.eth" step="0.0001" />
+            </div>
+            <button class="btn-primary" (click)="saveCryptoFees()">Save Crypto Fees</button>
+        </div>
+
+        <!-- Bank Info -->
+        <div class="card">
+            <h3>Bank Info</h3>
+            <div class="form-group">
+                <label>Bank Name</label>
+                <input type="text" [(ngModel)]="bankInfo.name" />
+            </div>
+            <div class="form-group">
+                <label>SWIFT Code</label>
+                <input type="text" [(ngModel)]="bankInfo.swift" />
+            </div>
+            <div class="form-group">
+                <label>Default Currency</label>
+                <select [(ngModel)]="bankInfo.defaultCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="BTC">BTC</option>
+                </select>
+            </div>
+            <button class="btn-primary" (click)="saveBankInfo()">Save Info</button>
+        </div>
+
+        <!-- Feature Toggles -->
+        <div class="card">
+            <h3>Feature Toggles</h3>
+            <div class="toggle-row">
+                <label>Instant Transfers</label>
+                <input type="checkbox" [(ngModel)]="toggles.instantTransfers" />
+            </div>
+            <div class="toggle-row">
+                <label>Auto Currency Conversion</label>
+                <input type="checkbox" [(ngModel)]="toggles.autoConversion" />
+            </div>
+            <div class="toggle-row">
+                <label>Enable Crypto Wallet</label>
+                <input type="checkbox" [(ngModel)]="toggles.cryptoWallet" />
+            </div>
+        </div>
+    </div>
+</div>

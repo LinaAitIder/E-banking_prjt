@@ -1,0 +1,56 @@
+<div class="accounts-container">
+    <h2 class="section-title">Accounts</h2>
+
+    <div class="summary-cards">
+        <div class="card" *ngFor="let card of summaryCards">
+            <h3>{{ card.title }}</h3>
+            <p class="balance">${{ card.balance.toLocaleString() }}</p>
+            <p class="number">Account Number: {{ card.number }}</p>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <select>
+            <option>All</option>
+            <option>Checking</option>
+            <option>Savings</option>
+            <option>Business</option>
+        </select>
+        <input type="text" placeholder="Search..." />
+        <button class="btn-primary">NEW ACCOUNT</button>
+    </div>
+
+    <table class="accounts-table">
+        <thead>
+        <tr>
+            <th>Account Number</th>
+            <th>Holder</th>
+            <th>Balance</th>
+            <th>Type</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let acc of accounts">
+            <td>{{ acc.number }}</td>
+            <td>{{ acc.holder }}</td>
+            <td>${{ acc.balance.toLocaleString() }}</td>
+            <td>{{ acc.type }}</td>
+            <td>{{ acc.created }}</td>
+            <td class="actions">
+                <i class="fa fa-eye text-view"></i>
+                <i class="fa fa-edit text-edit"></i>
+                <i class="fa fa-trash text-delete"></i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button disabled>&lt;</button>
+        <span class="current">1</span>
+        <span>of 5</span>
+        <button>&gt;</button>
+    </div>
+</div>
