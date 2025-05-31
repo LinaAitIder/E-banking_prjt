@@ -1,0 +1,187 @@
+.accounts-container {
+  padding: 1.5rem;
+  background-color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  color: #2c2c2c;
+
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #000;
+    position: relative;
+    padding-bottom: 0.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: #ff99cc; // Ligne rose subtile
+    }
+  }
+
+  .summary-cards {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.2rem;
+      border: 1px solid #eee;
+      width: 100%;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      h3 {
+        margin: 0 0 0.5rem;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .balance {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #000;
+      }
+
+      .number {
+        color: #888;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    select,
+    input {
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      background-color: #fff;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #ff99cc; // Rose clair
+      }
+    }
+
+    .btn-primary {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      color: #333;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: #ff99cc;
+        color: #ff99cc;
+      }
+    }
+  }
+
+  .accounts-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #eee;
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      color: #333;
+    }
+
+    th {
+      background-color: #fafafa;
+      font-weight: 600;
+      border-bottom: 2px solid #ff99cc; // Accent rose
+    }
+
+    tbody tr {
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #fff8fb; // Rose très pâle
+      }
+    }
+
+    .actions {
+      i {
+        margin-right: 0.8rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+
+        &.text-view {
+          color: #4CAF50; // Vert original
+          &:hover {
+            color: #45a049;
+            transform: scale(1.15);
+          }
+        }
+
+        &.text-edit {
+          color: #FF9800; // Orange original
+          &:hover {
+            color: #ef6c00;
+            transform: scale(1.15);
+          }
+        }
+
+        &.text-delete {
+          color: #F44336; // Rouge original
+          &:hover {
+            color: #c62828;
+            transform: scale(1.15);
+          }
+        }
+      }
+    }
+  }
+
+  .pagination {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    button {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: #ff99cc;
+        color: #ff99cc;
+      }
+    }
+
+    .current {
+      background-color: #fff8fb;
+      border-color: #ff99cc;
+      color: #ff99cc;
+    }
+  }
+}

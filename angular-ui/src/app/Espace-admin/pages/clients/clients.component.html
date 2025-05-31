@@ -1,0 +1,55 @@
+<!-- Header -->
+<header class="header">
+    <h1>Clients</h1>
+    <button class="btn">+ Ajouter un client</button>
+</header>
+
+<!-- Statistiques -->
+<div class="stats">
+    <div class="stat">
+        <i class="fas fa-users icon"></i>
+        <div>1,234<br><small>Total Clients</small></div>
+    </div>
+    <div class="stat">
+        <i class="fas fa-user-check icon"></i>
+        <div>567<br><small>Actifs</small></div>
+    </div>
+    <div class="stat">
+        <i class="fas fa-user-times icon"></i>
+        <div>123<br><small>Inactifs</small></div>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="search-container">
+        <div class="search-input-wrapper">
+            <input type="text" placeholder="Rechercher un client..." [(ngModel)]="searchTerm" />
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </div>
+
+</div>
+<!-- Tableau -->
+<div class="table-container">
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>ID Client</th>
+            <th>Email</th>
+            <th>Phone number</th>
+            <th>Type</th>
+            <th>Inscription</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let client of filteredClients">
+            <td>{{ client.name }}</td>
+            <td>{{ client.id }}</td>
+            <td>{{ client.email }}</td>
+            <td>{{ client.phone }}</td>
+            <td>{{ client.type }}</td>
+            <td>{{ client.registration }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
