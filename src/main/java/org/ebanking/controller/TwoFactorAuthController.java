@@ -37,7 +37,7 @@ public class TwoFactorAuthController {
 
             // Regenère le token avec le même username et roles
             String newToken = jwtUtil.generateToken(
-                    jwtUtil.getUsernameFromToken(token),
+                    jwtUtil.extractUsername(token),
                     authorities
             );
 
@@ -48,3 +48,4 @@ public class TwoFactorAuthController {
         return ResponseEntity.status(401).build();
     }
 }
+
