@@ -236,7 +236,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/webapp/WEB-INF/classes</directory>
                 <includes>
                     <include>**/*.properties</include>
                 </includes>
