@@ -1,5 +1,7 @@
 package org.ebanking.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -16,9 +18,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
-
+    private static final long REFRESH_EXPIRATION_MS = 30 * 24 * 60 * 60 * 1000L; // 30 jours
     private final SecretKey secretKey;
     private final long expirationMs;
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public JwtUtil(
             @Value("${jwt.secret}") String secret,
@@ -64,23 +67,9 @@ public class JwtUtil {
         return false;
     }
 
-    public String getUsernameFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-    }
-
     public List<String> getRolesFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        return (List<String>) claims.get("roles", List.class);
+        Claims claims = extractAllClaims(token);
+        return mapper.convertValue(claims.get("roles"), new TypeReference<List<String>>() {});
     }
 
     public static String generateSecureSecretKey() {
@@ -93,5 +82,73 @@ public class JwtUtil {
         return getRolesFromToken(token).stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<GrantedAuthority> extractAuthorities(String token) {
+        Claims claims = extractAllClaims(token);
+        List<String> roles = claims.get("auth", List.class);
+
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role))
+                .collect(Collectors.toList());
+    }
+
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
+    }
+
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION_MS))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String extractUsernameFromExpiredToken(String token) {
+        try {
+            return extractAllClaims(token).getSubject();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims().getSubject();
+        }
+    }
+
+    public boolean validateTokenStructure(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException e) {
+            return true; // Accepte les tokens expirés pour le refresh
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String generatePasswordResetToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1h
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+    }
+
+    public String extractEmailFromPasswordResetToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 }

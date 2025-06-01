@@ -14,28 +14,38 @@ import com.webauthn4j.data.client.challenge.*;
 import com.webauthn4j.server.*;
 import com.webauthn4j.util.Base64Util;
 import org.ebanking.dao.ClientRepository;
+import org.ebanking.dao.UserRepository;
 import org.ebanking.dao.WebAuthnCredentialRepository;
+import org.ebanking.dto.response.AuthResponse;
 import org.ebanking.model.*;
 import jakarta.transaction.Transactional;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
+import java.security.*;
+import java.security.spec.EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class WebAuthnService {
 
+    private final UserRepository userRepository;
     private final String rpId = "localhost";
     private final ObjectConverter objectConverter = new ObjectConverter();
     private final WebAuthnCredentialRepository credentialRepository;
     private final ClientRepository clientRepository;
 
-    public WebAuthnService(WebAuthnCredentialRepository credentialRepository, ClientRepository clientRepository) {
+    public WebAuthnService(WebAuthnCredentialRepository credentialRepository,
+                           ClientRepository clientRepository,
+                           UserRepository userRepository) {
         this.credentialRepository = credentialRepository;
         this.clientRepository = clientRepository;
+        this.userRepository = userRepository;
     }
 
     public PublicKeyCredentialCreationOptions generateRegistrationOptions(Client client) {
@@ -193,5 +203,94 @@ public class WebAuthnService {
         String challengeBase64 = Base64.getUrlEncoder().encodeToString(challenge);
         client.setChallenge(challengeBase64);
         return challengeBase64;
+    }
+
+    public AuthResponse prepareLoginChallenge(User user) {
+        String challenge = generateRandomChallenge();
+
+        List<String> allowedCredentials = credentialRepository
+                .findByUserId(user.getId())
+                .stream()
+                .map(WebAuthnCredential::getCredentialId)
+                .collect(Collectors.toList());
+
+        return new AuthResponse(challenge, allowedCredentials, null);
+    }
+
+    public User verifyBiometricAuthentication(
+            String email,
+            String credentialId,
+            String authenticatorData,
+            String clientDataJSON,
+            String signature) {
+
+        // 1. Vérifier l'utilisateur
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
+
+        // 2. Vérifier le credential
+        WebAuthnCredential credential = credentialRepository
+                .findByCredentialId(credentialId)
+                .orElseThrow(() -> new BadCredentialsException("Invalid credential"));
+
+        // 3. Vérifier la signature
+        boolean isValid = verifySignature(
+                authenticatorData,
+                clientDataJSON,
+                signature,
+                credential.getPublicKey()
+        );
+
+        if (!isValid) {
+            throw new BadCredentialsException("Invalid biometric signature");
+        }
+
+        return user;
+    }
+
+    private String generateRandomChallenge() {
+        byte[] array = new byte[32];
+        new SecureRandom().nextBytes(array);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(array);
+    }
+
+    private boolean verifySignature(
+            String authenticatorData,
+            String clientDataJSON,
+            String signature,
+            byte[] publicKey) {
+
+        try {
+            // 1. Convertir les donnees Base64
+            byte[] authData = Base64.getUrlDecoder().decode(authenticatorData);
+            byte[] clientData = Base64.getUrlDecoder().decode(clientDataJSON);
+            byte[] signatureBytes = Base64.getUrlDecoder().decode(signature);
+
+            // 2. Calculer le hash des donnees client
+            byte[] clientDataHash = MessageDigest.getInstance("SHA-256")
+                    .digest(clientData);
+
+            // 3. Préparer les données à vérifier
+            ByteArrayOutputStream dataToVerify = new ByteArrayOutputStream();
+            dataToVerify.write(authData);
+            dataToVerify.write(clientDataHash);
+
+            // 4. Vérification avec la cle publique (ici ECDSA)
+            Signature ecdsaVerify = Signature.getInstance("SHA256withECDSA");
+            PublicKey pubKey = getPublicKeyFromBytes(publicKey); // Méthode à implémenter
+            ecdsaVerify.initVerify(pubKey);
+            ecdsaVerify.update(dataToVerify.toByteArray());
+
+            return ecdsaVerify.verify(signatureBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private PublicKey getPublicKeyFromBytes(byte[] publicKeyBytes) throws Exception {
+        KeyFactory kf = KeyFactory.getInstance("EC");
+        EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
+        return kf.generatePublic(keySpec);
     }
 }
