@@ -51,6 +51,7 @@ public class AppConfig {
         em.setPackagesToScan("org.ebanking.model");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+
         em.setJpaVendorAdapter(vendorAdapter);
 
         // Load Hibernate properties from `database.properties`
