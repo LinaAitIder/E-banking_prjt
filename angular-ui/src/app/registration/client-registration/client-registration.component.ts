@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {Client} from '../model/client.model'
-import {Router, RouterLink} from "@angular/router";
-import {WebauthnService} from "../services/webauthn.service";
-import {AuthenService} from "../services/authen.service";
+import {Client} from '../../model/client.model'
+import {Router, RouterLink, RouterOutlet} from "@angular/router";
+import {WebauthnService} from "../../services/webauthn.service";
+import {AuthenService} from "../../services/authen.service";
 import {firstValueFrom} from "rxjs";
+import {NavbarComponent} from "../../home/navbar/navbar.component";
 
 @Component({
     selector: 'app-registration-form',
     templateUrl: './client-registration.component.html',
+    styleUrl : 'client-registration.component.scss',
     standalone: true,
-    imports: [ReactiveFormsModule, CommonModule, RouterLink]
+    imports: [ReactiveFormsModule, CommonModule, RouterLink, RouterOutlet, NavbarComponent]
 })
 export class ClientRegistrationComponent {
     registrationForm: FormGroup;

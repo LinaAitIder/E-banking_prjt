@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import { Admin } from '../model/admin.model';
-import {AuthenService} from "../services/authen.service";
-import {WebauthnService} from "../services/webauthn.service";
+import { Admin } from '../../model/admin.model';
+import {AuthenService} from "../../services/authen.service";
+import {WebauthnService} from "../../services/webauthn.service";
+import {RouterOutlet} from "@angular/router";
+import {NavbarComponent} from "../../home/navbar/navbar.component";
 
 @Component({
     selector: 'app-admin-registration',
     imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterOutlet,
+        NavbarComponent
     ],
-    templateUrl: './admin-registration.component.html'
+    templateUrl: './admin-registration.component.html',
+    styleUrl :'admin-registration.component.scss'
 })
 export class AdminRegistrationComponent {
     adminForm: FormGroup;

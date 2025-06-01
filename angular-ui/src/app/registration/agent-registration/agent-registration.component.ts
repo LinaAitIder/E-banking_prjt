@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AuthenService} from "../services/authen.service";
-import {WebauthnService} from "../services/webauthn.service";
-import {BankAgent} from "../model/bank-agent.model";
+import {AuthenService} from "../../services/authen.service";
+import {WebauthnService} from "../../services/webauthn.service";
+import {BankAgent} from "../../model/bank-agent.model";
+import {RouterOutlet} from "@angular/router";
+import {NavbarComponent} from "../../home/navbar/navbar.component";
 
 @Component({
     selector: 'app-agent-registration',
     imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterOutlet,
+        NavbarComponent
     ],
-    templateUrl: './agent-registration.component.html'
+    templateUrl: './agent-registration.component.html',
+    styleUrl : 'agent-registration.component.scss'
 })
 export class AgentRegistrationComponent {
     agentForm: FormGroup;
