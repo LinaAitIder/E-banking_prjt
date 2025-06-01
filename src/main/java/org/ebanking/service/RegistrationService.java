@@ -33,7 +33,7 @@ public class RegistrationService {
 
     public void activateWebAuthn(Client client, String credentialId, byte[] publicKey) {
         WebAuthnCredential credential = new WebAuthnCredential();
-        credential.setClient(client);
+        credential.setUser(client);
         credential.setCredentialId(credentialId);
         credential.setPublicKey(publicKey);
         credential.setSignatureCount(0);
