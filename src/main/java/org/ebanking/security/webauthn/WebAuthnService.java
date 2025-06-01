@@ -175,7 +175,7 @@ public class WebAuthnService {
         WebAuthnCredential credential = new WebAuthnCredential();
         credential.setCredentialId(credentialId);
         credential.setPublicKey(publicKey);
-        credential.setClient(client);
+        credential.setUser(client);
         credentialRepository.save(credential);
     }
 
