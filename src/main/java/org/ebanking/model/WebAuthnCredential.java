@@ -1,6 +1,7 @@
 package org.ebanking.model;
 
 import jakarta.persistence.*;
+import java.util.Base64;
 
 @Entity
 public class WebAuthnCredential {
@@ -9,8 +10,8 @@ public class WebAuthnCredential {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
     @Column(length = 1024, unique = true)
     private String credentialId;
@@ -35,11 +36,13 @@ public class WebAuthnCredential {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Client getClient() {
+        return client;
     }
 
-    public void setUser(User user) { this.user = user; }
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public String getCredentialId() {
         return credentialId;

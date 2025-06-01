@@ -1,70 +1,106 @@
 package org.ebanking.model;
 
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+
 @Entity
-@Table(name = "client")
-@PrimaryKeyJoinColumn(name = "user_id")
-public class Client extends User {
+@Table(name = "clients")
+public class Client implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT")
+    private Long id;
 
-    @Column(name = "date_of_birth")
+    private String fullName;
     private Date dateOfBirth;
-
-    @Column(name = "national_id", unique = true)
     private String nationalId;
+    private String email;
+    private String password;
 
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "terms_accepted")
-    private Boolean termsAccepted;
+    @Column(name = "phone_number", unique = true)
+    @Pattern(regexp = "^\\+[1-9]\\d{1,14}$", message = "Format E.164 requis")
+    private String phone;
 
     @Column(name = "phone_verified", nullable = false)
     private boolean phoneVerified = false;
 
-    @Column(name = "web_authn_enabled", nullable = false)
+    private String address;
+    private String city;
+    private String country;
+    private Boolean termsAccepted;
+
+    @Column(nullable = false)
     private boolean webAuthnEnabled = false;
+
+    // @Column(nullable = false)
+    //private boolean isActive = true; // Par défaut tout client est actif, uncomment later
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
 
-    // Additional methods
     public void addWebAuthnCredential(WebAuthnCredential credential) {
         this.webAuthnCredentials.add(credential);
-        credential.setUser(this);
+        credential.setClient(this);
+    }
+    public WebAuthnCredential getFirstWebAuthnCredential() {
+        if (webAuthnCredentials == null || webAuthnCredentials.isEmpty()) {
+            return null;
+        }
+        return webAuthnCredentials.iterator().next();}
+
+    public boolean isWebAuthnEnabled() { return webAuthnEnabled; }
+
+    @Transient // Non persisté en base
+    private transient String challenge; // Stocké temporairement pour WebAuthn
+
+    public Client() {}
+
+    public Client(String fullName, Date dateOfBirth, String nationalId,
+                  String email, String password, String phone, boolean phoneVerified,
+                  String address, String city, String country, Boolean termsAccepted,
+                  boolean webAuthnEnabled, Set<WebAuthnCredential> webAuthnCredentials ) {
+        this.fullName = fullName;
+        this.dateOfBirth = dateOfBirth;
+        this.nationalId = nationalId;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.phoneVerified = phoneVerified;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.termsAccepted = termsAccepted;
+        this.webAuthnEnabled = webAuthnEnabled;
+        this.webAuthnCredentials = webAuthnCredentials;
     }
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrollment> enrollments = new ArrayList<>();
+    public Long getId() {
+        return id;
+    }
 
-    // Getters/setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-    }
-    // ... other getters/setters
-
-    public Boolean getTermsAccepted() {
-        return termsAccepted;
-    }
-
-    public void setTermsAccepted(Boolean termsAccepted) {
-        this.termsAccepted = termsAccepted;
     }
 
     public String getNationalId() {
@@ -74,6 +110,35 @@ public class Client extends User {
     public void setNationalId(String nationalId) {
         this.nationalId = nationalId;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isPhoneVerified() { return phoneVerified; }
+
+    public void setPhoneVerified(boolean phoneVerified) {
+        this.phoneVerified = phoneVerified; }
 
     public String getAddress() {
         return address;
@@ -99,15 +164,15 @@ public class Client extends User {
         this.country = country;
     }
 
-    public boolean isPhoneVerified() {
-        return phoneVerified;
+    public Boolean getTermsAccepted() {
+        return termsAccepted;
     }
 
-    public void setPhoneVerified(boolean phoneVerified) {
-        this.phoneVerified = phoneVerified;
+    public void setTermsAccepted(Boolean termsAccepted) {
+        this.termsAccepted = termsAccepted;
     }
 
-    public boolean isWebAuthnEnabled() {
+    public boolean getWebAuthnEnabled() {
         return webAuthnEnabled;
     }
 
@@ -123,9 +188,11 @@ public class Client extends User {
         this.webAuthnCredentials = webAuthnCredentials;
     }
 
-    @Override
-    public List<String> getRoles() {
-        return List.of("ROLE_CLIENT");
+    public String getChallenge() {
+        return challenge;
     }
 
+    public void setChallenge(String challenge) {
+        this.challenge = challenge;
+    }
 }
