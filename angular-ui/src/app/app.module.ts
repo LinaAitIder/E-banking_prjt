@@ -1,8 +1,10 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import {AppComponent} from "./app.component";
 import {NgModule} from "@angular/core";
-import {ClientRegistrationComponent} from "./authentification/client-registration.component";
+import {ClientRegistrationComponent} from "./registration/client-registration/client-registration.component";
 import {BrowserModule} from "@angular/platform-browser";
+import {RouterModule} from "@angular/router";
+import {routes} from "./app.routes";
 
 
 @NgModule({
@@ -14,7 +16,8 @@ import {BrowserModule} from "@angular/platform-browser";
         ReactiveFormsModule,
         ClientRegistrationComponent,
         AppComponent,
-        ClientRegistrationComponent
+        ClientRegistrationComponent,
+        RouterModule.forRoot(routes)
     ],
     providers: [],
 })

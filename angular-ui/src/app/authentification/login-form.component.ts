@@ -6,12 +6,14 @@ import {ClientService} from "../services/client.service";
 import {WebauthnService} from "../services/webauthn.service";
 import {AuthenService} from "../services/authen.service";
 import {User} from "../model/user.model";
+import {NavbarComponent} from "../home/navbar/navbar.component";
 
 @Component({
     selector: 'app-login-form',
     templateUrl: './login-form.component.html',
+    styleUrl:'login-form.component.scss',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, NavbarComponent],
 })
 export class LoginFormComponent {
     loginForm: FormGroup;
