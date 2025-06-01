@@ -34,7 +34,7 @@ export class AuthenService {
         [p: string]: any
     }){
         const params = new HttpParams().set('attestation', attestation);
-        return this.http.post(`${this.apiUrl}/auth/register/verify`,client,  { params });
+        return this.http.post(`${this.apiUrl}/auth/register/verify`, client, { params });
     }
 
     saveCredentials(credential:any, challenge:any, role:String): Observable<any>{

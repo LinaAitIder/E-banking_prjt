@@ -43,7 +43,6 @@ public abstract class User implements Serializable {
     private boolean isActive;
 
     @Column(name = "phone", unique = true, nullable = false)
-    @Pattern(regexp = "^\\+[1-9]\\d{1,14}$", message = "Format E.164 requis")
     private String phone;
 
     @ColumnDefault("CURRENT_TIMESTAMP")

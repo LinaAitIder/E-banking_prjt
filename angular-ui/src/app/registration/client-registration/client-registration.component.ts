@@ -64,7 +64,12 @@ export class ClientRegistrationComponent {
             return;
         }
         // Getting Client Data
-        const clientData: Client = this.registrationForm.value;
+        const client: Client = this.registrationForm.value;
+        const clientData = {
+            ...client,
+            dateOfBirth: new Date(client.dateOfBirth).toISOString()
+        };
+
         const role: string = clientData.role;
         // Getting Challenge for biometric service
         try {
