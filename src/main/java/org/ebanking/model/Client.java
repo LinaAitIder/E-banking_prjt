@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "client")
+@Table(name = "clients")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Client extends User {
 

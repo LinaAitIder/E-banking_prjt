@@ -172,10 +172,17 @@ public class WebAuthnService {
     }
 
     private void saveCredentials(Client client, String credentialId, byte[] publicKey) {
+        System.out.println("ClientId : " + client.getId());
+        if (client.getId() == null) {
+            client = clientRepository.save(client);
+        }
+        if (client.getPhone() == null) {
+            throw new IllegalArgumentException("Client phone cannot be null");
+        }
         WebAuthnCredential credential = new WebAuthnCredential();
         credential.setCredentialId(credentialId);
         credential.setPublicKey(publicKey);
-        credential.setClient(client);
+        credential.setUser(client);
         credentialRepository.save(credential);
     }
 

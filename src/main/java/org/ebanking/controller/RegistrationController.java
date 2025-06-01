@@ -1,5 +1,6 @@
 package org.ebanking.controller;
 
+import org.ebanking.dto.ClientRegistrationDTO;
 import org.ebanking.model.Client;
 import org.ebanking.security.webauthn.WebAuthnService;
 import org.ebanking.service.PhoneVerificationService;
@@ -62,8 +63,20 @@ public class RegistrationController {
     @PostMapping("/register/verify")
     public ResponseEntity<?> verifyRegistration(
             @RequestParam("attestation") String attestation,
-            @RequestBody Client client) {
-
+            @RequestBody ClientRegistrationDTO clientDto
+    ) {
+        Client client = new Client();
+        client.setId(clientDto.getId());
+        client.setEmail(clientDto.getEmail());
+        client.setPhone(clientDto.getPhone());
+        client.setPassword(clientDto.getPassword());
+        client.setNationalId(clientDto.getNationalId());
+        client.setAddress(clientDto.getAddress());
+        client.setCity(clientDto.getCity());
+        client.setCountry(clientDto.getCountry());
+        client.setDateOfBirth(clientDto.getDateOfBirth());
+        client.setTermsAccepted(clientDto.getTermsAccepted());
+        client.setChallenge(clientDto.getChallenge());
         webAuthnService.verifyRegistration(attestation, client);
         return ResponseEntity.ok().build();
     }
