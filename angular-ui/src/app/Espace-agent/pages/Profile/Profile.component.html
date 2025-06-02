@@ -3,18 +3,13 @@
 
 <div class="profile-container">
     <div class="profile-header">
-        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Agent photo" class="profile-photo" />
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Agent photo" class="profile-photo" />
     </div>
 
     <form>
         <div class="form-group">
-            <label>Prénom</label>
-            <input type="text" [(ngModel)]="agent.prenom" name="prenom" [readonly]="!isEditing" />
-        </div>
-
-        <div class="form-group">
-            <label>Nom</label>
-            <input type="text" [(ngModel)]="agent.nom" name="nom" [readonly]="!isEditing" />
+            <label>FullName</label>
+            <input type="text" [(ngModel)]="agent.fullName" name="prenom" [readonly]="!isEditing" />
         </div>
 
         <div class="form-group">
@@ -24,13 +19,9 @@
 
         <div class="form-group">
             <label>Téléphone professionnel</label>
-            <input type="tel" [(ngModel)]="agent.telephone" name="telephone" [readonly]="!isEditing" />
+            <input type="tel" [(ngModel)]="agent.phone" name="telephone" [readonly]="!isEditing" />
         </div>
 
-        <div class="form-group">
-            <label>Matricule</label>
-            <input type="text" [(ngModel)]="agent.matricule" name="matricule" [readonly]="!isEditing" />
-        </div>
 
         <div class="form-group">
             <label>Rôle</label>
@@ -38,14 +29,15 @@
         </div>
 
         <div class="form-group">
-            <label>Date d'entrée</label>
-            <input type="date" [(ngModel)]="agent.dateEntree" name="dateEntree" [readonly]="!isEditing" />
+            <label>Agency</label>
+            <input type="text" [(ngModel)]="agent.agency" name="dateEntree" [readonly]="!isEditing" />
         </div>
 
         <div class="form-group">
-            <label>Statut</label>
-            <input type="text" [(ngModel)]="agent.statut" name="statut" [readonly]="!isEditing" />
+            <label>AgentCode</label>
+            <input type="text" [(ngModel)]="agent.agentCode" name="dateEntree" [readonly]="!isEditing" />
         </div>
+
 
         <div class="form-group">
             <label>Mot de passe</label>

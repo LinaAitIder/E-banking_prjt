@@ -17,15 +17,22 @@
     </div>
 
     <div class="form-group">
-        <input formControlName="phoneNumber" placeholder="Phone Number" />
-        <div *ngIf="agentForm.get('phoneNumber')?.invalid && agentForm.get('phoneNumber')?.touched" class="error-message">
+        <input formControlName="phone" placeholder="Phone Number" />
+        <div *ngIf="agentForm.get('phone')?.invalid && agentForm.get('phone')?.touched" class="error-message">
             Valid phone number is required
         </div>
     </div>
 
     <div class="form-group">
-        <input formControlName="agencyCode" placeholder="Agency Code" />
-        <div *ngIf="agentForm.get('agencyCode')?.invalid && agentForm.get('agencyCode')?.touched" class="error-message">
+        <input formControlName="agency" placeholder="Agency" />
+        <div *ngIf="agentForm.get('agency')?.invalid && agentForm.get('agency')?.touched" class="error-message">
+            Agency is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input formControlName="agentCode" placeholder="Agent Code" />
+        <div *ngIf="agentForm.get('agentCode')?.invalid && agentForm.get('agentCode')?.touched" class="error-message">
             Agency code is required
         </div>
     </div>

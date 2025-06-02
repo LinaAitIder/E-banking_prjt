@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -9,25 +9,39 @@ import { FormsModule } from '@angular/forms';
     templateUrl: './Profile.component.html',
     styleUrls: ['./Profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
     isEditing = false;
 
     agent = {
-        prenom: 'Fatima',
-        nom: 'Aitba',
-        email: 'fatima.aitba@banque.com',
-        telephone: '+212600000000',
-        matricule: 'AG12345',
-        role: 'Conseiller',
-        dateEntree: '2021-09-01',
-        statut: 'Actif',
+        fullName:'',
+        email: '',
+        phone: '',
+        role: '',
+        agency:'',
+        agentCode:'',
         motDePasse: '********'
     };
+
+    ngOnInit(): void {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            const user = JSON.parse(storedUserData);
+
+            this.agent = {
+                fullName:user.fullName || '',
+                email: user.email || '',
+                phone: user.phone || '',
+                role: user.role || '',
+                agentCode : user.agentCode ||'',
+                agency : user.agency || '',
+                motDePasse: '********'
+            };
+        }
+    }
 
     toggleEdit() {
         this.isEditing = !this.isEditing;
         if (!this.isEditing) {
-            // ici, tu peux envoyer les données modifiées à un service backend
             console.log('Infos agent mises à jour :', this.agent);
         }
     }

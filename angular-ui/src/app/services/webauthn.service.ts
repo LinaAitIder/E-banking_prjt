@@ -110,15 +110,24 @@ export class WebauthnService {
           const role = res.role;
           const user = res.user;
           console.log("Logged in ");
-          console.log(user);
+          console.log("token", token);
+          console.log(user.role);
           if(!token){
             console.log("not token received");
           }
           localStorage.setItem('userData', JSON.stringify(user));
           localStorage.setItem('role', role);
           localStorage.setItem('token', token);
+          console.log(role);
+          if(user.role === "CLIENT"){
+            this.router.navigate(['client']);
+          } else if(user.role === "AGENT"){
+            this.router.navigate(['agent']);
+          } else if(user.role === "ADMIN"){
+            this.router.navigate(['admin']);
 
-          this.router.navigate(['client']);
+          }
+
         }
       })
     } catch (err) {
