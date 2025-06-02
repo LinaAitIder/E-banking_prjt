@@ -1,14 +1,18 @@
 package org.ebanking.dto.response;
 
+import org.ebanking.model.User;
+
 public class LoginResponse {
     private String token;
     private boolean webAuthnEnabled;
     private String userType;
+    private User user;
 
-    public LoginResponse(String token, boolean webAuthnEnabled, String userType ) {
+    public LoginResponse(String token, boolean webAuthnEnabled, String userType, User user ) {
         this.token = token;
         this.webAuthnEnabled = webAuthnEnabled;
         this.userType = userType;
+        this.user = user;
     }
 
     public String getToken() {
@@ -20,4 +24,6 @@ public class LoginResponse {
     }
 
     public String getUserType() { return userType; }
+
+    public User getUser() { return user; }
 }

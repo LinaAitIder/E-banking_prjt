@@ -23,10 +23,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
-import java.security.spec.EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
+import java.security.spec.*;
+import com.upokecenter.cbor.CBORObject;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -103,7 +104,7 @@ public class WebAuthnService {
             }
 
             // 3. Extraction des données
-            String credentialId = Base64Util.encodeToString(attestedData.getCredentialId());
+            String credentialId = Base64.getUrlEncoder().withoutPadding().encodeToString(attestedData.getCredentialId());
             byte[] publicKey = objectConverter.getCborConverter()
                     .writeValueAsBytes(attestedData.getCOSEKey());
 
@@ -111,6 +112,9 @@ public class WebAuthnService {
             System.out.println("the client "+ client);
             System.out.println("credentialId "+ credentialId);
             System.out.println("the client "+ publicKey);
+            System.out.println("🟢 Registered credentialId: " + credentialId);
+            System.out.println("🟢 Raw bytes: " + Arrays.toString(attestedData.getCredentialId()));
+
 
             saveCredentials(client, credentialId, publicKey);
 
@@ -200,7 +204,7 @@ public class WebAuthnService {
 
         byte[] challenge = new byte[32];
         new SecureRandom().nextBytes(challenge);
-        String challengeBase64 = Base64.getUrlEncoder().encodeToString(challenge);
+        String challengeBase64 = Base64.getUrlEncoder().withoutPadding().encodeToString(challenge);
         client.setChallenge(challengeBase64);
         return challengeBase64;
     }
@@ -208,13 +212,15 @@ public class WebAuthnService {
     public AuthResponse prepareLoginChallenge(User user) {
         String challenge = generateRandomChallenge();
 
+        String role = user.getRole();
+
         List<String> allowedCredentials = credentialRepository
                 .findByUserId(user.getId())
                 .stream()
                 .map(WebAuthnCredential::getCredentialId)
                 .collect(Collectors.toList());
 
-        return new AuthResponse(challenge, allowedCredentials, null);
+        return new AuthResponse(challenge, allowedCredentials, null , role);
     }
 
     public User verifyBiometricAuthentication(
@@ -232,6 +238,9 @@ public class WebAuthnService {
         WebAuthnCredential credential = credentialRepository
                 .findByCredentialId(credentialId)
                 .orElseThrow(() -> new BadCredentialsException("Invalid credential"));
+
+        System.out.println("🔵 Received login credentialId: " + credentialId);
+        System.out.println("credentials"+ credential);
 
         // 3. Vérifier la signature
         boolean isValid = verifySignature(
@@ -277,7 +286,7 @@ public class WebAuthnService {
 
             // 4. Vérification avec la cle publique (ici ECDSA)
             Signature ecdsaVerify = Signature.getInstance("SHA256withECDSA");
-            PublicKey pubKey = getPublicKeyFromBytes(publicKey); // Méthode à implémenter
+            PublicKey pubKey = convertCOSEPublicKey(publicKey); // Méthode à implémenter
             ecdsaVerify.initVerify(pubKey);
             ecdsaVerify.update(dataToVerify.toByteArray());
 
@@ -292,5 +301,26 @@ public class WebAuthnService {
         KeyFactory kf = KeyFactory.getInstance("EC");
         EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
         return kf.generatePublic(keySpec);
+    }
+
+    public PublicKey convertCOSEPublicKey(byte[] cosePublicKey) throws Exception {
+        CBORObject cbor = CBORObject.DecodeFromBytes(cosePublicKey);
+
+        byte[] xBytes = cbor.get(-2).GetByteString();
+        byte[] yBytes = cbor.get(-3).GetByteString();
+
+        ECPoint ecPoint = new ECPoint(
+                new BigInteger(1, xBytes),
+                new BigInteger(1, yBytes)
+        );
+
+        AlgorithmParameters parameters = AlgorithmParameters.getInstance("EC");
+        parameters.init(new ECGenParameterSpec("secp256r1"));
+        ECParameterSpec ecSpec = parameters.getParameterSpec(ECParameterSpec.class);
+
+        ECPublicKeySpec pubSpec = new ECPublicKeySpec(ecPoint, ecSpec);
+        KeyFactory kf = KeyFactory.getInstance("EC");
+
+        return kf.generatePublic(pubSpec);
     }
 }

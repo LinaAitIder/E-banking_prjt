@@ -34,7 +34,7 @@ export class AdminRegistrationComponent {
             const adminData: Admin = this.adminForm.value;
             const role: string = adminData.role;
             console.log('Registering Admin:', adminData);
-            this.authenService.getChallenge(adminData, role).subscribe({
+            this.authenService.getChallengeAdmin(adminData).subscribe({
                 next: (res) =>{
                     console.log('Challenged received:', res);
                     this.webAuthnService.registerWebAuthenCredentials(res.data.challenge,adminData,role).then(r =>{

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {User} from "../model/user.model";
 import {AuthenService} from "./authen.service";
 import {firstValueFrom} from "rxjs";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebauthnService {
 
-  constructor(private authenService:AuthenService) { }
+  constructor(private authenService:AuthenService, private router:Router) { }
 
   // Asynchrounous since we are waiing for the user to enter its biometric credentials
   async registerWebAuthenCredentials(
@@ -58,29 +59,72 @@ export class WebauthnService {
     return firstValueFrom(this.authenService.verifyAuthenticatorRequest(attestationObject, user));
   }
 
-  async login(challenge: ArrayBuffer, user: User, allowedCredentialId: ArrayBuffer) {
+  async login(challenge: any, userRole :string , user: User, allowedCredentialId: any) {
+
+    console.log("allowedCredentialId:", allowedCredentialId);
+    console.log("Type of allowedCredentialId:", typeof allowedCredentialId);
+    console.log("Is array:", Array.isArray(allowedCredentialId));
+
+    if (Array.isArray(allowedCredentialId)) {
+      allowedCredentialId.forEach((id, index) => {
+        console.log(`allowedCredentialId[${index}] =`, id);
+        console.log(`Type: ${typeof id}`);
+      });
+    }
+
+
     const publicKey: PublicKeyCredentialRequestOptions = {
-      challenge: challenge,
-      allowCredentials: [{
-        id: new Uint8Array(allowedCredentialId),
-        type: "public-key"
-      }],
+      challenge:  challenge,
+      allowCredentials: allowedCredentialId.map((id: ArrayBuffer) => ({
+        id,
+        type: "public-key",
+        transports: ['internal']
+      })),
       userVerification: "required",
       timeout: 60000
     };
 
+    console.log("chanleenge :", challenge);
+    console.log('the receive allowedCredentails :',  allowedCredentialId);
+    console.log("allowedCredentialId instanceof ArrayBuffer:", allowedCredentialId instanceof ArrayBuffer);
+    console.log("allowedCredentialId byteLength:", allowedCredentialId.byteLength);
+
     try {
       const credential = await navigator.credentials.get({ publicKey }) as PublicKeyCredential;
       //sending Key to backend
-      this.authenService.loginUser(user, credential).subscribe({
+      const loginPayload = {
+        email: user.email,
+        credentialId: this.arrayBufferToBase64(credential.rawId),
+        authenticatorData: this.arrayBufferToBase64((credential.response as AuthenticatorAssertionResponse).authenticatorData),
+        clientDataJSON: this.arrayBufferToBase64((credential.response as AuthenticatorAssertionResponse).clientDataJSON),
+        signature: this.arrayBufferToBase64((credential.response as AuthenticatorAssertionResponse).signature),
+        userReceived: user,
+        role : userRole,
+      };
+
+      this.authenService.loginUser(loginPayload).subscribe({
         next: (res) => {
+          console.log("received :"+ res);
+          const token = res.token;
+          const webAuthnEnabled = res.webAuthnEnabled;
+          const role = res.role;
+          const user = res.user;
           console.log("Logged in ");
-          return;
+          console.log(user);
+          if(!token){
+            console.log("not token received");
+          }
+          localStorage.setItem('userData', JSON.stringify(user));
+          localStorage.setItem('role', role);
+          localStorage.setItem('token', token);
+
+          this.router.navigate(['client']);
         }
       })
     } catch (err) {
-      console.error("Authentication failed:", err);
-      throw err;
+      if (err instanceof DOMException && err.name === "NotAllowedError") {
+        alert("Authentication timed out or was cancelled. Please try again.");
+      }
     }
   }
 
@@ -103,6 +147,17 @@ export class WebauthnService {
   }
 
 
+  private  base64ToArrayBuffer(base64: string): ArrayBuffer {
+    base64 = base64.replace(/-/g, '+').replace(/_/g, '/');
+    const padLength = (4 - (base64.length % 4)) % 4;
+    base64 += '='.repeat(padLength);
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
 
 
 }

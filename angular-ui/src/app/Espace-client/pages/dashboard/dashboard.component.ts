@@ -1,6 +1,6 @@
-import { Component } from "@angular/core"
+import { Component, OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
-import { FormBuilder,  FormGroup, ReactiveFormsModule } from "@angular/forms"
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms"
 
 interface Transaction {
     date: string
@@ -15,8 +15,9 @@ interface Transaction {
     templateUrl: "./dashboard.component.html",
     styleUrls: ["./dashboard.component.scss"],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
     transferForm: FormGroup
+    userData: any
 
     transactions: Transaction[] = [
         { date: "05/05/204", description: "Deposit", amount: "+$10.00" },
@@ -33,6 +34,13 @@ export class DashboardComponent {
         })
     }
 
+    ngOnInit(): void {
+        const userDataString = localStorage.getItem("userData");
+        this.userData = userDataString ? JSON.parse(userDataString) : null;
+
+        console.log("User data from localStorage:", this.userData);
+    }
+
     getAmountClass(amount: string): string {
         if (amount.startsWith("+")) {
             return "positive"
@@ -45,7 +53,6 @@ export class DashboardComponent {
     onSubmit(): void {
         if (this.transferForm.valid) {
             console.log("Transfer submitted:", this.transferForm.value)
-            // Implement transfer logic here
         }
     }
 }

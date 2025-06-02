@@ -3,8 +3,10 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {AuthenService} from "../../services/authen.service";
 import {WebauthnService} from "../../services/webauthn.service";
 import {BankAgent} from "../../model/bank-agent.model";
-import {RouterOutlet} from "@angular/router";
+import {Router, RouterOutlet} from "@angular/router";
 import {NavbarComponent} from "../../home/navbar/navbar.component";
+import {Client} from "../../model/client.model";
+import {firstValueFrom} from "rxjs";
 
 @Component({
     selector: 'app-agent-registration',
@@ -19,7 +21,7 @@ import {NavbarComponent} from "../../home/navbar/navbar.component";
 export class AgentRegistrationComponent {
     agentForm: FormGroup;
 
-    constructor(private fb: FormBuilder, private authenService: AuthenService, private webAuthnService : WebauthnService) {
+    constructor(private fb: FormBuilder, private authenService: AuthenService, private webAuthnService : WebauthnService, private router: Router ) {
         this.agentForm = this.fb.group({
             fullName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
@@ -29,24 +31,57 @@ export class AgentRegistrationComponent {
         });
     }
 
-    registerAgent() {
-        if (this.agentForm.valid) {
+    redirectToSMSVerifPage(agent: BankAgent){
+        this.router.navigate(['/smsVerificationPage']);
+    }
+
+    redirectToLogin() {
+        this.router.navigate(['/login']);
+    }
+
+    async registerAgent() {
+        if (this.agentForm.invalid) {
+            this.agentForm.markAllAsTouched();
+            console.warn('Form is invalid');
+            return;
+        }
             const agentData:BankAgent = this.agentForm.value;
             const role :string = agentData.role;
             console.log('Registering agent:', agentData);
-            this.authenService.getChallenge(agentData, role).subscribe({
-                next: (res) =>{
-                    console.log('Challenged received:', res);
-                    this.webAuthnService.registerWebAuthenCredentials(res.data.challenge,agentData,role).then(r =>{
-                        console.log("SuccessfulBiometry registration!!!");
-                    });
-                }, error: (err) => {
-                    console.log('Error saving client', err);
+            try {
+
+                const response = await firstValueFrom(
+                    //This method will be changed to manage general Users
+                    this.authenService.getChallengeAgent(agentData)
+                );
+                console.log("Response received : ",response);
+                const challengeResponse = response.body.challenge;
+                const receivedAgent:BankAgent = response.body;
+                console.log("THIS IS THE RECEIVED Bank Agent :",receivedAgent);
+                console.log("Challenge received :", challengeResponse);
+                if (!challengeResponse) {
+                    throw new Error("Challenge header missing in response");
                 }
-            })
-        } else {
-            this.agentForm.markAllAsTouched();
-            console.warn('Form is invalid');
+                const challengeBuffer = new TextEncoder().encode(challengeResponse);
+
+                console.log(challengeBuffer);
+                const registrationSuccess = await  this.webAuthnService.registerWebAuthenCredentials(
+                    challengeBuffer,
+                    receivedAgent,
+                    role
+                );
+
+                console.log(registrationSuccess);
+                if (registrationSuccess) {
+                    this.redirectToLogin();
+                } else {
+                    this.redirectToSMSVerifPage(receivedAgent);
+                }
+            } catch (error) {
+                console.error('Registration failed:', error);
+                window.alert("Something went wrong during registration.");
+                this.redirectToSMSVerifPage(agentData);
+
+            }
         }
-    }
 }

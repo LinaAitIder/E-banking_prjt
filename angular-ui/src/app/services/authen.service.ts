@@ -13,14 +13,15 @@ export class AuthenService {
     constructor(private http: HttpClient) {}
     private apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
 
-    getChallenge(user: { email: string; fullName: string; [key: string]: any }, role:string): Observable<any> {
-        return this.http.post(`api/auth/register/${role}`,user,
-            {
-                headers: { role: role }
-            });
+    getChallengeAgent(user: { email: string; fullName: string; [key: string]: any }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/auth/register/agent `,user);
     }
 
-    // Testing for only the actor : client
+    getChallengeAdmin(user: { email: string; fullName: string; [key: string]: any }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/auth/register/admin `,user);
+    }
+
+    // Change this api expression to be sp
     getChallengeClient(user: { email: string; fullName: string; [key: string]: any }): Observable<any> {
         return this.http.post(`${this.apiUrl}/auth/register`,user,{
                 observe: 'response'
@@ -37,17 +38,20 @@ export class AuthenService {
         return this.http.post(`${this.apiUrl}/auth/register/verify`, client, { params });
     }
 
-    saveCredentials(credential:any, challenge:any, role:String): Observable<any>{
-        return this.http.post(`/webauthn/register/${role}`, credential, challenge);
+    saveCredentials(credential:any, challenge:any, userRole:String): Observable<any>{
+        return this.http.post(`/webauthn/register/${userRole}`, credential, challenge);
     }
 
 
-    verifyPassword(user:User):Observable<any> {
+    verifyPassword(user:any):Observable<any> {
        return this.http.post(`${this.apiUrl}/auth/verification/password`, user);
     }
 
-    loginUser(user:User, credential:any):Observable<any>{
-        return this.http.post(`/api/login/${user.role}`, credential);
+    loginUser(usercredential:any):Observable<any>{
+        console.log(usercredential);
+        return this.http.post(`${this.apiUrl}/auth/login`, usercredential);
     }
+
+
 
 }
