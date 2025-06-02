@@ -66,7 +66,7 @@ public class WebAuthnService {
                                 COSEAlgorithmIdentifier.ES256)));
     }
 
-    public void verifyRegistration(String attestationObject, Client client) {
+    public void verifyRegistration(String attestationObject, User user) {
         try {
             // 1. Convertir en objets WebAuthn4j
             AttestationObject attestationObj;
@@ -80,7 +80,7 @@ public class WebAuthnService {
                 throw new RuntimeException("Failed to parse attestationObject", e);
             }
             System.out.println("Received attestationObject: " + attestationObject);
-            System.out.println("Received Client: " + client);
+            System.out.println("Received Client: " + user);
 
 //            CollectedClientData clientData = objectConverter.getJsonConverter()
 //                    .readValue(new String(client.getChallenge().getBytes(), StandardCharsets.UTF_8), CollectedClientData.class);
@@ -105,14 +105,14 @@ public class WebAuthnService {
                     .writeValueAsBytes(attestedData.getCOSEKey());
 
             // 4. Enregistrement
-            System.out.println("the client "+ client);
+            System.out.println("the client "+ user);
             System.out.println("credentialId "+ credentialId);
             System.out.println("the client "+ publicKey);
             System.out.println("🟢 Registered credentialId: " + credentialId);
             System.out.println("🟢 Raw bytes: " + Arrays.toString(attestedData.getCredentialId()));
 
 
-            saveCredentials(client, credentialId, publicKey);
+            saveCredentials(user, credentialId, publicKey);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,27 +181,27 @@ public class WebAuthnService {
         }
     }
 
-    private void saveCredentials(Client client, String credentialId, byte[] publicKey) {
-        System.out.println("ClientId : " + client.getId());
-        if (client.getId() == null) {
-            client = clientRepository.save(client);
+    private void saveCredentials(User user, String credentialId, byte[] publicKey) {
+        System.out.println("UserId : " + user.getId());
+        if (user.getId() == null) {
+            user = userRepository.save(user);
         }
-        if (client.getPhone() == null) {
-            throw new IllegalArgumentException("Client phone cannot be null");
+        if (user.getPhone() == null) {
+            throw new IllegalArgumentException("User phone cannot be null");
         }
         WebAuthnCredential credential = new WebAuthnCredential();
         credential.setCredentialId(credentialId);
         credential.setPublicKey(publicKey);
-        credential.setUser(client);
+        credential.setUser(user);
         credentialRepository.save(credential);
     }
 
-    public String prepareWebAuthnRegistration(Client client) {
+    public String prepareWebAuthnRegistration(User user) {
 
         byte[] challenge = new byte[32];
         new SecureRandom().nextBytes(challenge);
-        String challengeBase64 = Base64.getUrlEncoder().withoutPadding().encodeToString(challenge);
-        client.setChallenge(challengeBase64);
+        String challengeBase64 = Base64.getUrlEncoder().encodeToString(challenge);
+        user.setChallenge(challengeBase64);
         return challengeBase64;
     }
 
