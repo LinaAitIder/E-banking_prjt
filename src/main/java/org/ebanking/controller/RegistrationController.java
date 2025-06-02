@@ -54,6 +54,8 @@ public class RegistrationController {
         // 2. Préparation pour WebAuthn
         String challenge = webAuthnService.prepareWebAuthnRegistration(registeredClient);
 
+
+
         System.out.println(registeredClient);
         return ResponseEntity.ok()
                 .header("X-WebAuthn-Challenge", challenge)
@@ -78,6 +80,8 @@ public class RegistrationController {
         client.setTermsAccepted(clientDto.getTermsAccepted());
         client.setChallenge(clientDto.getChallenge());
         webAuthnService.verifyRegistration(attestation, client);
+
+
         return ResponseEntity.ok().build();
     }
 }

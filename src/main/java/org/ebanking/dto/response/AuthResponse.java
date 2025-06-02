@@ -5,5 +5,6 @@ import java.util.List;
 public record AuthResponse(
         String challenge,
         List<String> allowedCredentials,
-        String token
+        String token,
+        String role
 ) {}

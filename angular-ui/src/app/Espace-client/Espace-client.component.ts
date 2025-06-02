@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 
 import {SidebarComponent} from "../Espace-client/sidebar/sidebar.component";
 
@@ -7,11 +7,14 @@ import {SidebarComponent} from "../Espace-client/sidebar/sidebar.component";
     selector: 'app-espace-client',
     standalone: true,
     imports: [
-        RouterOutlet, // Pour <router-outlet>
+        RouterOutlet,
         SidebarComponent,
-        // Pour <app-sidebar>
     ],
     templateUrl: './Espace-client.component.html',
     styleUrls: ['./Espace-client.component.scss']
 
-}) export class EspaceClientComponent{}
+})
+
+export class EspaceClientComponent{
+
+}
