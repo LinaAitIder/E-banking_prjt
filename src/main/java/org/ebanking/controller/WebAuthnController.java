@@ -1,6 +1,7 @@
 package org.ebanking.controller;
 
 import org.ebanking.model.Client;
+import org.ebanking.model.User;
 import org.ebanking.security.webauthn.WebAuthnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,8 @@ public class WebAuthnController {
     private WebAuthnService webAuthnService;
 
     @PostMapping("/register/challenge")
-    public String generateRegistrationChallenge(@RequestBody Client client) {
-        return webAuthnService.generateRegistrationOptions(client).toString();
+    public String generateRegistrationChallenge(@RequestBody User user) {
+        return webAuthnService.generateRegistrationOptions(user).toString();
     }
 
     @PostMapping("/register/verify")

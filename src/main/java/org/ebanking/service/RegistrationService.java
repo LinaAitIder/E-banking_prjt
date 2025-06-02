@@ -1,22 +1,25 @@
 package org.ebanking.service;
 
+import org.ebanking.dao.AccountRepository;
 import org.ebanking.dao.UserRepository;
-import org.ebanking.model.Client;
-import org.ebanking.model.User;
-import org.ebanking.model.WebAuthnCredential;
-import org.ebanking.dao.ClientRepository;
+import org.ebanking.model.*;
 import org.ebanking.dao.WebAuthnCredentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.math.BigDecimal;
+
 @Service
 @Transactional
 public class RegistrationService {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private AccountFactory accountFactory;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -29,14 +32,34 @@ public class RegistrationService {
 
     public Client registerClient(Client client) {
         // Validation métier
-        if (clientRepository.existsByNationalId(client.getNationalId())) {
+        if (userRepository.existsByNationalId(client.getNationalId())) {
             throw new IllegalStateException("National ID already registered");
         }
 
         // Enregistrement de base
         client.setWebAuthnEnabled(false);
         client.setPassword(passwordEncoder.encode(client.getPassword()));
-        return clientRepository.save(client);
+
+        // Création d'un compte courant par defaut
+        CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(Account.AccountType.CURRENT);
+        client.addAccount(defaultAccount);
+
+        return userRepository.save(client);
+    }
+
+    public BankAgent registerBankAgent(BankAgent agent) {
+        // Validation métier
+        if (userRepository.existsByEmail(agent.getEmail())) {
+            throw new IllegalStateException("Email already registered");
+        }
+        if (userRepository.existsByPhone(agent.getPhone())) {
+            throw new IllegalStateException("Phone number already registered");
+        }
+
+        // Enregistrement de base
+        agent.setWebAuthnEnabled(false);
+        agent.setPassword(passwordEncoder.encode(agent.getPassword()));
+        return (BankAgent) userRepository.save(agent);
     }
 
     public void activateWebAuthn(User user, String credentialId, byte[] publicKey) {
@@ -53,6 +76,6 @@ public class RegistrationService {
     }
 
     public boolean phoneNumberExists(String phoneNumber) {
-        return userRepository.existsByPhoneNumber(phoneNumber);
+        return userRepository.existsByPhone(phoneNumber);
     }
 }
