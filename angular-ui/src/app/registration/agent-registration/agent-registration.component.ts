@@ -25,8 +25,9 @@ export class AgentRegistrationComponent {
         this.agentForm = this.fb.group({
             fullName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
-            phoneNumber: ['', Validators.required],
-            agencyCode: ['', Validators.required],
+            phone: ['', Validators.required],
+            agency: ['', Validators.required],
+            agentCode: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
     }
@@ -51,7 +52,6 @@ export class AgentRegistrationComponent {
             try {
 
                 const response = await firstValueFrom(
-                    //This method will be changed to manage general Users
                     this.authenService.getChallengeAgent(agentData)
                 );
                 console.log("Response received : ",response);

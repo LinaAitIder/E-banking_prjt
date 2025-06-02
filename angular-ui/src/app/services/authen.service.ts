@@ -14,11 +14,13 @@ export class AuthenService {
     private apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
 
     getChallengeAgent(user: { email: string; fullName: string; [key: string]: any }): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/register/agent `,user);
+        return this.http.post(`${this.apiUrl}/auth/register/agent`,user,{
+            observe: 'response'
+        });
     }
 
     getChallengeAdmin(user: { email: string; fullName: string; [key: string]: any }): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/register/admin `,user);
+        return this.http.post(`${this.apiUrl}/auth/register/admin`,user);
     }
 
     // Change this api expression to be sp
