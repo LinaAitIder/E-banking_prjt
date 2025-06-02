@@ -32,16 +32,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
-
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = extractToken(request);
+
             if (token != null && jwtUtil.validateToken(token)) {
                 Authentication authentication = createAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                // Vérification des rôles pour les endpoints admin
+                if (request.getRequestURI().startsWith("/api/admin") &&
+                        !authentication.getAuthorities().stream()
+                                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
+                    return;
+                }
             }
         } catch (ExpiredJwtException ex) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");

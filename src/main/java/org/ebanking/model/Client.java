@@ -1,5 +1,6 @@
 package org.ebanking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -38,18 +39,54 @@ public class Client extends User {
     private boolean webAuthnEnabled = false;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Enrollment> enrollments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Account> accounts = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "main_account_id")
+    @JsonIgnore
+    private Account mainAccount;
+
+    public Account getMainAccount() {
+        if (this.mainAccount == null && !this.accounts.isEmpty()) {
+            return this.accounts.get(0); // Retourne le premier compte par defaut
+        }
+        return this.mainAccount;
+    }
+
+    public void setMainAccount(Account account) {
+        if (!this.accounts.contains(account)) {
+            throw new IllegalArgumentException("Account does not belong to client");
+        }
+        this.mainAccount = account;
+        if (account != null) {
+            account.setOwner(this);
+        }
+    }
+
+    public void addAccount(Account account) {
+        account.setOwner(this);
+        this.accounts.add(account);
+        if (this.mainAccount == null) {
+            this.mainAccount = account;
+        }
+    }
+
+    public Client() {}
 
     // Additional methods
     public void addWebAuthnCredential(WebAuthnCredential credential) {
         this.webAuthnCredentials.add(credential);
-        credential.setUser(this);
-    }
+        credential.setUser(this);}
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrollment> enrollments = new ArrayList<>();
-
-    // Getters/setters
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
@@ -57,7 +94,6 @@ public class Client extends User {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-    // ... other getters/setters
 
     public Boolean getTermsAccepted() {
         return termsAccepted;
@@ -122,6 +158,23 @@ public class Client extends User {
     public void setWebAuthnCredentials(Set<WebAuthnCredential> webAuthnCredentials) {
         this.webAuthnCredentials = webAuthnCredentials;
     }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
 
     @Override
     public List<String> getRoles() {

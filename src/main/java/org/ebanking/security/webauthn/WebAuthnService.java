@@ -49,25 +49,21 @@ public class WebAuthnService {
         this.userRepository = userRepository;
     }
 
-    public PublicKeyCredentialCreationOptions generateRegistrationOptions(Client client) {
+    public PublicKeyCredentialCreationOptions generateRegistrationOptions(User user) {
         byte[] challenge = new byte[32];
         new SecureRandom().nextBytes(challenge);
 
         return new PublicKeyCredentialCreationOptions(
                 new PublicKeyCredentialRpEntity(rpId, "E-Banking"),
                 new PublicKeyCredentialUserEntity(
-                        client.getNationalId().getBytes(),
-                        client.getEmail(),
-                        client.getFullName()
-                ),
+                        user.getEmail().getBytes(),
+                        user.getEmail(),
+                        user.getFullName()),
                 new DefaultChallenge(challenge),
                 Collections.singletonList(
                         new PublicKeyCredentialParameters(
                                 PublicKeyCredentialType.PUBLIC_KEY,
-                                COSEAlgorithmIdentifier.ES256
-                        )
-                )
-        );
+                                COSEAlgorithmIdentifier.ES256)));
     }
 
     public void verifyRegistration(String attestationObject, Client client) {
