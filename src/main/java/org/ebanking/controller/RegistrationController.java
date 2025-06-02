@@ -1,6 +1,8 @@
 package org.ebanking.controller;
 
+import org.ebanking.dto.BankAgentRegistrationDTO;
 import org.ebanking.dto.ClientRegistrationDTO;
+import org.ebanking.model.BankAgent;
 import org.ebanking.model.Client;
 import org.ebanking.security.webauthn.WebAuthnService;
 import org.ebanking.service.PhoneVerificationService;
@@ -82,6 +84,37 @@ public class RegistrationController {
         webAuthnService.verifyRegistration(attestation, client);
 
 
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/register/agent")
+    public ResponseEntity<BankAgent> registerBankAgent(@RequestBody BankAgent agent) {
+        // 1. Enregistrement basique
+        BankAgent registeredAgent = registrationService.registerBankAgent(agent);
+
+        // 2. Préparation pour WebAuthn
+        String challenge = webAuthnService.prepareWebAuthnRegistration(registeredAgent);
+
+        return ResponseEntity.ok()
+                .header("X-WebAuthn-Challenge", challenge)
+                .body(registeredAgent);
+    }
+
+    @PostMapping("/register/agent/verify")
+    public ResponseEntity<?> verifyAgentRegistration(
+            @RequestParam("attestation") String attestation,
+            @RequestBody BankAgentRegistrationDTO agentDto) {
+
+        BankAgent agent = new BankAgent();
+        agent.setId(agentDto.getId());
+        agent.setEmail(agentDto.getEmail());
+        agent.setPhone(agentDto.getPhone());
+        agent.setPassword(agentDto.getPassword());
+        agent.setAgentCode(agentDto.getAgentCode());
+        agent.setAgency(agentDto.getAgency());
+        agent.setChallenge(agentDto.getChallenge());
+
+        webAuthnService.verifyRegistration(attestation, agent);
         return ResponseEntity.ok().build();
     }
 }
