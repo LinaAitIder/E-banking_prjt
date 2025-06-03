@@ -38,7 +38,8 @@ public class SecurityConfig{
                                 "/api/auth/**",
                                 "/api/auth/register/**",
                                 "/api/auth/request-sms-verification",
-                                "/api/auth/verify-sms"
+                                "/api/auth/verify-sms",
+                                "/api/auth/admin/first-login/change-password"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
