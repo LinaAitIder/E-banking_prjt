@@ -56,17 +56,17 @@ public class AdminAuthController {
             Admin admin = userRepository.findAdminByEmail(request.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("Admin not found"));
 
-            // 3. Préparation réponse
-            Map<String, Object> response = new HashMap<>();
-
-            // 4. Vérification si premier login
+            // 3. Vérification si premier login
             if (admin.isFirstLogin()) {
+                Map<String, Object> response = new HashMap<>();
                 response.put("requiresPasswordChange", true);
                 response.put("temporaryToken", jwtUtil.generateTempToken(request.getEmail()));
-                return ResponseEntity.ok(response);
+
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(response);
             }
 
-            // 5. Génération du token normal
+            // 4. Génération du token normal
             List<GrantedAuthority> authorities = new ArrayList<>(
                     ((AdminUserDetails) authentication.getPrincipal()).getAuthorities()
             );
@@ -76,9 +76,9 @@ public class AdminAuthController {
                     authorities
             );
 
-            response.put("token", jwt);
-            response.put("redirect", "/admin/dashboard");
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok()
+                    .header("Authorization", "Bearer " + jwt)
+                    .build();
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -88,9 +88,9 @@ public class AdminAuthController {
 
     @PostMapping("/first-login/change-password")
     public ResponseEntity<?> firstLoginChangePassword(
-            @RequestParam("tempToken") String tempToken,
+            @RequestParam String tempToken,
             @RequestBody NewPasswordRequest request) {
-        try {
+
         // 1. Validation du token temporaire
         if (!jwtUtil.validateTempToken(tempToken)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
@@ -116,35 +116,25 @@ public class AdminAuthController {
 
         return ResponseEntity.ok()
                 .header("Authorization", "Bearer " + jwt)
-                .body(Map.of(
-                        "status", "success",
-                        "message", "Password changed successfully",
-                        "token", jwt,
-                        "redirect", "/admin/dashboard"
-                ));
-
-          } catch (Exception e) {
-                return ResponseEntity.internalServerError()
-                .body(Map.of("error", e.getMessage()));
-       }
+                .build();
     }
 
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(
-           @RequestHeader("Authorization") String token,
-           @RequestBody ChangePasswordRequest request) {
+            @RequestHeader("Authorization") String token,
+            @RequestBody ChangePasswordRequest request) {
 
-       String email = jwtUtil.extractUsername(token.substring(7));
-       Admin admin = userRepository.findAdminByEmail(email)
-               .orElseThrow(() -> new UsernameNotFoundException("Admin not found"));
+        String email = jwtUtil.extractUsername(token.substring(7));
+        Admin admin = userRepository.findAdminByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Admin not found"));
 
         if (!passwordEncoder.matches(request.getOldPassword(), admin.getPassword())) {
             return ResponseEntity.badRequest()
                     .body("Current password is incorrect");
         }
 
-       admin.setPassword(passwordEncoder.encode(request.getNewPassword()));
-       userRepository.save(admin);
+        admin.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(admin);
 
         return ResponseEntity.ok().build();
     }
