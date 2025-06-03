@@ -54,6 +54,35 @@ export class AuthenService {
         return this.http.post(`${this.apiUrl}/auth/login`, usercredential);
     }
 
+adminLogin(credentials: {email: string, password: string}): Observable<any> {
+        return this.http.post(`${this.apiUrl}/auth/admin/admin`, credentials);
+    }
 
+    firstLoginChangePassword(tempToken: string, newPassword: string): Observable<any> {
+        return this.http.post(`${this.apiUrl}/auth/admin/first-login/change-password`,
+            { newPassword },
+            { params: { tempToken } }
+        );
+    }
+
+    changeAdminPassword(Token: string, newPassword: string): Observable<any> {
+        return this.http.post(`${this.apiUrl}/auth/admin/change-password`,
+            { newPassword },
+            { params: { Token } }
+        );
+    }
+
+    // Endpoint pour créer un admin (nécessite des privilèges spéciaux)
+    createAdminAccount(adminData: {
+        fullName: string,
+        email: string,
+        password: string,
+        phone: string,
+        department: string
+    }, superAdminToken: string): Observable<any> {
+        return this.http.post(`${this.apiUrl}/auth/admin/create`, adminData, {
+            headers: { 'Authorization': `Bearer ${superAdminToken}` }
+        });
+    }
 
 }
