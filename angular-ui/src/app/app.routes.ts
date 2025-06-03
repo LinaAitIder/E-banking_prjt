@@ -7,7 +7,7 @@ import {HomeComponent} from "./home/home.component";
 import {EspaceAdminComponent} from "./Espace-admin/Espace-admin.component";
 import {EspaceClientComponent} from "./Espace-client/Espace-client.component";
 import {EspaceAgentComponent} from "./Espace-agent/Espace-agent.component";
-import { AdminLoginComponent } from './registration/admin-login/admin-login.component';
+import {AdminRegistrationComponent} from "./registration/admin-registration/admin-registration.component";
 import {AgentRegistrationComponent} from "./registration/agent-registration/agent-registration.component";
 import {RegistrationTypeComponent} from "./registration/registration-type.component";
 
@@ -22,6 +22,9 @@ export const routes: Routes = [
         path: 'clientRegistration',
         component: ClientRegistrationComponent
     }, {
+        path: 'adminRegistration',
+        component: AdminRegistrationComponent
+    }, {
         path: 'agentRegistration',
         component: AgentRegistrationComponent
     },{
@@ -35,10 +38,6 @@ export const routes: Routes = [
         path: 'admin',
         component: EspaceAdminComponent,
         loadChildren: () => import('./Espace-admin/Espace-admin.routes').then(m => m.ADMIN_ROUTES)
-    },
-    {
-          path: 'admin/login',
-          component: AdminLoginComponent
     },
     {
         path: 'client',

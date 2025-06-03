@@ -77,25 +77,6 @@
           background-color: #ff6699;
         }
       }
-    // Style spécifique pour la carte Admin
-          &:nth-child(3) {
-            .card-icon {
-              color: #4a0033; // Couleur différente pour admin
-            }
-            .select-button {
-              background-color: #4a0033; // Bouton violet pour admin
-              &:hover {
-                background-color: #6a0053;
-              }
-            }
-          }
-        }
-      }
     }
-
-    @media (max-width: 768px) {
-      .card-container {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
+  }
+}
