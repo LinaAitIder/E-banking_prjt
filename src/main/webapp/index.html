@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Banking Application</title>
+</head>
+<body>
+<h1>Bienvenue dans l'application E-Banking</h1>
+<p>Backend Spring MVC est en cours d'exécution</p>
+
+<div>
+    <h2>Test des endpoints :</h2>
+    <button onclick="testHello()">Tester /api/hello</button>
+    <div id="helloResult"></div>
+
+    <h3>Tester l'API AI :</h3>
+    <input type="text" id="promptInput" placeholder="Posez votre question">
+    <button onclick="testAskAI()">Envoyer</button>
+    <div id="aiResult"></div>
+</div>
+
+<script>
+    async function testHello() {
+        const response = await fetch('api/hello');
+        document.getElementById('helloResult').innerText = await response.text();
+    }
+
+    async function testAskAI() {
+        const prompt = document.getElementById('promptInput').value;
+        const response = await fetch('api/ai/ask', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt })
+        });
+        document.getElementById('aiResult').innerText = JSON.stringify(await response.json());
+    }
+</script>
+</body>
+</html>

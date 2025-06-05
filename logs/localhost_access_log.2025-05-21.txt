@@ -1,0 +1,16 @@
+127.0.0.1 - - [21/May/2025:00:51:29 +0100] "GET /E-banking_prjt HTTP/1.1" 302 -
+127.0.0.1 - - [21/May/2025:00:51:29 +0100] "GET /E-banking_prjt/ HTTP/1.1" 302 -
+127.0.0.1 - - [21/May/2025:00:51:29 +0100] "GET /E-banking_prjt/index.html HTTP/1.1" 304 -
+127.0.0.1 - - [21/May/2025:00:51:32 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [21/May/2025:00:51:46 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 65
+127.0.0.1 - - [21/May/2025:00:51:47 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 59
+127.0.0.1 - - [21/May/2025:01:08:12 +0100] "GET /E-banking_prjt HTTP/1.1" 302 -
+127.0.0.1 - - [21/May/2025:01:08:12 +0100] "GET /E-banking_prjt/ HTTP/1.1" 302 -
+127.0.0.1 - - [21/May/2025:01:11:21 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [21/May/2025:01:14:58 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 57
+127.0.0.1 - - [21/May/2025:01:14:58 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 67
+127.0.0.1 - - [21/May/2025:01:23:06 +0100] "OPTIONS /E-banking_prjt/api/ai/ask HTTP/1.1" 200 -
+127.0.0.1 - - [21/May/2025:01:23:08 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 65
+127.0.0.1 - - [21/May/2025:01:23:15 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 65
+127.0.0.1 - - [21/May/2025:01:23:22 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 25
+127.0.0.1 - - [21/May/2025:01:24:32 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 25

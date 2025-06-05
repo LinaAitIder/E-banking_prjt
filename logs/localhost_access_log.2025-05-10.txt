@@ -1,0 +1,11 @@
+127.0.0.1 - - [10/May/2025:15:09:54 +0100] "GET /E-banking_prjt HTTP/1.1" 404 662
+127.0.0.1 - - [10/May/2025:15:11:11 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [10/May/2025:15:19:34 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [10/May/2025:15:35:02 +0100] "GET /E-banking_prjt HTTP/1.1" 404 662
+127.0.0.1 - - [10/May/2025:15:35:08 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [10/May/2025:15:35:14 +0100] "GET /E-banking_prjt HTTP/1.1" 404 662
+127.0.0.1 - - [10/May/2025:15:36:21 +0100] "GET /E-banking_prjt HTTP/1.1" 404 662
+127.0.0.1 - - [10/May/2025:15:36:28 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [10/May/2025:15:37:33 +0100] "GET /E-banking_prjt HTTP/1.1" 404 662
+127.0.0.1 - - [10/May/2025:15:37:50 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [10/May/2025:15:37:53 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21

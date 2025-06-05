@@ -1,0 +1,31 @@
+<div class="chat-container">
+  <div class="messages">
+    <div *ngFor="let msg of messages" 
+         [class.user]="msg.sender === 'user'" 
+         [class.ai]="msg.sender === 'ai'"
+         [class.loading]="msg.loading"
+         class="message">
+      <div class="message-header">
+        <strong>{{msg.sender === 'user' ? 'Vous' : 'Assistant'}}</strong>
+        <small>{{msg.timestamp | date:'HH:mm'}}</small>
+      </div>
+      <div class="message-content">
+        {{msg.content}}
+        <div *ngIf="msg.loading" class="loading-dots">
+          <span>.</span><span>.</span><span>.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="input-area">
+    <input [(ngModel)]="userInput" 
+           placeholder="Posez votre question..." 
+           (keyup.enter)="sendMessage()"
+           [disabled]="!!messages.length && !!messages[messages.length - 1]?.loading">
+    <button (click)="sendMessage()" 
+            [disabled]="!userInput.trim() || (messages.length && messages[messages.length - 1].loading)">
+      Envoyer
+    </button>
+  </div>
+</div>

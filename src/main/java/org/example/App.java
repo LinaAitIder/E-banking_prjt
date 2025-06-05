@@ -1,5 +1,10 @@
 package org.example;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.example.config.DialogFlowConfig;
+import org.example.service.AiService;
+
+
+import java.io.IOException;
 import java.sql.*;
 /**
  * Hello world!
@@ -7,8 +12,7 @@ import java.sql.*;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws IOException {
 
         System.out.println( "Hello World!" );
 
@@ -22,5 +26,7 @@ public class App
         } catch (SQLException e) {
             System.err.println("❌ Erreur : " + e.getMessage());
         }
+
+
     }
 }

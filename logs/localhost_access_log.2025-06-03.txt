@@ -1,0 +1,16 @@
+127.0.0.1 - - [03/Jun/2025:07:21:16 +0100] "GET /E-banking_prjt HTTP/1.1" 302 -
+127.0.0.1 - - [03/Jun/2025:07:21:16 +0100] "GET /E-banking_prjt/ HTTP/1.1" 302 -
+127.0.0.1 - - [03/Jun/2025:07:21:16 +0100] "GET /E-banking_prjt/index.html HTTP/1.1" 200 1267
+127.0.0.1 - - [03/Jun/2025:07:21:22 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [03/Jun/2025:07:21:22 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [03/Jun/2025:07:21:26 +0100] "GET /E-banking_prjt/api/hello HTTP/1.1" 200 21
+127.0.0.1 - - [03/Jun/2025:07:21:44 +0100] "OPTIONS /E-banking_prjt/api/ai/ask HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025:07:21:51 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 65
+127.0.0.1 - - [03/Jun/2025:07:39:42 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 61
+127.0.0.1 - - [03/Jun/2025:07:41:18 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 70
+127.0.0.1 - - [03/Jun/2025:09:41:16 +0100] "GET /E-banking_prjt HTTP/1.1" 302 -
+127.0.0.1 - - [03/Jun/2025:09:41:17 +0100] "GET /E-banking_prjt/ HTTP/1.1" 302 -
+127.0.0.1 - - [03/Jun/2025:09:41:17 +0100] "GET /E-banking_prjt/index.html HTTP/1.1" 200 1267
+127.0.0.1 - - [03/Jun/2025:09:41:18 +0100] "GET /favicon.ico HTTP/1.1" 404 604
+127.0.0.1 - - [03/Jun/2025:09:42:33 +0100] "OPTIONS /E-banking_prjt/api/ai/ask HTTP/1.1" 200 -
+127.0.0.1 - - [03/Jun/2025:09:42:38 +0100] "POST /E-banking_prjt/api/ai/ask HTTP/1.1" 200 65

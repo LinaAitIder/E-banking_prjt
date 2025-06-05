@@ -4,6 +4,9 @@ package org.example.controller;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -16,8 +19,8 @@ public class TestController {
             return "Backend is connected!";
         }
 
-            @PostMapping("/test")
-            public String handlePost(@RequestBody User user) {
+      /*  @PostMapping("/test")
+        public String handlePost(@RequestBody User user) {
                 return "Hello, " + user.getName() + "!";
             }
 
@@ -33,6 +36,9 @@ public class TestController {
         // Getters (required for JSON serialization)
         public String getName() { return name; }
         public int getAge() { return age; }
-    }
+    } */
+
+
+
 
 }

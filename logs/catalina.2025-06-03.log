@@ -1,0 +1,228 @@
+03-Jun-2025 07:20:20.896 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Nom version serveur :              Apache Tomcat/11.0.2
+03-Jun-2025 07:20:20.945 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Serveur compilé :                  Dec 5 2024 15:19:37 UTC
+03-Jun-2025 07:20:20.949 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Version du serveur :               11.0.2.0
+03-Jun-2025 07:20:20.951 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Nom de l'OS :                      Linux
+03-Jun-2025 07:20:20.954 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Version OS :                       6.8.0-59-generic
+03-Jun-2025 07:20:20.955 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture :                     amd64
+03-Jun-2025 07:20:20.958 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home :                        /usr/lib/jvm/jdk-23-oracle-x64
+03-Jun-2025 07:20:20.959 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Version JVM :                      23+37-2369
+03-Jun-2025 07:20:20.959 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Fournisseur de la JVM :            Oracle Corporation
+03-Jun-2025 07:20:20.960 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE :                    /home/eaeule/E-banking_prjt
+03-Jun-2025 07:20:20.961 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME :                    /home/eaeule/apache-tomcat-11.0.2
+03-Jun-2025 07:20:21.051 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.lang=ALL-UNNAMED
+03-Jun-2025 07:20:21.052 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.io=ALL-UNNAMED
+03-Jun-2025 07:20:21.053 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util=ALL-UNNAMED
+03-Jun-2025 07:20:21.054 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+03-Jun-2025 07:20:21.054 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+03-Jun-2025 07:20:21.057 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.home=/home/eaeule/apache-tomcat-11.0.2
+03-Jun-2025 07:20:21.057 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.base=/home/eaeule/E-banking_prjt
+03-Jun-2025 07:20:21.057 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.io.tmpdir=/home/eaeule/E-banking_prjt/temp
+03-Jun-2025 07:20:21.058 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.config.file=/home/eaeule/E-banking_prjt/conf/logging.properties
+03-Jun-2025 07:20:21.062 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+03-Jun-2025 07:20:21.062 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -javaagent:/snap/intellij-idea-community/609/lib/idea_rt.jar=38637
+03-Jun-2025 07:20:21.062 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dfile.encoding=UTF-8
+03-Jun-2025 07:20:21.063 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stdout.encoding=UTF-8
+03-Jun-2025 07:20:21.063 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stderr.encoding=UTF-8
+03-Jun-2025 07:20:21.071 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent La librairie Apache Tomcat Native basée sur APR qui permet des performances optimales dans les environnements de production n'a pas été trouvée sur le java.library.path : [/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib]
+03-Jun-2025 07:20:24.575 INFO [main] org.apache.coyote.AbstractProtocol.init Initialisation du gestionnaire de protocole ["http-nio-8081"]
+03-Jun-2025 07:20:24.661 INFO [main] org.apache.catalina.startup.Catalina.load L'initialisation du serveur a pris [6057] millisecondes
+03-Jun-2025 07:20:24.920 INFO [main] org.apache.catalina.core.StandardService.startInternal Démarrage du service [Catalina]
+03-Jun-2025 07:20:24.925 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Démarrage du moteur de Servlets : [Apache Tomcat/11.0.2]
+03-Jun-2025 07:20:24.977 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Déploiement du descripteur de configuration [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml]
+03-Jun-2025 07:20:42.882 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars Au moins un fichier JAR a été analysé pour trouver des TLDs mais il n'en contenait pas, le mode "debug" du journal peut être activé pour obtenir une liste complète de JAR scannés sans succès ; éviter d'analyser des JARs inutilement peut améliorer sensiblement le temps de démarrage et le temps de compilation des JSPs
+03-Jun-2025 07:20:52.606 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Le traitement du descripteur de déploiement [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml] a pris [27 614] ms
+03-Jun-2025 07:20:52.642 INFO [main] org.apache.coyote.AbstractProtocol.start Démarrage du gestionnaire de protocole ["http-nio-8081"]
+03-Jun-2025 07:20:52.701 INFO [main] org.apache.catalina.startup.Catalina.start Le démarrage du serveur a pris [28034] millisecondes
+03-Jun-2025 07:43:24.237 INFO [Thread-2] org.apache.coyote.AbstractProtocol.pause Le gestionnaire de protocole ["http-nio-8081"] est mis en pause
+03-Jun-2025 07:43:24.279 INFO [Thread-2] org.apache.catalina.core.StandardService.stopInternal Arrêt du service [Catalina]
+03-Jun-2025 07:43:24.955 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-1] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ java.base/java.lang.ClassLoader.defineClass1(Native Method)
+ java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1026)
+ java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:150)
+ org.apache.catalina.loader.WebappClassLoaderBase.findClassInternal(WebappClassLoaderBase.java:2161)
+ org.apache.catalina.loader.WebappClassLoaderBase.findClass(WebappClassLoaderBase.java:695)
+ org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1183)
+ org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1053)
+ io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler.safeClose(SslHandler.java:2289)
+ io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler.closeOutboundAndChannel(SslHandler.java:2051)
+ io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler.close(SslHandler.java:753)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.invokeClose(AbstractChannelHandlerContext.java:753)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.close(AbstractChannelHandlerContext.java:727)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler$ClosingChannelFutureListener.doClose(Http2ConnectionHandler.java:1005)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler$ClosingChannelFutureListener.operationComplete(Http2ConnectionHandler.java:990)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler$ClosingChannelFutureListener.operationComplete(Http2ConnectionHandler.java:961)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.notifyListener0(DefaultPromise.java:590)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.notifyListenersNow(DefaultPromise.java:557)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.notifyListeners(DefaultPromise.java:492)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.addListener(DefaultPromise.java:185)
+ io.grpc.netty.shaded.io.netty.channel.DefaultChannelPromise.addListener(DefaultChannelPromise.java:95)
+ io.grpc.netty.shaded.io.netty.channel.DefaultChannelPromise.addListener(DefaultChannelPromise.java:30)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler.doGracefulShutdown(Http2ConnectionHandler.java:508)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler.close(Http2ConnectionHandler.java:492)
+ io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler.close(NettyClientHandler.java:431)
+ io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler.gracefulClose(NettyClientHandler.java:777)
+ io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler.write(NettyClientHandler.java:345)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.invokeWrite0(AbstractChannelHandlerContext.java:881)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.invokeWrite(AbstractChannelHandlerContext.java:863)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.write(AbstractChannelHandlerContext.java:968)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.write(AbstractChannelHandlerContext.java:856)
+ io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline.write(DefaultChannelPipeline.java:1015)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannel.write(AbstractChannel.java:301)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue$AbstractQueuedCommand.run(WriteQueue.java:206)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue.flush(WriteQueue.java:128)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue.access$000(WriteQueue.java:35)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue$1.run(WriteQueue.java:47)
+ io.grpc.netty.shaded.io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+ io.grpc.netty.shaded.io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:413)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 07:43:24.962 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-2] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 07:43:24.967 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-3] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:182)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:312)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:376)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 07:43:24.970 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-4] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native Method)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 07:43:24.985 SEVERE [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks L'application web [E-banking_prjt] a crée un ThreadLocal avec une clé de type [java.lang.ThreadLocal] (valeur [java.lang.ThreadLocal@611ae87]) et une valeur de type [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap] (valeur [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap@6f6d9cb1]) mais ne l'a pas supprimé lorsqu'elle a été arrêtée, les threads seront graduellement renouvelés pour éviter une probable fuite de mémoire
+03-Jun-2025 07:43:24.991 SEVERE [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks L'application web [E-banking_prjt] a crée un ThreadLocal avec une clé de type [java.lang.ThreadLocal] (valeur [java.lang.ThreadLocal@611ae87]) et une valeur de type [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap] (valeur [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap@74364bd6]) mais ne l'a pas supprimé lorsqu'elle a été arrêtée, les threads seront graduellement renouvelés pour éviter une probable fuite de mémoire
+03-Jun-2025 07:43:24.994 SEVERE [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks L'application web [E-banking_prjt] a crée un ThreadLocal avec une clé de type [java.lang.ThreadLocal] (valeur [java.lang.ThreadLocal@611ae87]) et une valeur de type [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap] (valeur [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap@704ef5c0]) mais ne l'a pas supprimé lorsqu'elle a été arrêtée, les threads seront graduellement renouvelés pour éviter une probable fuite de mémoire
+03-Jun-2025 07:43:25.125 INFO [Thread-2] org.apache.coyote.AbstractProtocol.stop Arrêt du gestionnaire de protocole ["http-nio-8081"]
+03-Jun-2025 07:43:25.159 INFO [Thread-2] org.apache.coyote.AbstractProtocol.destroy Destruction du gestionnaire de protocole ["http-nio-8081"]
+03-Jun-2025 09:40:30.919 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Nom version serveur :              Apache Tomcat/11.0.2
+03-Jun-2025 09:40:30.944 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Serveur compilé :                  Dec 5 2024 15:19:37 UTC
+03-Jun-2025 09:40:30.945 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Version du serveur :               11.0.2.0
+03-Jun-2025 09:40:30.946 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Nom de l'OS :                      Linux
+03-Jun-2025 09:40:30.946 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Version OS :                       6.8.0-59-generic
+03-Jun-2025 09:40:30.950 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture :                     amd64
+03-Jun-2025 09:40:30.950 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home :                        /usr/lib/jvm/jdk-23-oracle-x64
+03-Jun-2025 09:40:30.954 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Version JVM :                      23+37-2369
+03-Jun-2025 09:40:30.955 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Fournisseur de la JVM :            Oracle Corporation
+03-Jun-2025 09:40:30.955 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE :                    /home/eaeule/E-banking_prjt
+03-Jun-2025 09:40:30.956 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME :                    /home/eaeule/apache-tomcat-11.0.2
+03-Jun-2025 09:40:30.995 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.lang=ALL-UNNAMED
+03-Jun-2025 09:40:30.996 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.io=ALL-UNNAMED
+03-Jun-2025 09:40:30.996 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util=ALL-UNNAMED
+03-Jun-2025 09:40:30.997 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+03-Jun-2025 09:40:30.997 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+03-Jun-2025 09:40:31.002 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.home=/home/eaeule/apache-tomcat-11.0.2
+03-Jun-2025 09:40:31.003 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.base=/home/eaeule/E-banking_prjt
+03-Jun-2025 09:40:31.004 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.io.tmpdir=/home/eaeule/E-banking_prjt/temp
+03-Jun-2025 09:40:31.004 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.config.file=/home/eaeule/E-banking_prjt/conf/logging.properties
+03-Jun-2025 09:40:31.004 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+03-Jun-2025 09:40:31.005 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -javaagent:/snap/intellij-idea-community/609/lib/idea_rt.jar=33197
+03-Jun-2025 09:40:31.005 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dfile.encoding=UTF-8
+03-Jun-2025 09:40:31.008 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stdout.encoding=UTF-8
+03-Jun-2025 09:40:31.008 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stderr.encoding=UTF-8
+03-Jun-2025 09:40:31.018 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent La librairie Apache Tomcat Native basée sur APR qui permet des performances optimales dans les environnements de production n'a pas été trouvée sur le java.library.path : [/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib]
+03-Jun-2025 09:40:33.143 INFO [main] org.apache.coyote.AbstractProtocol.init Initialisation du gestionnaire de protocole ["http-nio-8081"]
+03-Jun-2025 09:40:33.243 INFO [main] org.apache.catalina.startup.Catalina.load L'initialisation du serveur a pris [3994] millisecondes
+03-Jun-2025 09:40:33.485 INFO [main] org.apache.catalina.core.StandardService.startInternal Démarrage du service [Catalina]
+03-Jun-2025 09:40:33.487 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Démarrage du moteur de Servlets : [Apache Tomcat/11.0.2]
+03-Jun-2025 09:40:33.538 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Déploiement du descripteur de configuration [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml]
+03-Jun-2025 09:40:44.547 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars Au moins un fichier JAR a été analysé pour trouver des TLDs mais il n'en contenait pas, le mode "debug" du journal peut être activé pour obtenir une liste complète de JAR scannés sans succès ; éviter d'analyser des JARs inutilement peut améliorer sensiblement le temps de démarrage et le temps de compilation des JSPs
+03-Jun-2025 09:40:53.304 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Le traitement du descripteur de déploiement [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml] a pris [19 750] ms
+03-Jun-2025 09:40:53.325 INFO [main] org.apache.coyote.AbstractProtocol.start Démarrage du gestionnaire de protocole ["http-nio-8081"]
+03-Jun-2025 09:40:53.374 INFO [main] org.apache.catalina.startup.Catalina.start Le démarrage du serveur a pris [20125] millisecondes
+03-Jun-2025 09:45:45.524 INFO [Thread-2] org.apache.coyote.AbstractProtocol.pause Le gestionnaire de protocole ["http-nio-8081"] est mis en pause
+03-Jun-2025 09:45:45.527 INFO [Thread-2] org.apache.catalina.core.StandardService.stopInternal Arrêt du service [Catalina]
+03-Jun-2025 09:45:45.614 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-1] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:182)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:312)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:376)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 09:45:45.615 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-2] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:182)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:312)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:376)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 09:45:45.616 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-3] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait0(Native Method)
+ io.grpc.netty.shaded.io.netty.channel.epoll.Native.epollWait(Native.java:182)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.epollWait(EpollEventLoop.java:312)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:376)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 09:45:45.624 WARNING [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-default-worker-ELG-1-4] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ java.base/java.lang.ClassLoader.defineClass1(Native Method)
+ java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1026)
+ java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:150)
+ org.apache.catalina.loader.WebappClassLoaderBase.findClassInternal(WebappClassLoaderBase.java:2161)
+ org.apache.catalina.loader.WebappClassLoaderBase.findClass(WebappClassLoaderBase.java:695)
+ org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1183)
+ org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1053)
+ io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler.safeClose(SslHandler.java:2289)
+ io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler.closeOutboundAndChannel(SslHandler.java:2051)
+ io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler.close(SslHandler.java:753)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.invokeClose(AbstractChannelHandlerContext.java:753)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.close(AbstractChannelHandlerContext.java:727)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler$ClosingChannelFutureListener.doClose(Http2ConnectionHandler.java:1005)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler$ClosingChannelFutureListener.operationComplete(Http2ConnectionHandler.java:990)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler$ClosingChannelFutureListener.operationComplete(Http2ConnectionHandler.java:961)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.notifyListener0(DefaultPromise.java:590)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.notifyListenersNow(DefaultPromise.java:557)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.notifyListeners(DefaultPromise.java:492)
+ io.grpc.netty.shaded.io.netty.util.concurrent.DefaultPromise.addListener(DefaultPromise.java:185)
+ io.grpc.netty.shaded.io.netty.channel.DefaultChannelPromise.addListener(DefaultChannelPromise.java:95)
+ io.grpc.netty.shaded.io.netty.channel.DefaultChannelPromise.addListener(DefaultChannelPromise.java:30)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler.doGracefulShutdown(Http2ConnectionHandler.java:508)
+ io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionHandler.close(Http2ConnectionHandler.java:492)
+ io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler.close(NettyClientHandler.java:431)
+ io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler.gracefulClose(NettyClientHandler.java:777)
+ io.grpc.netty.shaded.io.grpc.netty.NettyClientHandler.write(NettyClientHandler.java:345)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.invokeWrite0(AbstractChannelHandlerContext.java:881)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.invokeWrite(AbstractChannelHandlerContext.java:863)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.write(AbstractChannelHandlerContext.java:968)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.write(AbstractChannelHandlerContext.java:856)
+ io.grpc.netty.shaded.io.netty.channel.DefaultChannelPipeline.write(DefaultChannelPipeline.java:1015)
+ io.grpc.netty.shaded.io.netty.channel.AbstractChannel.write(AbstractChannel.java:301)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue$AbstractQueuedCommand.run(WriteQueue.java:206)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue.flush(WriteQueue.java:128)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue.access$000(WriteQueue.java:35)
+ io.grpc.netty.shaded.io.grpc.netty.WriteQueue$1.run(WriteQueue.java:47)
+ io.grpc.netty.shaded.io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+ io.grpc.netty.shaded.io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+ io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:413)
+ io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ io.grpc.netty.shaded.io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+03-Jun-2025 09:45:45.636 SEVERE [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks L'application web [E-banking_prjt] a crée un ThreadLocal avec une clé de type [java.lang.ThreadLocal] (valeur [java.lang.ThreadLocal@d9a8352]) et une valeur de type [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap] (valeur [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap@375cd1ff]) mais ne l'a pas supprimé lorsqu'elle a été arrêtée, les threads seront graduellement renouvelés pour éviter une probable fuite de mémoire
+03-Jun-2025 09:45:45.694 INFO [Thread-2] org.apache.coyote.AbstractProtocol.stop Arrêt du gestionnaire de protocole ["http-nio-8081"]
+03-Jun-2025 09:45:45.723 INFO [Thread-2] org.apache.coyote.AbstractProtocol.destroy Destruction du gestionnaire de protocole ["http-nio-8081"]
