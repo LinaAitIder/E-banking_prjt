@@ -11,6 +11,8 @@ public interface AccountService {
 
     AccountResponse createAccount(AccountRequest request);
 
+    public boolean clientHasAccounts(Long clientId);
+
     Optional<Account> getAccountById(Long id);
 
     Account updateAccount(Account account);
