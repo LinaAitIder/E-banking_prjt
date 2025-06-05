@@ -23,7 +23,7 @@ public class TransferController {
     @PostMapping
     public ResponseEntity<TransferResponse> createTransfer(
             @Valid @RequestBody TransferRequest transferRequest,
-            @RequestHeader("X-Client-ID") Long clientId) {
+            @RequestHeader("clientId") Long clientId) {
 
         TransferResponse response = transferService.processTransfer(clientId, transferRequest);
 

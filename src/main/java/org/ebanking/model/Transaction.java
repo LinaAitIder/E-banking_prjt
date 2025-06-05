@@ -1,12 +1,14 @@
 package org.ebanking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.ebanking.model.enums.TransactionStatus;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Entity
@@ -40,8 +42,10 @@ public abstract class Transaction {
     private BigDecimal amount;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "transaction_date")
-    private Instant transactionDate;
+    @Column(name = "transaction_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX", timezone = "UTC") // JSON lisible avec timezone
+    private OffsetDateTime transactionDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
@@ -59,8 +63,9 @@ public abstract class Transaction {
     @Column(name = "is_verified")
     private Boolean verified = false;
 
-    @Column(name = "verification_date")
-    private Instant verificationDate;
+    @Column(name = "verification_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private OffsetDateTime verificationDate;
 
     @Column(name = "verification_comment", columnDefinition = "TEXT")
     private String verificationComment;
@@ -100,11 +105,11 @@ public abstract class Transaction {
         this.amount = amount;
     }
 
-    public Instant getTransactionDate() {
+    public OffsetDateTime getTransactionDate() {
         return transactionDate;
     }
 
-    public void setTransactionDate(Instant transactionDate) {
+    public void setTransactionDate(OffsetDateTime  transactionDate) {
         this.transactionDate = transactionDate;
     }
 
@@ -140,11 +145,11 @@ public abstract class Transaction {
         this.verified = verified;
     }
 
-    public Instant getVerificationDate() {
+    public OffsetDateTime getVerificationDate() {
         return verificationDate;
     }
 
-    public void setVerificationDate(Instant verificationDate) {
+    public void setVerificationDate(OffsetDateTime verificationDate) {
         this.verificationDate = verificationDate;
     }
 
