@@ -167,6 +167,13 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(crypto);
     }
 
+    // verify if a client has an account
+    public boolean clientHasAccounts(Long clientId) {
+        return accountRepository.existsByClientId(clientId);
+    }
+
+
+    // verify if the Client has already account with the same type
     @Override
     public boolean clientCanHaveAccountType(Long clientId, Class<? extends Account> accountType) {
         if (CurrentAccount.class.equals(accountType)) {

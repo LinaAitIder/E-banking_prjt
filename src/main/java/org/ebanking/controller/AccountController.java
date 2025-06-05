@@ -12,20 +12,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
-    // Création d'un compte (le type est déterminé par la sous-classe dans le JSON)
-    @PostMapping
+    //Verify if this client has an account
+    @GetMapping("/client/has-accounts")
+    public ResponseEntity<Boolean> clientHasAccounts(@RequestHeader("clientId")  Long clientId) {
+        boolean hasAccounts = accountService.clientHasAccounts(clientId);
+        return ResponseEntity.ok(hasAccounts);
+    }
+
+    // Create account
+    @PostMapping("/accounts")
     public ResponseEntity<AccountResponse> createAccount(
             @RequestBody AccountRequest accountRequest
     ) {
@@ -33,15 +41,18 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
     }
 
-    // Récupération des comptes d'un client
-    @GetMapping("/client/{clientId}")
-    public ResponseEntity<List<Account>> getClientAccounts(@PathVariable Long clientId) {
+
+
+    // get client accounts
+    @GetMapping("/account")
+    public ResponseEntity<List<Account>> getClientAccounts(@RequestHeader("clientId") Long clientId) {
         return ResponseEntity.ok(accountService.getAccountsByClientId(clientId));
     }
 
-    // suppression d'un compte
-    @DeleteMapping("/{accountId}")
-    public ResponseEntity<Void> deactivateAccount(@PathVariable Long accountId) {
+
+    // desactivate account
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deactivateAccount(@RequestHeader("accountId") Long accountId) {
         accountService.deleteAccount(accountId);
         return ResponseEntity.noContent().build();
     }
