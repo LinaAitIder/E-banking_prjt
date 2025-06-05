@@ -8,6 +8,10 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+<<<<<<< HEAD
+.idea/vcs.xml
+=======
+>>>>>>> 7e5c1cedb241ff8d14ef44b5bcff4d09a42ddbbf
 *.iws
 *.iml
 *.ipr
@@ -36,5 +40,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+### Secrets ###
+!**/src/main/resources/database.properties
 
 .env

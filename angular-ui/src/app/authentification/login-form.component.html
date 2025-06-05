@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+<div class="login-container">
+    <div class="login-card">
+        <h2 class="login-title">Login</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" formControlName="email" class="input-field" placeholder="Enter your email">
+                <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+                    Valid email is required.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" formControlName="password" class="input-field" placeholder="Enter your password">
+                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+                    Password is required.
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button" [disabled]="loginForm.invalid">
+                Login
+            </button>
+        </form>
+    </div>
+</div>

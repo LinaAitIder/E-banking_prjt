@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+<div class="registration-type-container">
+    <div class="header">
+        <h1>Create Your Account</h1>
+        <p>Select your account type to get started</p>
+    </div>
+
+    <div class="card-container">
+        <div class="user-card" (click)="selectUserType('client')">
+            <div class="card-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <h3>Client</h3>
+            <p>Open a personal account to manage your finances</p>
+            <button class="select-button">Select</button>
+        </div>
+
+        <div class="user-card" (click)="selectUserType('agent')">
+            <div class="card-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <h3>Bank Agent</h3>
+            <p>Bank employees access the internal system</p>
+            <button class="select-button">Select</button>
+        </div>
+
+        <div class="user-card" (click)="selectUserType('admin')">
+            <div class="card-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Administrator</h3>
+            <p>Access the administration panel</p>
+            <button class="select-button">Login</button>
+        </div>
+      </div>
+    <router-outlet></router-outlet>
+</div>

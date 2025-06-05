@@ -1,0 +1,51 @@
+<h1>ESPACE AGENT</h1>
+<h3>Profil</h3>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Agent photo" class="profile-photo" />
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label>FullName</label>
+            <input type="text" [(ngModel)]="agent.fullName" name="prenom" [readonly]="!isEditing" />
+        </div>
+
+        <div class="form-group">
+            <label>Email professionnel</label>
+            <input type="email" [(ngModel)]="agent.email" name="email" [readonly]="!isEditing" />
+        </div>
+
+        <div class="form-group">
+            <label>Téléphone professionnel</label>
+            <input type="tel" [(ngModel)]="agent.phone" name="telephone" [readonly]="!isEditing" />
+        </div>
+
+
+        <div class="form-group">
+            <label>Rôle</label>
+            <input type="text" [(ngModel)]="agent.role" name="role" [readonly]="!isEditing" />
+        </div>
+
+        <div class="form-group">
+            <label>Agency</label>
+            <input type="text" [(ngModel)]="agent.agency" name="dateEntree" [readonly]="!isEditing" />
+        </div>
+
+        <div class="form-group">
+            <label>AgentCode</label>
+            <input type="text" [(ngModel)]="agent.agentCode" name="dateEntree" [readonly]="!isEditing" />
+        </div>
+
+
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" [(ngModel)]="agent.motDePasse" name="motdepasse" [readonly]="!isEditing" />
+        </div>
+
+        <button type="button" (click)="toggleEdit()">
+            {{ isEditing ? 'Enregistrer' : 'Modifier les informations' }}
+        </button>
+    </form>
+</div>

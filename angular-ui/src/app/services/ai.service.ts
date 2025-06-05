@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AiResponse } from '../models/ai-response.model';
+import { AiResponse } from '../model/ai-response.model';
 
 
 // ai.service.ts

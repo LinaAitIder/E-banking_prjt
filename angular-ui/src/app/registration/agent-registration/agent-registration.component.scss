@@ -1,0 +1,112 @@
+.agent-registration {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: #f8fafc;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background:  #e6b0bc;
+      margin: 0.75rem auto 0;
+      border-radius: 2px;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.75rem;
+
+    input {
+      width: 90%;
+      flex-direction: column;
+      padding: 0.625rem 0.875rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+      background-color: #f8fafc;
+
+
+      &:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        background-color: white;
+      }
+
+      &::placeholder {
+        color: #9ca3af;
+        opacity: 0.8;
+      }
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      font-weight: 500;
+      padding-left: 0.5rem;
+    }
+  }
+
+  button[type="submit"] {
+    grid-column: span 2;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+
+    &:hover {
+      background: linear-gradient(to right, #ff6699,  #ff99bb);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+}
+
+@media (max-width: 600px) {
+  .agent-registration {
+    padding: 1.75rem;
+    margin: 1rem;
+    border-radius: 12px;
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group input {
+      padding: 0.8rem 1rem;
+    }
+  }
+}

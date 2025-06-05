@@ -1,0 +1,80 @@
+<app-navbar></app-navbar>
+<div class="registration-container">
+    <div class="registration-card">
+        <h2 class="registration-title">Register</h2>
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmitPersonalInfo()" class="registration-form">
+
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input id="fullName" type="text" formControlName="fullName" class="input-field" placeholder="John Doe">
+                <div *ngIf="isInvalid('fullName')" class="error-message">Required</div>
+            </div>
+
+            <div class="form-group">
+                <label for="nationalId">National ID</label>
+                <input id="nationalId" type="text" formControlName="nationalId" class="input-field" placeholder="123456789">
+                <div *ngIf="isInvalid('nationalId')" class="error-message">8-15 digits</div>
+            </div>
+
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth</label>
+                <input id="dateOfBirth" type="date" formControlName="dateOfBirth" class="input-field">
+                <div *ngIf="isInvalid('dateOfBirth')" class="error-message">Required</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input id="phone" type="text" formControlName="phone" class="input-field" placeholder="+1234567890">
+                <div *ngIf="isInvalid('phone')" class="error-message">Valid phone required</div>
+            </div>
+
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input id="city" type="text" formControlName="city" class="input-field" placeholder="New York">
+                    <div *ngIf="isInvalid('city')" class="error-message">Required</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input id="country" type="text" formControlName="country" class="input-field" placeholder="USA">
+                    <div *ngIf="isInvalid('country')" class="error-message">Required</div>
+                </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input id="address" type="text" formControlName="address" class="input-field" placeholder="Street, Apt">
+                <div *ngIf="isInvalid('address')" class="error-message">Required</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" formControlName="email" class="input-field" placeholder="john@example.com">
+                <div *ngIf="isInvalid('email')" class="error-message">Valid email required</div>
+            </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" formControlName="password" class="input-field" placeholder="••••••••">
+                    <div *ngIf="isInvalid('password')" class="error-message">Min 6 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input id="confirmPassword" type="password" formControlName="confirmPassword" class="input-field" placeholder="••••••••">
+                    <div *ngIf="isInvalid('confirmPassword')" class="error-message">Must match</div>
+                </div>
+
+            <div class="terms-group">
+                <input id="termsAccepted" type="checkbox" formControlName="termsAccepted">
+                <label for="termsAccepted">I accept the terms and conditions</label>
+            </div>
+
+            <button type="submit" class="submit-btn" [disabled]="registrationForm.invalid">
+                Create Account
+            </button>
+        </form>
+
+        <a routerLink="/login" class="login-link">Already have an account? Sign in</a>
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+.activity-container {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  .recent-activity {
+    flex: 2;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+
+    .table-container {
+      overflow-x: auto;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th, td {
+          padding: 12px 15px;
+          text-align: left;
+          border-bottom: 1px solid #eee;
+        }
+
+        th {
+          background-color: #f8f9fa;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .crypto-stats {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .crypto-market {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+      }
+
+      .crypto-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+
+        .crypto-item {
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 0;
+          border-bottom: 1px solid #eee;
+
+          .crypto-price {
+            font-weight: 600;
+            color: #007bff;
+          }
+        }
+      }
+    }
+
+    .account-stats {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      display: flex;
+      gap: 2rem;
+
+      .stat-item {
+        flex: 1;
+        text-align: center;
+
+        h4 {
+          font-size: 0.9rem;
+          color: #6c757d;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #2c3e50;
+        }
+      }
+    }
+  }
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  &.completed {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  &.pending {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  &.failed {
+    background: #f8d7da;
+    color: #721c24;
+  }
+}

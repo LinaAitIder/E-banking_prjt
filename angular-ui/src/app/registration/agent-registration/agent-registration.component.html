@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<form [formGroup]="agentForm" (ngSubmit)="registerAgent()" class="agent-registration">
+    <h2>Agent Registration</h2>
+
+    <div class="form-group">
+        <input formControlName="fullName" placeholder="Full Name" />
+        <div *ngIf="agentForm.get('fullName')?.invalid && agentForm.get('fullName')?.touched" class="error-message">
+            Full name is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input formControlName="email" type="email" placeholder="Email" />
+        <div *ngIf="agentForm.get('email')?.invalid && agentForm.get('email')?.touched" class="error-message">
+            Valid email is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input formControlName="phone" placeholder="Phone Number" />
+        <div *ngIf="agentForm.get('phone')?.invalid && agentForm.get('phone')?.touched" class="error-message">
+            Valid phone number is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input formControlName="agency" placeholder="Agency" />
+        <div *ngIf="agentForm.get('agency')?.invalid && agentForm.get('agency')?.touched" class="error-message">
+            Agency is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input formControlName="agentCode" placeholder="Agent Code" />
+        <div *ngIf="agentForm.get('agentCode')?.invalid && agentForm.get('agentCode')?.touched" class="error-message">
+            Agency code is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input formControlName="password" type="password" placeholder="Password" />
+        <div *ngIf="agentForm.get('password')?.invalid && agentForm.get('password')?.touched" class="error-message">
+            Password must be at least 8 characters
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="agentForm.invalid">Register Agent</button>
+    <div class="router-outlet">
+        <router-outlet></router-outlet>
+    </div>
+</form>

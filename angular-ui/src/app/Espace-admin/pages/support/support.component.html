@@ -1,0 +1,82 @@
+<div class="support-container">
+    <h2 class="section-title">Support Management</h2>
+
+    <!-- Filters -->
+    <div class="filters">
+        <input type="text" placeholder="Search by email or subject..." [(ngModel)]="searchTerm" (input)="resetPagination()">
+
+        <select [(ngModel)]="filterStatus" (change)="resetPagination()">
+            <option value="All">All Status</option>
+            <option>Open</option>
+            <option>Pending</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+        </select>
+
+        <select [(ngModel)]="filterPriority" (change)="resetPagination()">
+            <option value="All">All Priorities</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+        </select>
+    </div>
+
+    <!-- Table -->
+    <div class="ticket-table">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ticket of paginatedTickets">
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.user }}</td>
+                <td>{{ ticket.subject }}</td>
+                <td>{{ ticket.status }}</td>
+                <td>
+            <span [ngClass]="{
+              'badge-high': ticket.priority === 'High',
+              'badge-medium': ticket.priority === 'Medium',
+              'badge-low': ticket.priority === 'Low'
+            }">{{ ticket.priority }}</span>
+                </td>
+                <td>{{ ticket.date }}</td>
+                <td>
+                    <button (click)="openTicketDetails(ticket)">Details</button>
+                    <button *ngIf="ticket.status !== 'Resolved'" (click)="markAsResolved(ticket)" class="resolve-btn">
+                        Mark as Resolved
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages() }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+        <h3>Ticket Details</h3>
+        <p><strong>User:</strong> {{ selectedTicket?.user }}</p>
+        <p><strong>Subject:</strong> {{ selectedTicket?.subject }}</p>
+        <p><strong>Description:</strong> {{ selectedTicket?.description }}</p>
+        <p><strong>Status:</strong> {{ selectedTicket?.status }}</p>
+        <p><strong>Priority:</strong> {{ selectedTicket?.priority }}</p>
+        <p><strong>Date:</strong> {{ selectedTicket?.date }}</p>
+        <button (click)="closeModal()">Close</button>
+    </div>
+</div>

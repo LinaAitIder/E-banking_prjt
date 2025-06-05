@@ -1,0 +1,32 @@
+<nav class="sidebar">
+    <div class="logo">eBank</div>
+    <ul class="menu">
+        <li>
+            <a routerLink="/agent/profile" routerLinkActive="active">
+                <i class="fas fa-user" aria-hidden="true"></i>
+                <span>Profile </span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/agent/clients" routerLinkActive="active">
+                <i class="fas fa-user" aria-hidden="true"></i>
+                <span>Creation de clients</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/agent/abonnes" routerLinkActive="active">
+                <i class="fas fa-university" aria-hidden="true"></i>
+                <span>Gestion des abonees </span>
+            </a>
+        </li>
+        <li>
+            <a (click)="logout()" class="logout-link">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+
+
+
+    </ul>
+</nav>
