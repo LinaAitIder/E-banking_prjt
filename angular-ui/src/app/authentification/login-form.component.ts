@@ -7,13 +7,14 @@ import {WebauthnService} from "../services/webauthn.service";
 import {AuthenService} from "../services/authen.service";
 import {User} from "../model/user.model";
 import {NavbarComponent} from "../home/navbar/navbar.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-login-form',
     templateUrl: './login-form.component.html',
     styleUrl:'login-form.component.scss',
     standalone: true,
-    imports: [ReactiveFormsModule, NavbarComponent],
+    imports: [ReactiveFormsModule, NavbarComponent, CommonModule],
 })
 export class LoginFormComponent {
     loginForm: FormGroup;
