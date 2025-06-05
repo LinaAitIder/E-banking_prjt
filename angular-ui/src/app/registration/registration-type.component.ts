@@ -20,13 +20,12 @@ export class RegistrationTypeComponent {
   selectUserType(userType: string) {
     switch(userType) {
       case 'client':
-        this.router.navigate(['/register/client']);
+        this.router.navigate(['clientRegistration']);
         break;
       case 'agent':
-        this.router.navigate(['/register/agent']);
+        this.router.navigate(['/agentRegistration']);
         break;
       case 'admin':
-        // Redirection vers la page de login admin plutôt que d'inscription
         this.router.navigate(['/admin/login']);
         break;
             default:
