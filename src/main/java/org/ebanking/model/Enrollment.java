@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * Represents a client enrollment process with a bank agent.
- * Tracks enrollment status, documents, and agent assignment.
+ * Tracks enrollment status, documents, and agent assignment
  */
 @Entity
 @Table(name = "enrollment")

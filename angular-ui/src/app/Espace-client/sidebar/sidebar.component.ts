@@ -13,7 +13,12 @@ export class SidebarComponent {
     constructor(private router: Router) {}
 
     logout(): void {
-        localStorage.removeItem('authToken');
+        console.log("removing Items from localStorage ...")
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('role');
+        const userData = JSON.parse(localStorage.getItem('userData')!);
+        console.log(userData);
         this.router.navigate(['/login']);
     }
 }

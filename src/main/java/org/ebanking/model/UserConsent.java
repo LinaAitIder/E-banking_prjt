@@ -15,19 +15,87 @@ public class UserConsent {
     private User user;
 
     @Column(nullable = false)
-    private String consentType;
+    private String consentType; // Ex: "MARKETING", "COOKIES", "DATA_PROCESSING"
+
+    @Column(nullable = false, unique = true)
+    private String reference; // "CONSENT-2023-XYZ123"
 
     @Column(nullable = false)
-    private String reference; // ID unique (ex: "CONSENT-2023-XYZ123")
-
-    @Column(nullable = false)
-    private Instant givenAt; // Date/heure du consentement
+    private Instant givenAt;
 
     @Column(nullable = false)
     private boolean isActive = true;
 
-    // Constructeurs, Getters/Setters...
+    @Column(nullable = false)
+    private Instant expiresAt; // Date d'expiration (on peut choisir 1 an apres)
 
+    // Constructeurs
+    public UserConsent() {}
 
+    public UserConsent(User user, String consentType, String reference, Instant expiresAt) {
+        this.user = user;
+        this.consentType = consentType;
+        this.reference = reference;
+        this.givenAt = Instant.now();
+        this.expiresAt = expiresAt;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getConsentType() {
+        return consentType;
+    }
+
+    public void setConsentType(String consentType) {
+        this.consentType = consentType;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public Instant getGivenAt() {
+        return givenAt;
+    }
+
+    public void setGivenAt(Instant givenAt) {
+        this.givenAt = givenAt;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Instant getExpiresAt() {
+        return expiresAt;
+    }
+
+    public void setExpiresAt(Instant expiresAt) {
+        this.expiresAt = expiresAt;
+    }
 }
+
+
+

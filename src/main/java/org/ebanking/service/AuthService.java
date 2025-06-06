@@ -2,7 +2,6 @@ package org.ebanking.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.ebanking.dao.ClientRepository;
 import org.ebanking.model.Admin;
 import org.ebanking.model.BankAgent;
 import org.ebanking.model.Client;
