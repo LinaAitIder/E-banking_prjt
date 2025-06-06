@@ -1,44 +1,30 @@
 package org.ebanking.service;
 
-import org.ebanking.dao.AccountRepository;
+import org.ebanking.dto.request.AccountRequest;
+import org.ebanking.dto.response.AccountResponse;
 import org.ebanking.model.Account;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
-import static org.hibernate.query.sqm.tree.SqmNode.log;
+public interface AccountService {
 
-@Service
-@Transactional
-public class AccountService {
+    AccountResponse createAccount(AccountRequest request);
 
-    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+    Optional<Account> getAccountById(Long id);
 
-    @Autowired
-    private AccountRepository accountRepository;
+    Account updateAccount(Account account);
 
-    public void creditAccount(Account account, BigDecimal amount) {
-        if (account == null) {
-            throw new IllegalArgumentException("Account cannot be null");
-        }
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Amount must be positive");
-        }
+    void deleteAccount(Long id);
 
-        // Vérification supplémentaire
-        if (account.getId() == null) {
-            account = accountRepository.save(account);
-        }
+    List<Account> getAccountsByClientId(Long clientId);
 
-        account.setBalance(account.getBalance().add(amount));
-        accountRepository.save(account);
+    BigDecimal getAvailableBalance(Long accountId);
 
-        // Audit log
-        logger.info("Account {} credited with {}", account.getId(), amount);
+    boolean clientCanHaveAccountType(Long clientId, Class<? extends Account> accountType);
 
-    }
+    boolean doesAccountExist(String accountNumber);
+
+    void creditAccount(Account account, BigDecimal amount);
+    boolean clientHasAccounts(Long clientId);
 }
