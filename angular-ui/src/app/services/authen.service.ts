@@ -11,7 +11,7 @@ import {User} from "../model/user.model";
 
 export class AuthenService {
     constructor(private http: HttpClient) {}
-    private apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
+    private apiUrl = 'http://localhost:8081/E-banking_prjt/api';
 
     getChallengeAgent(user: { email: string; fullName: string; [key: string]: any }): Observable<any> {
         return this.http.post(`${this.apiUrl}/auth/register/agent`,user,{
