@@ -20,6 +20,11 @@ public class SavingsAccount extends Account {
     @Column(name = "next_interest_date")
     private LocalDate nextInterestDate;
 
+    @Override
+    public AccountType getType() {
+        return AccountType.SAVINGS;
+    }
+
     // Constructors
     public SavingsAccount() {
         // Default constructor for JPA

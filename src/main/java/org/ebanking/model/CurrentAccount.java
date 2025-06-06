@@ -16,6 +16,11 @@ public class CurrentAccount extends Account {
     @Column(name = "overdraft_limit", precision = 15, scale = 2)
     private BigDecimal overdraftLimit = BigDecimal.ZERO;
 
+    @Override
+    public AccountType getType() {
+        return AccountType.CURRENT;
+    }
+
     // Constructors
     public CurrentAccount() {
         // Default constructor for JPA

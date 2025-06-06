@@ -8,9 +8,6 @@ import org.hibernate.annotations.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-/**
- * Represents a sponsorship relationship between clients with referral bonuses.
- */
 @Entity
 @Table(name = "sponsorship", indexes = {
         @Index(name = "idx_sponsorship_sponsor", columnList = "sponsor_id"),
@@ -23,55 +20,50 @@ public class Sponsorship {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sponsor_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Client sponsor;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "referred_client_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Client referredClient;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "sponsorship_date", nullable = false)
+    @Column(nullable = false, updatable = false)
     private Instant sponsorshipDate = Instant.now();
 
-    @ColumnDefault("true")
-    @Column(name = "is_active", nullable = false)
-    private Boolean active = true;
+    @Column(nullable = false)
+    private boolean active = true;
 
-    @ColumnDefault("0.00")
-    @Column(name = "sponsor_bonus", precision = 15, scale = 2)
+    @Column(precision = 15, scale = 2)
     private BigDecimal sponsorBonus = BigDecimal.ZERO;
 
-    @ColumnDefault("0.00")
-    @Column(name = "referred_client_bonus", precision = 15, scale = 2)
+    @Column(precision = 15, scale = 2)
     private BigDecimal referredClientBonus = BigDecimal.ZERO;
 
     @NotBlank
     @Size(max = 20)
-    @Column(name = "referral_code", nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String referralCode;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 20)
+    @Column(length = 20)
     private SponsorshipStatus status = SponsorshipStatus.PENDING;
 
-    // Sponsorship status
+    @Version
+    private Long version;
+
+    // Enumération des statuts
     public enum SponsorshipStatus {
-        PENDING,
-        ACTIVE,
-        COMPLETED,
-        CANCELLED
+        PENDING,    // En attente de validation
+        ACTIVE,     // Validé et actif
+        COMPLETED,  // Parrainage terminé (bonus versés)
+        CANCELLED   // Annulé
     }
 
-    // Constructors
     public Sponsorship() {}
 
     public Sponsorship(Client sponsor, Client referredClient, String referralCode) {
@@ -80,20 +72,41 @@ public class Sponsorship {
         this.referralCode = referralCode;
     }
 
-    // Business Methods
+    // Methodes metier
     public void applyBonus(BigDecimal sponsorAmount, BigDecimal referredAmount) {
         this.sponsorBonus = this.sponsorBonus.add(sponsorAmount);
         this.referredClientBonus = this.referredClientBonus.add(referredAmount);
+        if (this.status != SponsorshipStatus.COMPLETED) {
+            this.status = SponsorshipStatus.ACTIVE;
+        }
     }
 
-    // Getters and Setters
+    public void complete() {
+        this.status = SponsorshipStatus.COMPLETED;
+        this.active = false;
+    }
+
+    public void cancel() {
+        this.status = SponsorshipStatus.CANCELLED;
+        this.active = false;
+    }
+
     public Long getId() { return id; }
+
     public void setId(Long id) { this.id = id; }
 
     public Client getSponsor() { return sponsor; }
+
     public void setSponsor(Client sponsor) { this.sponsor = sponsor; }
 
+    public void setActive(boolean active) {this.active = active;}
+
+    public Long getVersion() {return version;}
+
+    public void setVersion(Long version) {this.version = version;}
+
     public Client getReferredClient() { return referredClient; }
+
     public void setReferredClient(Client referredClient) {
         this.referredClient = referredClient;
     }

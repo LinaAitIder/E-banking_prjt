@@ -26,6 +26,11 @@ public class CryptoAccount extends Account {
     @Column(name = "wallet_address", unique = true)
     private String walletAddress;
 
+    @Override
+    public AccountType getType() {
+        return AccountType.CRYPTO;
+    }
+
     // Constructors
     public CryptoAccount() {
         // Default constructor for JPA
