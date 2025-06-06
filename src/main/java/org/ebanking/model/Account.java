@@ -1,45 +1,35 @@
 package org.ebanking.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "account")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "account_type", discriminatorType = DiscriminatorType.STRING)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "accountType"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CurrentAccount.class, name = "CURRENT"),
+        @JsonSubTypes.Type(value = SavingsAccount.class, name = "SAVINGS"),
+        @JsonSubTypes.Type(value = CryptoAccount.class, name = "CRYPTO")
+})
 public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
-    @JsonIgnore
-    private Client owner;
-
     @Size(max = 30)
     @Column(name = "account_number", unique = true)
-    private String accountNumber = generateAccountNumber();
-
-    // Méthode pour génerer un numero de compte unique
-    private String generateAccountNumber() {
-        return "ACC-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-    }
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "account_type", insertable = false, updatable = false)
-    private AccountType type;
-
-    public enum AccountType {
-        CURRENT,
-        SAVINGS,
-        CRYPTO
-    }
+    private String accountNumber;
 
     @Column(name = "balance", precision = 15, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
@@ -54,16 +44,24 @@ public abstract class Account {
     @Column(name = "is_active")
     private Boolean isActive = false;
 
-    public Account() {}
+    @ManyToOne(fetch = FetchType.LAZY)  // Plusieurs comptes peuvent appartenir à un client
+    @JoinColumn(name = "client_id")     // Nom de la colonne FK dans la table "account"
+    private Client client;
 
-    public Account(Client owner, String accountNumber, BigDecimal balance,
-                   String currency) {
-        this.balance = balance;
-        this.owner = owner;
-        this.currency = currency;
-        this.accountNumber = accountNumber;
-        this.createdAt = Instant.now();
+    public void credit(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Le montant crédité doit être positif");
+        }
+        this.balance = this.balance.add(amount);
     }
+
+    public void debit(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Le montant débité doit être positif");
+        }
+        this.balance = this.balance.subtract(amount);
+    }
+
 
     public Long getId() {
         return id;
@@ -72,12 +70,6 @@ public abstract class Account {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Client getOwner() { return owner; }
-
-    public void setOwner(Client owner) {this.owner = owner; }
-
-    public abstract AccountType getType();
 
     public String getAccountNumber() {
         return accountNumber;
@@ -103,6 +95,7 @@ public abstract class Account {
         this.currency = currency;
     }
 
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -117,6 +110,14 @@ public abstract class Account {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
 
