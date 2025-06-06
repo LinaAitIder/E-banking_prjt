@@ -7,9 +7,6 @@ import java.util.Map;
 
 public class AccountRequest {
 
-    @NotNull
-    private Long clientId;
-
     private String accountType;  // "CURRENT", "SAVINGS", etc.
     private String currency;
     private BigDecimal overdraftLimit;  // Pour CurrentAccount
@@ -57,11 +54,4 @@ public class AccountRequest {
         this.supportedCryptos = supportedCryptos;
     }
 
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
 }

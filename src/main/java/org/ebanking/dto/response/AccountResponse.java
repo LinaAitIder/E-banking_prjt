@@ -1,6 +1,9 @@
 package org.ebanking.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 
@@ -11,7 +14,12 @@ public class AccountResponse {
     private BigDecimal balance;
     private String currency;
     private BigDecimal overdraftLimit;  // Pour CurrentAccount
-    private BigDecimal interestRate;    // Pour SavingsAccount
+    private BigDecimal interestRate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private OffsetDateTime createdAt;
+    private Boolean isActive;
+
+    // Pour SavingsAccount
     private Map<String, String> supportedCryptos; // Pour CryptoAccount
 
     public Long getId() {
@@ -76,5 +84,21 @@ public class AccountResponse {
 
     public void setSupportedCryptos(Map<String, String> supportedCryptos) {
         this.supportedCryptos = supportedCryptos;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

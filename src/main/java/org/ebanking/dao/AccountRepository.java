@@ -21,14 +21,14 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     // - findAll() etc.
 
 
-    List<Account> findByClientId(Long clientId);
+    List<Account> findByOwnerId(Long OwnerId);
 
-    boolean existsByClientId(Long clientId);
+    boolean existsByOwnerId(Long OwnerId);
 
     boolean existsByAccountNumber(String accountNumber);
 
-    @Query("SELECT a FROM CurrentAccount a WHERE a.client.id = :clientId")
-    Optional<CurrentAccount> findCurrentAccountByClientId(@Param("clientId") Long clientId);
+    @Query("SELECT a FROM CurrentAccount a WHERE a.owner.id = :clientId")
+    Optional<CurrentAccount> findCurrentAccountByOwnerId(@Param("clientId") Long clientId);
 
     Optional<CurrentAccount> findByAccountNumber(String accountNumber);
 

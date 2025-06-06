@@ -38,7 +38,7 @@ public class Client extends User {
     @Column(name = "web_authn_enabled", nullable = false)
     private boolean webAuthnEnabled = false;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
 
@@ -68,12 +68,12 @@ public class Client extends User {
         }
         this.mainAccount = account;
         if (account != null) {
-            account.setClient(this);
+            account.setOwner(this);
         }
     }
 
     public void addAccount(Account account) {
-        account.setClient(this);
+        account.setOwner(this);
         this.accounts.add(account);
         if (this.mainAccount == null) {
             this.mainAccount = account;
