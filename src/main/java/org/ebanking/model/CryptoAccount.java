@@ -2,8 +2,11 @@ package org.ebanking.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import org.ebanking.model.enums.AccountType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.context.annotation.Import;
+import org.ebanking.model.enums.AccountType.*;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -20,7 +23,7 @@ public class CryptoAccount extends Account {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "supported_cryptos", columnDefinition = "jsonb")
-    private Map<String, Object> supportedCryptos;
+    private Map<String, String> supportedCryptos;
 
     @Size(max = 255)
     @Column(name = "wallet_address", unique = true)
@@ -37,7 +40,7 @@ public class CryptoAccount extends Account {
     }
 
     public CryptoAccount(String accountNumber, String currency,
-                         String walletAddress, Map<String, Object> supportedCryptos) {
+                         String walletAddress, Map<String, String> supportedCryptos) {
         this.setAccountNumber(accountNumber);
         this.setCurrency(currency);
         this.setBalance(BigDecimal.ZERO);  // Crypto accounts typically start with 0 balance
@@ -46,11 +49,11 @@ public class CryptoAccount extends Account {
     }
 
     // Getters and Setters
-    public Map<String, Object> getSupportedCryptos() {
+    public Map<String, String> getSupportedCryptos() {
         return supportedCryptos;
     }
 
-    public void setSupportedCryptos(Map<String, Object> supportedCryptos) {
+    public void setSupportedCryptos(Map<String, String> supportedCryptos) {
         this.supportedCryptos = supportedCryptos;
     }
 

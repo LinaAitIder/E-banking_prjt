@@ -68,12 +68,12 @@ public class Client extends User {
         }
         this.mainAccount = account;
         if (account != null) {
-            account.setOwner(this);
+            account.setClient(this);
         }
     }
 
     public void addAccount(Account account) {
-        account.setOwner(this);
+        account.setClient(this);
         this.accounts.add(account);
         if (this.mainAccount == null) {
             this.mainAccount = account;
