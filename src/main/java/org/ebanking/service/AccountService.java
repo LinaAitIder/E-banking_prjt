@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface AccountService {
 
-    AccountResponse createAccount(AccountRequest request);
+    public AccountResponse createAccount(Long userId, AccountRequest request);
 
     Optional<Account> getAccountById(Long id);
 
@@ -17,14 +17,20 @@ public interface AccountService {
 
     void deleteAccount(Long id);
 
-    List<Account> getAccountsByClientId(Long clientId);
+    void deactivateAccount(Long accountId);
+
+    List<Account> getAccountsByOwnerId(Long OwnerId);
 
     BigDecimal getAvailableBalance(Long accountId);
 
-    boolean clientCanHaveAccountType(Long clientId, Class<? extends Account> accountType);
+    boolean clientCanHaveAccountType(Long OwnerId, Class<? extends Account> accountType);
 
     boolean doesAccountExist(String accountNumber);
 
     void creditAccount(Account account, BigDecimal amount);
+
     boolean clientHasAccounts(Long clientId);
+
+    public AccountResponse getAccountDetails(Long accountId);
+
 }

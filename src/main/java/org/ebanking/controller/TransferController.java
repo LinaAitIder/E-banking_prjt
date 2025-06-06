@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/transfers")
+@RequestMapping("/api/transfer")
 public class TransferController {
 
     private final TransferService transferService;
@@ -23,7 +23,7 @@ public class TransferController {
     @PostMapping
     public ResponseEntity<TransferResponse> createTransfer(
             @Valid @RequestBody TransferRequest transferRequest,
-            @RequestHeader("clientId") Long clientId) {
+            @RequestHeader("client-id") Long clientId) {
 
         TransferResponse response = transferService.processTransfer(clientId, transferRequest);
 

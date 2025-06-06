@@ -10,7 +10,9 @@ import org.ebanking.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
@@ -29,13 +31,12 @@ public class AccountServiceImpl implements AccountService {
     private ClientRepository clientRepository;
 
     @Override
-    public AccountResponse createAccount(AccountRequest request) {
-        if (request.getClientId() == null) {
-            throw new IllegalArgumentException("Client ID must not be null");
-        }
+    public AccountResponse createAccount(Long userId, AccountRequest request) {
+        // 1. Récupérer le client
+        Client client = clientRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Client not found with id: " + userId));
 
-        Client client = clientRepository.findById(request.getClientId())
-                .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + request.getClientId()));
+        // 2. Créer le compte selon le type
         Account account;
         switch (request.getAccountType()) {
             case "CURRENT":
@@ -54,14 +55,23 @@ public class AccountServiceImpl implements AccountService {
                 account = cryptoAccount;
                 break;
             default:
-                throw new RuntimeException("Invalid account type");
+                throw new IllegalArgumentException("Invalid account type: " + request.getAccountType());
         }
 
+        // 3. Configurer le compte
         account.setCurrency(request.getCurrency());
-        account.setClient(client);
+        account.setOwner(client);
         account.setAccountNumber(generateAccountNumber(request.getAccountType()));
 
+        // 4. Sauvegarder
         Account savedAccount = accountRepository.save(account);
+
+        // 5. Si c'est le premier compte, le définir comme compte principal
+        if(client.getAccounts().isEmpty()) {
+            client.setMainAccount(savedAccount);
+            clientRepository.save(client);
+        }
+
         return convertToDto(savedAccount);
     }
 
@@ -81,26 +91,60 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(Long id) {
+        // 1. Verify account exists
         Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Account not found with ID: " + id));
 
-        if (account instanceof CurrentAccount) {
-            CurrentAccount current = (CurrentAccount) account;
-            if (current.getBalance().compareTo(BigDecimal.ZERO) < 0
-                    && current.getBalance().abs().compareTo(current.getOverdraftLimit()) > 0) {
-                throw new IllegalStateException("Cannot delete account with unauthorized overdraft");
-            }
-        } else if (account.getBalance().compareTo(BigDecimal.ZERO) != 0) {
-            throw new IllegalStateException("Account balance must be zero to delete");
+        // 2. Check account status
+        if (!account.getActive()) {
+            throw new IllegalStateException("Cannot delete inactive account");
         }
 
-        accountRepository.delete(account);
+        // 3. Validate balance conditions
+        if (account instanceof CurrentAccount) {
+            CurrentAccount current = (CurrentAccount) account;
+            if (current.getBalance().compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalStateException("Cannot delete current account with negative balance");
+            }
+        } else if (account.getBalance().compareTo(BigDecimal.ZERO) != 0) {
+            throw new IllegalStateException("Account balance must be zero for deletion");
+        }
+
+        // 4. Perform deletion
+        try {
+            accountRepository.delete(account);
+            logger.info("Account {} successfully deleted", id);
+        } catch (DataIntegrityViolationException e) {
+            logger.error("Failed to delete account {}: {}", id, e.getMessage());
+            throw new TransactionSystemException("Deletion failed due to data integrity constraints");
+        }
+    }
+
+    @Override
+    public void deactivateAccount(Long accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found with ID: " + accountId));
+
+        // Business rule checks
+        if (!account.getActive()) {
+            throw new IllegalStateException("Account is already deactivated");
+        }
+
+        if (account.getBalance().compareTo(BigDecimal.ZERO) != 0) {
+            throw new IllegalStateException("Account balance must be zero to deactivate");
+        }
+
+        // Soft delete (deactivation)
+        account.setActive(false);
+        accountRepository.save(account);
+
+        logger.info("Account {} successfully deactivated", accountId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Account> getAccountsByClientId(Long clientId) {
-        return accountRepository.findByClientId(clientId);
+    public List<Account> getAccountsByOwnerId(Long clientId) {
+        return accountRepository.findByOwnerId(clientId);
     }
 
 
@@ -120,7 +164,7 @@ public class AccountServiceImpl implements AccountService {
 
     // verify if a client has an account
     public boolean clientHasAccounts(Long clientId) {
-        return accountRepository.existsByClientId(clientId);
+        return accountRepository.existsByOwnerId(clientId);
     }
 
 
@@ -128,7 +172,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public boolean clientCanHaveAccountType(Long clientId, Class<? extends Account> accountType) {
         if (CurrentAccount.class.equals(accountType)) {
-            return accountRepository.findByClientId(clientId).isEmpty();
+            return accountRepository.findByOwnerId(clientId).isEmpty();
         }
         return true;
     }
@@ -185,6 +229,41 @@ public class AccountServiceImpl implements AccountService {
         // Audit log
         logger.info("Account {} credited with {}", account.getId(), amount);
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AccountResponse getAccountDetails(Long accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
+
+        AccountResponse response = new AccountResponse();
+
+        // Common fields
+        response.setId(account.getId());
+        response.setAccountNumber(account.getAccountNumber());
+        response.setAccountType(account.getClass().getSimpleName().replace("Account", ""));
+        response.setBalance(account.getBalance());
+        response.setCurrency(account.getCurrency());
+        response.setActive(account.getActive());
+        response.setCreatedAt(account.getCreatedAt());
+
+        // Type-specific fields
+        if (account instanceof CurrentAccount) {
+            CurrentAccount current = (CurrentAccount) account;
+            response.setOverdraftLimit(current.getOverdraftLimit());
+            response.setBalance(current.getBalance());
+        }
+        else if (account instanceof SavingsAccount) {
+            SavingsAccount savings = (SavingsAccount) account;
+            response.setInterestRate(savings.getInterestRate());
+        }
+        else if (account instanceof CryptoAccount) {
+            CryptoAccount crypto = (CryptoAccount) account;
+            response.setSupportedCryptos(crypto.getSupportedCryptos());
+        }
+
+        return response;
     }
 
 
