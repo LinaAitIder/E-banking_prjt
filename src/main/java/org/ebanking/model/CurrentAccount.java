@@ -1,6 +1,8 @@
 package org.ebanking.model;
 
 import jakarta.persistence.*;
+import org.ebanking.model.enums.AccountType;
+
 import java.math.BigDecimal;
 
 /**

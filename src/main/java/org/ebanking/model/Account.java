@@ -1,10 +1,12 @@
 package org.ebanking.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,11 +18,6 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
-    @JsonIgnore
-    private Client owner;
 
     @Size(max = 30)
     @Column(name = "account_number", unique = true)
@@ -49,10 +46,28 @@ public abstract class Account {
     private String currency;
 
     @Column(name = "created_at")
-    private Instant createdAt = Instant.now();
+    private OffsetDateTime createdAt = OffsetDateTime.now();
 
     @Column(name = "is_active")
-    private Boolean isActive = false;
+    private Boolean isActive = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)  // Plusieurs comptes peuvent appartenir à un client
+    @JoinColumn(name = "owner_id")     // Nom de la colonne FK dans la table "account"
+    private Client owner;
+
+    public void credit(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Le montant crédité doit être positif");
+        }
+        this.balance = this.balance.add(amount);
+    }
+
+    public void debit(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Le montant débité doit être positif");
+        }
+        this.balance = this.balance.subtract(amount);
+    }
 
     public Account() {}
 
@@ -62,8 +77,9 @@ public abstract class Account {
         this.owner = owner;
         this.currency = currency;
         this.accountNumber = accountNumber;
-        this.createdAt = Instant.now();
+        this.createdAt = OffsetDateTime.now();
     }
+
 
     public Long getId() {
         return id;
@@ -72,10 +88,6 @@ public abstract class Account {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Client getOwner() { return owner; }
-
-    public void setOwner(Client owner) {this.owner = owner; }
 
     public abstract AccountType getType();
 
@@ -103,11 +115,12 @@ public abstract class Account {
         this.currency = currency;
     }
 
-    public Instant getCreatedAt() {
+
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -117,6 +130,14 @@ public abstract class Account {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Client getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Client client) {
+        this.owner = client;
     }
 }
 

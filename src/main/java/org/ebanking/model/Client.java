@@ -38,7 +38,7 @@ public class Client extends User {
     @Column(name = "web_authn_enabled", nullable = false)
     private boolean webAuthnEnabled = false;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
 
