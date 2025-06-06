@@ -35,5 +35,4 @@ public class TransactionController {
         return ResponseEntity.ok(responses);
     }
 
-
 }

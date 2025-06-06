@@ -12,7 +12,6 @@ import org.ebanking.service.TransferService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.OffsetDateTime;
 
 @Service
@@ -33,7 +32,7 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public TransferResponse processTransfer(Long clientId, TransferRequest request) {
         // 1. Récupérer le compte source du client
-        CurrentAccount sourceAccount = accountRepository.findCurrentAccountByClientId(clientId)
+        CurrentAccount sourceAccount = accountRepository.findCurrentAccountByOwnerId(clientId)
                 .orElseThrow(() -> new IllegalArgumentException("Aucun compte courant trouvé pour ce client"));
 
         // 2. Vérifier le solde avec découvert
