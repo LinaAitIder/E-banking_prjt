@@ -11,8 +11,6 @@ public interface AccountService {
 
     AccountResponse createAccount(AccountRequest request);
 
-    public boolean clientHasAccounts(Long clientId);
-
     Optional<Account> getAccountById(Long id);
 
     Account updateAccount(Account account);
@@ -21,15 +19,12 @@ public interface AccountService {
 
     List<Account> getAccountsByClientId(Long clientId);
 
-    void transfer(Long sourceAccountId, Long targetAccountId, BigDecimal amount);
-
     BigDecimal getAvailableBalance(Long accountId);
+
+    boolean clientCanHaveAccountType(Long clientId, Class<? extends Account> accountType);
 
     boolean doesAccountExist(String accountNumber);
 
-    void applyInterest(Long savingsAccountId);
-
-    void addSupportedCrypto(Long cryptoAccountId, String cryptoName, String walletAddress);
-
-    boolean clientCanHaveAccountType(Long clientId, Class<? extends Account> accountType);
+    void creditAccount(Account account, BigDecimal amount);
+    boolean clientHasAccounts(Long clientId);
 }

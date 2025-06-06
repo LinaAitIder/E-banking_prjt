@@ -17,6 +17,7 @@ import java.util.List;
 @Transactional
 public class SponsorshipService {
 
+
     @Autowired
     private SponsorshipRepository sponsorshipRepository;
 

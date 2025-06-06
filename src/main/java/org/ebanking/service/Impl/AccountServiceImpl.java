@@ -7,6 +7,8 @@ import org.ebanking.dto.request.AccountRequest;
 import org.ebanking.dto.response.AccountResponse;
 import org.ebanking.model.*;
 import org.ebanking.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -99,28 +103,6 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findByClientId(clientId);
     }
 
-    @Override
-    public void transfer(Long sourceAccountId, Long targetAccountId, BigDecimal amount) {
-        Account source = accountRepository.findById(sourceAccountId)
-                .orElseThrow(() -> new IllegalArgumentException("Source account not found"));
-        Account target = accountRepository.findById(targetAccountId)
-                .orElseThrow(() -> new IllegalArgumentException("Target account not found"));
-
-        if (!source.getCurrency().equals(target.getCurrency())) {
-            throw new IllegalArgumentException("Currency mismatch");
-        }
-
-        BigDecimal availableBalance = getAvailableBalance(sourceAccountId);
-        if (availableBalance.compareTo(amount) < 0) {
-            throw new IllegalStateException("Insufficient funds");
-        }
-
-        source.setBalance(source.getBalance().subtract(amount));
-        target.setBalance(target.getBalance().add(amount));
-
-        accountRepository.save(source);
-        accountRepository.save(target);
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -135,37 +117,6 @@ public class AccountServiceImpl implements AccountService {
         return account.getBalance();
     }
 
-    @Override
-    public void applyInterest(Long savingsAccountId) {
-        Account account = accountRepository.findById(savingsAccountId)
-                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
-
-        if (!(account instanceof SavingsAccount)) {
-            throw new IllegalStateException("Account is not a savings account");
-        }
-
-        SavingsAccount savings = (SavingsAccount) account;
-        BigDecimal interest = savings.getBalance()
-                .multiply(savings.getInterestRate())
-                .divide(BigDecimal.valueOf(100));
-
-        savings.setBalance(savings.getBalance().add(interest));
-        accountRepository.save(savings);
-    }
-
-    @Override
-    public void addSupportedCrypto(Long cryptoAccountId, String cryptoName, String walletAddress) {
-        Account account = accountRepository.findById(cryptoAccountId)
-                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
-
-        if (!(account instanceof CryptoAccount)) {
-            throw new IllegalStateException("Account is not a crypto account");
-        }
-
-        CryptoAccount crypto = (CryptoAccount) account;
-        crypto.getSupportedCryptos().put(cryptoName, walletAddress);
-        accountRepository.save(crypto);
-    }
 
     // verify if a client has an account
     public boolean clientHasAccounts(Long clientId) {
@@ -185,7 +136,7 @@ public class AccountServiceImpl implements AccountService {
     private String generateAccountNumber(String accountType) {
         String prefix = accountType.equals("CURRENT") ? "CUR-" :
                 accountType.equals("SAVINGS") ? "SAV-" : "CRYPTO-";
-        return prefix + System.currentTimeMillis() + "-" + (int)(Math.random() * 1000);
+        return prefix + System.currentTimeMillis() + "-" + (int) (Math.random() * 1000);
     }
 
     private AccountResponse convertToDto(Account account) {
@@ -214,4 +165,27 @@ public class AccountServiceImpl implements AccountService {
     public boolean doesAccountExist(String accountNumber) {
         return accountRepository.existsByAccountNumber(accountNumber);
     }
+
+    public void creditAccount(Account account, BigDecimal amount) {
+        if (account == null) {
+            throw new IllegalArgumentException("Account cannot be null");
+        }
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+
+        // Vérification supplémentaire
+        if (account.getId() == null) {
+            account = accountRepository.save(account);
+        }
+
+        account.setBalance(account.getBalance().add(amount));
+        accountRepository.save(account);
+
+        // Audit log
+        logger.info("Account {} credited with {}", account.getId(), amount);
+
+    }
+
+
 }

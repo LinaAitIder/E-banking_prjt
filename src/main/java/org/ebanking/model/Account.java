@@ -6,21 +6,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "account")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "account_type", discriminatorType = DiscriminatorType.STRING)
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "accountType"
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = CurrentAccount.class, name = "CURRENT"),
-        @JsonSubTypes.Type(value = SavingsAccount.class, name = "SAVINGS"),
-        @JsonSubTypes.Type(value = CryptoAccount.class, name = "CRYPTO")
-})
 public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +20,22 @@ public abstract class Account {
 
     @Size(max = 30)
     @Column(name = "account_number", unique = true)
-    private String accountNumber;
+    private String accountNumber = generateAccountNumber();
+
+    // Méthode pour génerer un numero de compte unique
+    private String generateAccountNumber() {
+        return "ACC-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_type", insertable = false, updatable = false)
+    private AccountType type;
+
+    public enum AccountType {
+        CURRENT,
+        SAVINGS,
+        CRYPTO
+    }
 
     @Column(name = "balance", precision = 15, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
@@ -70,6 +76,8 @@ public abstract class Account {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public abstract AccountType getType();
 
     public String getAccountNumber() {
         return accountNumber;
