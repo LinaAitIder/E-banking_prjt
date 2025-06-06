@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
@@ -45,14 +46,14 @@ public abstract class Account {
     private String currency;
 
     @Column(name = "created_at")
-    private Instant createdAt = Instant.now();
+    private OffsetDateTime createdAt = OffsetDateTime.now();
 
     @Column(name = "is_active")
-    private Boolean isActive = false;
+    private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)  // Plusieurs comptes peuvent appartenir à un client
-    @JoinColumn(name = "client_id")     // Nom de la colonne FK dans la table "account"
-    private Client client;
+    @JoinColumn(name = "owner_id")     // Nom de la colonne FK dans la table "account"
+    private Client owner;
 
     public void credit(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
@@ -66,6 +67,17 @@ public abstract class Account {
             throw new IllegalArgumentException("Le montant débité doit être positif");
         }
         this.balance = this.balance.subtract(amount);
+    }
+
+    public Account() {}
+
+    public Account(Client owner, String accountNumber, BigDecimal balance,
+                   String currency) {
+        this.balance = balance;
+        this.owner = owner;
+        this.currency = currency;
+        this.accountNumber = accountNumber;
+        this.createdAt = OffsetDateTime.now();
     }
 
 
@@ -104,11 +116,11 @@ public abstract class Account {
     }
 
 
-    public Instant getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -120,12 +132,12 @@ public abstract class Account {
         isActive = active;
     }
 
-    public Client getClient() {
-        return client;
+    public Client getOwner() {
+        return owner;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setOwner(Client client) {
+        this.owner = client;
     }
 }
 
