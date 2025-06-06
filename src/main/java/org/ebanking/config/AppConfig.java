@@ -1,6 +1,5 @@
 package org.ebanking.config;
 import com.zaxxer.hikari.HikariDataSource;
-import org.ebanking.service.AccountFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -83,4 +82,3 @@ public class AppConfig {
         return new PropertySourcesPlaceholderConfigurer();
     }
 }
-

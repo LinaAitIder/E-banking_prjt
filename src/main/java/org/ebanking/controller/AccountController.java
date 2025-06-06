@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,21 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/client")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
     //Verify if this client has an account
-    @GetMapping("/client/has-accounts")
+    @GetMapping("/has-accounts")
     public ResponseEntity<Boolean> clientHasAccounts(@RequestHeader("clientId")  Long clientId) {
         boolean hasAccounts = accountService.clientHasAccounts(clientId);
         return ResponseEntity.ok(hasAccounts);
     }
 
+
     // Create account
-    @PostMapping("/accounts")
+    @PostMapping("/createAccount")
     public ResponseEntity<AccountResponse> createAccount(
             @RequestBody AccountRequest accountRequest
     ) {
@@ -44,7 +44,7 @@ public class AccountController {
 
 
     // get client accounts
-    @GetMapping("/account")
+    @GetMapping("/getAccount")
     public ResponseEntity<List<Account>> getClientAccounts(@RequestHeader("clientId") Long clientId) {
         return ResponseEntity.ok(accountService.getAccountsByClientId(clientId));
     }
