@@ -1,4 +1,3 @@
-// src/app/services/transaction.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -12,12 +11,10 @@ export class TransactionService {
 
   constructor(private http: HttpClient) { }
 
-  // Récupère toutes les transactions (pour l'admin)
   getAllTransactions(): Observable<TransactionResponse[]> {
     return this.http.get<TransactionResponse[]>(`${this.apiUrl}/all`);
   }
 
-  // Récupère les transactions par compte
   getTransactionsByAccount(accountId: number): Observable<TransactionResponse[]> {
     return this.http.get<TransactionResponse[]>(`${this.apiUrl}/by-account`, {
       headers: { 'account-id': accountId.toString() }

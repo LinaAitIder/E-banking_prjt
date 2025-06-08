@@ -8,7 +8,7 @@ import {Account} from "../model/account.model";
 })
 export class AccountService {
     constructor(private http: HttpClient) {}
-    private apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
+    private apiUrl = 'http://localhost:8081/E-banking_prjt/api';
 
     //getAllClientAccounts
     verifyClientHasAccounts(clientId: any): Observable<any> {

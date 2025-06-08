@@ -54,7 +54,6 @@ export class ClientComponent implements OnInit {
         if (!date) return 'N/A';
         
         try {
-            // Gère à la fois les timestamps et les strings ISO
             const dateObj = new Date(date);
             if (isNaN(dateObj.getTime())) return 'N/A';
             

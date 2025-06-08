@@ -44,5 +44,7 @@ build/
 
 ### Secrets ###
 !**/src/main/resources/database.properties
+src/main/resources/service-account.json
+src/main/resources/database.properties
 
 .env

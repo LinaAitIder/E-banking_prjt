@@ -7,7 +7,7 @@ import { Client } from '../model/client.model';
     providedIn: 'root'
 })
 export class ClientService {
-    private apiUrl = 'http://localhost:8081/E-banking_prjt/api/clients'; // Adaptez selon votre configuration
+    private apiUrl = 'http://localhost:8081/E-banking_prjt/api/clients'; 
 
     constructor(private http: HttpClient) { }
 

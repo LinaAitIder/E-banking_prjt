@@ -1,4 +1,3 @@
-// src/app/components/transactions/transactions.component.ts
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../../../services/transaction.service';
 import { TransactionResponse } from '../../../model/transaction-response.model';
