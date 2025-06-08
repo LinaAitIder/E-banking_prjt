@@ -96,12 +96,7 @@ public class AccountServiceImpl implements AccountService {
 
         // 4. Sauvegarder
         Account savedAccount = accountRepository.save(account);
-
-        // 5. Si c'est le premier compte, le définir comme compte principal
-        if(client.getAccounts().isEmpty()) {
-            client.setMainAccount(savedAccount);
-            clientRepository.save(client);
-        }
+        client.addAccount(savedAccount);
 
         return convertToDto(savedAccount);
     }

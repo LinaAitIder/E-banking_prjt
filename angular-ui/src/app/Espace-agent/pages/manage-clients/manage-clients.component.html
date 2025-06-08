@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="section">
+        <h3>My Clients</h3>
+        <div *ngIf="clients.length === 0" class="empty-message">
+            You don't have any clients yet.
+        </div>
+        <ul class="client-list">
+            <li *ngFor="let client of clients" class="client-item">
+                <div class="client-info">
+                    <span class="client-name">{{ client.fullName }}</span>
+                    <span class="client-email">{{ client.email }}</span>
+                </div>
+                <div class="client-actions">
+                    <button class="btn-view" (click)="viewClientDetails(client.id)">
+                        View Accounts
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>Clients Without Enrollment</h3>
+        <div *ngIf="unenrolledClients.length === 0" class="empty-message">
+            No unenrolled clients available.
+        </div>
+        <ul class="client-list">
+            <li *ngFor="let client of unenrolledClients" class="client-item">
+                <div class="client-info">
+                    <span class="client-name">{{ client.fullName }}</span>
+                    <span class="client-email">{{ client.email }}</span>
+                </div>
+                <div class="client-actions">
+                    <button class="btn-enroll" (click)="enrollClient(client.id)">
+                        Create Enrollment
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
