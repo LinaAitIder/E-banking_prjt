@@ -33,11 +33,11 @@
         </thead>
         <tbody>
         <tr *ngFor="let acc of accounts">
-            <td>{{ acc.number }}</td>
+            <td>{{ acc.accountNumber }}</td>
             <td>{{ acc.holder }}</td>
             <td>${{ acc.balance.toLocaleString() }}</td>
             <td>{{ acc.type }}</td>
-            <td>{{ acc.created }}</td>
+            <td>{{ acc.createdAt }}</td>
             <td class="actions">
                 <i class="fa fa-eye text-view"></i>
                 <i class="fa fa-edit text-edit"></i>

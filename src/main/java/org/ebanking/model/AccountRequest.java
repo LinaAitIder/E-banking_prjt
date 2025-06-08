@@ -2,6 +2,7 @@ package org.ebanking.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import org.ebanking.model.enums.AccountType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class AccountRequest {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Account.AccountType accountType;
+    private AccountType accountType;
 
     @Column(precision = 15, scale = 2)
     private BigDecimal overdraftLimit;
@@ -59,11 +60,11 @@ public class AccountRequest {
         this.client = client;
     }
 
-    public Account.AccountType getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(Account.AccountType accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 
