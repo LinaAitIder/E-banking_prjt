@@ -1,0 +1,41 @@
+<div class="account-requests-container">
+    <h2>Pending Account Requests</h2>
+
+    <div *ngIf="pendingRequests.length === 0" class="no-requests">
+        No pending account requests.
+    </div>
+
+    <div *ngFor="let request of pendingRequests" class="request-card">
+        <div class="request-header">
+            <h3>{{ request.client.fullName }}</h3>
+            <span class="request-date">{{ request.requestDate | date:'medium' }}</span>
+        </div>
+
+        <div class="request-details">
+            <div class="detail">
+                <span class="label">Account Type:</span>
+                <span class="value">{{ request.accountType }}</span>
+            </div>
+
+            <div *ngIf="request.accountType === 'CURRENT'" class="detail">
+                <span class="label">Overdraft Limit:</span>
+                <span class="value">{{ request.overdraftLimit | currency:request.currency }}</span>
+            </div>
+
+            <div *ngIf="request.accountType === 'SAVINGS'" class="detail">
+                <span class="label">Interest Rate:</span>
+                <span class="value">{{ request.interestRate }}%</span>
+            </div>
+
+            <div class="detail">
+                <span class="label">Currency:</span>
+                <span class="value">{{ request.currency }}</span>
+            </div>
+        </div>
+
+        <div class="request-actions">
+            <button class="approve-btn" (click)="approveRequest(request.id)">Approve</button>
+            <button class="reject-btn" (click)="rejectRequest(request.id)">Reject</button>
+        </div>
+    </div>
+</div>

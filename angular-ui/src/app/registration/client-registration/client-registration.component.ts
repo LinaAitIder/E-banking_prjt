@@ -19,12 +19,14 @@ export class ClientRegistrationComponent {
     registrationForm: FormGroup;
     message: string | null = null;
     isSuccess: boolean = false;
+    successMessage = "";
+    errorMessage = "";
 
     constructor(private fb: FormBuilder , private authenService: AuthenService, private webAuthnService : WebauthnService , private router: Router ) {
         this.registrationForm = this.fb.group({
             fullName: ['', Validators.required],
             dateOfBirth: ['', Validators.required],
-            nationalId: ['', [Validators.required, Validators.pattern(/^\d{8,15}$/)]],
+            nationalId: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]],
             phone: ['', [Validators.required, Validators.pattern(/^\d{8,15}$/)]],
@@ -100,8 +102,12 @@ export class ClientRegistrationComponent {
             } else {
                 this.redirectToSMSVerifPage(receivedClient);
             }
+
+            this.errorMessage = "Account Created!";
+
         } catch (error) {
             console.error('Registration failed:', error);
+            this.errorMessage = "Failed to create account. Please try again.";
             window.alert("Something went wrong during registration.");
             this.redirectToSMSVerifPage(clientData);
         }

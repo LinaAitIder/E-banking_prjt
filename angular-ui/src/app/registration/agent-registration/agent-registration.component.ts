@@ -7,13 +7,18 @@ import {Router, RouterOutlet} from "@angular/router";
 import {NavbarComponent} from "../../home/navbar/navbar.component";
 import {Client} from "../../model/client.model";
 import {firstValueFrom} from "rxjs";
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
     selector: 'app-agent-registration',
     imports: [
+        CommonModule,
         ReactiveFormsModule,
         RouterOutlet,
-        NavbarComponent
+        NavbarComponent,
+        CommonModule
     ],
     templateUrl: './agent-registration.component.html',
     styleUrl : 'agent-registration.component.scss'

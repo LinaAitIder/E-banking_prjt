@@ -3,6 +3,7 @@ package org.ebanking.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -27,7 +28,6 @@ public abstract class User implements Serializable {
     @Column(name = "full_name")
     private String fullName;
 
-
     @Email
     @NotNull
     @Column(name = "email", unique = true, nullable = false)
@@ -46,7 +46,8 @@ public abstract class User implements Serializable {
     private String phone;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
     @Column(nullable = false)
@@ -58,6 +59,14 @@ public abstract class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
 
+    public abstract List<String> getRoles();
+
+    public String getRole() {
+        if (this instanceof Client) return "CLIENT";
+        if (this instanceof BankAgent) return "AGENT";
+        if (this instanceof Admin) return "ADMIN";
+        return "USER";
+    }
 
     public Long getId() {
         return id;
@@ -97,15 +106,6 @@ public abstract class User implements Serializable {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public abstract List<String> getRoles();
-
-    public String getRole() {
-        if (this instanceof Client) return "CLIENT";
-        if (this instanceof BankAgent) return "AGENT";
-        if (this instanceof Admin) return "ADMIN";
-        return "USER";
     }
 
     public String getFullName() {

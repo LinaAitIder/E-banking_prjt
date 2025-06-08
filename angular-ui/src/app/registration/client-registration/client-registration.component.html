@@ -75,6 +75,13 @@
         </form>
 
         <a routerLink="/login" class="login-link">Already have an account? Sign in</a>
+
+        <div *ngIf="successMessage" class="success-message">
+            {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
         <router-outlet></router-outlet>
     </div>
 </div>
