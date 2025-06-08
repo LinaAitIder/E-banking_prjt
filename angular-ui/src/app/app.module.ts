@@ -5,6 +5,8 @@ import {ClientRegistrationComponent} from "./registration/client-registration/cl
 import {BrowserModule} from "@angular/platform-browser";
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
+import {JwtInterceptor} from "./utils/jwt.interceptor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import {routes} from "./app.routes";
         ClientRegistrationComponent,
         RouterModule.forRoot(routes)
     ],
-    providers: [],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    ],
 })
 export class AppModule { }
