@@ -30,13 +30,13 @@ public class TransferServiceImpl implements TransferService {
         this.accountService = accountService;
     }
     @Override
-    public TransferResponse processTransfer(Long clientId, TransferRequest request) {
+    public TransferResponse processTransfer(Long ownerId, TransferRequest request) {
         // 1. Récupérer le compte source du client
-        CurrentAccount sourceAccount = accountRepository.findCurrentAccountByOwnerId(clientId)
+        CurrentAccount sourceAccount = accountRepository.findCurrentAccountByOwnerId(ownerId)
                 .orElseThrow(() -> new IllegalArgumentException("Aucun compte courant trouvé pour ce client"));
 
         // 2. Vérifier le solde avec découvert
-        validateBalanceWithOverdraft(sourceAccount, request.getAmount());
+        //validateBalanceWithOverdraft(sourceAccount, request.getAmount());
 
         // verify if the destination acc exists
         if (!accountService.doesAccountExist(request.getDestinationAccount())) {
