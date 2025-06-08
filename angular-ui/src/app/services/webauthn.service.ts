@@ -109,7 +109,7 @@ export class WebauthnService {
           const webAuthnEnabled = res.webAuthnEnabled;
           const role = res.role;
           const user = res.user;
-          console.log("Logged in ");
+          console.log("webAuthenEnable status :", res.webAuthnEnabled);
           console.log("token", token);
           console.log(user.role);
           if(!token){

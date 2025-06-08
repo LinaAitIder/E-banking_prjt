@@ -72,17 +72,10 @@ adminLogin(credentials: {email: string, password: string}): Observable<any> {
         );
     }
 
-    // Endpoint pour créer un admin (nécessite des privilèges spéciaux)
-    createAdminAccount(adminData: {
-        fullName: string,
-        email: string,
-        password: string,
-        phone: string,
-        department: string
-    }, superAdminToken: string): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/admin/create`, adminData, {
-            headers: { 'Authorization': `Bearer ${superAdminToken}` }
-        });
+    getToken(): string | null {
+        const token = localStorage.getItem('token');
+        console.log('Current Token:', token);
+        return token;
     }
 
 }

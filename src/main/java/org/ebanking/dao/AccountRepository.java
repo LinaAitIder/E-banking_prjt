@@ -2,6 +2,7 @@ package org.ebanking.dao;
 
 import org.ebanking.model.Account;
 import org.ebanking.model.CurrentAccount;
+import org.ebanking.model.enums.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,5 +38,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account>
 
     findByIsActiveTrue();
+
+    List<Account> findByOwnerIdAndType(Long clientId, AccountType type);
 
 }

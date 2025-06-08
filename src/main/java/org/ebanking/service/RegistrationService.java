@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
+import org.ebanking.model.enums.AccountType;
 
 import java.math.BigDecimal;
 
@@ -44,11 +45,10 @@ public class RegistrationService {
         client.setWebAuthnEnabled(false);
         client.setPassword(passwordEncoder.encode(client.getPassword()));
 
-        if(client.getAccounts().isEmpty()) {
-            CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(Account.AccountType.CURRENT);
-            client.addAccount(defaultAccount);
-            client.setMainAccount(defaultAccount);
-        }
+
+        // Création d'un compte courant par defaut
+        CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(AccountType.CURRENT);
+        client.addAccount(defaultAccount);
 
         return userRepository.save(client);
     }

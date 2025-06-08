@@ -1,0 +1,112 @@
+<h1>Manage Your Accounts</h1>
+
+<form [formGroup]="accountForm" (ngSubmit)="submitAccount()" class="account-form">
+    <div class="form-row">
+        <label for="accountType">Account Type</label>
+        <select id="accountType" formControlName="accountType" (change)="onTypeChange($event)">
+            <option value="CURRENT">Current</option>
+            <option value="SAVINGS">Savings</option>
+            <option value="CRYPTO">Crypto</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="currency">Currency</label>
+        <select id="currency" formControlName="currency">
+            <option value="USD">USD</option>
+            <option value="USD">MAD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+        </select>
+    </div>
+
+    <div class="form-row" *ngIf="selectedType === 'CURRENT' ">
+        <label for="overdraftLimit">Overdraft Limit</label>
+        <input type="number" id="overdraftLimit" formControlName="overdraftLimit" required/>
+    </div>
+
+    <div class="form-row" *ngIf="selectedType === 'SAVINGS'">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input type="number" id="interestRate" formControlName="interestRate" />
+    </div>
+
+    <div class="form-row" *ngIf="selectedType === 'CRYPTO'">
+        <label for="supportedCryptos">Supported Cryptos (e.g. BTC:Bitcoin, ETH:Ethereum)</label>
+        <input type="text" id="supportedCryptos" formControlName="supportedCryptos" />
+    </div>
+
+    <button type="submit" [disabled]="accountForm.invalid">Create Account</button>
+
+    <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+</form>
+
+<div class="account-sections">
+    <section>
+        <h2>Current Accounts</h2>
+        <ng-container *ngIf="currentAccounts.length > 0; else noCurrent">
+            <div *ngFor="let account of currentAccounts" class="account-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>{{ account.currency }}</strong>
+                    <span style="font-weight: bold; text-align: right;">
+                        {{ account.balance ?? 0 | number:'1.2-2' }} {{ account.currency }}
+                      </span>
+                </div>
+
+                <p><strong>RIB:</strong> {{ account.rib }}</p>
+                <p><strong>Overdraft Limit:</strong> {{ account.overdraftLimit }}</p>
+            </div>
+        </ng-container>
+        <ng-template #noCurrent>
+            <p>No current accounts found.</p>
+        </ng-template>
+
+    </section>
+
+    <section>
+        <h2>Savings Accounts</h2>
+        <ng-container *ngIf="savingsAccounts.length > 0; else noSavings">
+            <div *ngFor="let account of savingsAccounts" class="account-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>{{ account.currency }}</strong>
+                        <span style="font-weight: bold; text-align: right;">
+                        {{ account.balance ?? 0 | number:'1.2-2' }} {{ account.currency }}
+                      </span>
+                </div>
+
+                <p><strong>RIB:</strong> {{ account.rib }}</p>
+                <p><strong>Interest Rate:</strong> {{ account.interestRate }}%</p>
+            </div>
+        </ng-container>
+        <ng-template #noSavings>
+            <p>No savings accounts found.</p>
+        </ng-template>
+
+    </section>
+
+    <section>
+        <h2>Crypto Accounts</h2>
+        <ng-container *ngIf="cryptoAccounts.length > 0; else noCrypto">
+            <div *ngFor="let account of cryptoAccounts" class="account-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>{{ account.currency }}</strong>
+                    <span style="font-weight: bold; text-align: right;">
+                    {{ account.balance ?? 0 | number:'1.2-2' }} {{ account.currency }}
+                  </span>
+                </div>
+
+                <p><strong>RIB:</strong> {{ account.rib }}</p>
+                <p><strong>Supported Cryptos:</strong></p>
+                <ul>
+                    <li *ngFor="let crypto of getCryptoEntries(account.supportedCryptos)">
+                        {{ crypto.key }}: {{ crypto.value }}
+                    </li>
+                </ul>
+            </div>
+        </ng-container>
+        <ng-template #noCrypto>
+            <p>No crypto accounts found.</p>
+        </ng-template>
+    </section>
+</div>

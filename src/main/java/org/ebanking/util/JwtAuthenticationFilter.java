@@ -60,12 +60,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+//    private String extractToken(HttpServletRequest request) {
+//        String header = request.getHeader("Authorization");
+//        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
+//            return header.substring(7);
+//        }
+//        return null;
+//    }
+
     private String extractToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
-            return header.substring(7);
-        }
-        return null;
+        return jwtUtil.extractJwtFromRequest(request);
     }
 
     private Authentication createAuthentication(String token) {
@@ -78,4 +82,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authorities
         );
     }
+
+
 }
