@@ -1,0 +1,83 @@
+<div class="client-details-container">
+    <div class="client-header">
+        <h2>{{ client?.fullName }}</h2>
+        <span class="client-id">ID: {{ client?.id }}</span>
+    </div>
+
+    <div class="client-info">
+        <div class="info-section">
+            <h3>Personal Information</h3>
+            <div class="info-row">
+                <span class="label">Email:</span>
+                <span class="value">{{ client?.email }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Phone:</span>
+                <span class="value">{{ client?.phone }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Enrollment Status:</span>
+                <span class="value" [class.enrolled]="client?.isEnrolled">
+                    {{ client?.isEnrolled ? 'Enrolled' : 'Not Enrolled' }}
+                </span>
+            </div>
+            <div *ngIf="client?.responsibleAgent as agent" class="info-row">
+                <span class="label">Responsible Agent:</span>
+                <span class="value">
+        {{ agent.fullName }}
+        <span *ngIf="agent.agentCode">
+            ({{ agent.agentCode }})
+        </span>
+    </span>
+            </div>
+        </div>
+        <div class="info-section">
+            <h3>Accounts</h3>
+            <div *ngIf="client?.accounts?.length === 0" class="no-accounts">
+                No accounts found
+            </div>
+
+            <div *ngFor="let account of client?.accounts" class="account-card">
+                <div class="account-header">
+                    <span class="account-number">{{ account.accountNumber }}</span>
+                    <span class="account-type">{{ account.type }}</span>
+                    <span *ngIf="client?.mainAccount?.id === account.id" class="badge-main">MAIN</span>
+                </div>
+
+                <div class="account-details">
+                    <div class="detail">
+                        <span class="label">Balance:</span>
+                        <span class="value">{{ account.balance | currency:account.currency }}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Currency:</span>
+                        <span class="value">{{ account.currency }}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Created:</span>
+                        <span class="value">{{ account.createdAt | date:'mediumDate' }}</span>
+                    </div>
+
+                    <div *ngIf="account.type === 'CURRENT' && account.overdraftLimit !== undefined" class="detail">
+                        <span class="label">Overdraft Limit:</span>
+                        <span class="value">{{ account.overdraftLimit | currency:account.currency }}</span>
+                    </div>
+
+                    <div *ngIf="account.type === 'SAVINGS' && account.interestRate !== undefined" class="detail">
+                        <span class="label">Interest Rate:</span>
+                        <span class="value">{{ account.interestRate }}%</span>
+                    </div>
+
+                    <div *ngIf="account.type === 'CRYPTO' && account.walletAddress" class="detail">
+                        <span class="label">Wallet Address:</span>
+                        <span class="value crypto-address">{{ account.walletAddress }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-button">
+        <button (click)="goBack()">Back to Clients</button>
+    </div>
+</div>

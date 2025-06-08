@@ -40,51 +40,42 @@ public class Enrollment {
     @Column(name = "enrollment_date", nullable = false)
     private Instant enrollmentDate = Instant.now();
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 20)
-    private EnrollmentStatus status = EnrollmentStatus.PENDING;
-
-    @Lob
-    @Column(name = "comments")
-    private String comments;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "documents", columnDefinition = "jsonb")
-    private Map<String, String> documents;  // Map<DocumentType, DocumentReference>
-
 
     // Constructors
-    public Enrollment() {}
-
-    // Business Methods
-    public void addDocument(DocumentType type, String reference) {
-        this.documents.put(type.name(), reference);
+    public Enrollment() {
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Client getClient() { return client; }
-    public void setClient(Client client) { this.client = client; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public BankAgent getAgent() { return agent; }
-    public void setAgent(BankAgent agent) { this.agent = agent; }
+    public Client getClient() {
+        return client;
+    }
 
-    public Instant getEnrollmentDate() { return enrollmentDate; }
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public BankAgent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(BankAgent agent) {
+        this.agent = agent;
+    }
+
+    public Instant getEnrollmentDate() {
+        return enrollmentDate;
+    }
+
     public void setEnrollmentDate(Instant enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
     }
 
-    public EnrollmentStatus getStatus() { return status; }
-    public void setStatus(EnrollmentStatus status) { this.status = status; }
-
-    public String getComments() { return comments; }
-    public void setComments(String comments) { this.comments = comments; }
-
-    public Map<String, String> getDocuments() { return documents; }
-    public void setDocuments(Map<String, String> documents) {
-        this.documents = documents;
-    }
 }

@@ -14,6 +14,13 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Client extends User {
 
+    @Column(name = "is_enrolled", nullable = false)
+    private boolean isEnrolled = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "responsible_agent_id")
+    private BankAgent responsibleAgent;
+
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
@@ -63,16 +70,16 @@ public class Client extends User {
     }
 
     public void setMainAccount(Account account) {
-        if (!this.accounts.contains(account)) {
+        if (account != null && !this.accounts.contains(account)) {
             throw new IllegalArgumentException("Account does not belong to client");
         }
         this.mainAccount = account;
-        if (account != null) {
-            account.setOwner(this);
-        }
     }
 
     public void addAccount(Account account) {
+        if (account == null) {
+            throw new IllegalArgumentException("Account cannot be null");
+        }
         account.setOwner(this);
         this.accounts.add(account);
         if (this.mainAccount == null) {
@@ -86,6 +93,27 @@ public class Client extends User {
     public void addWebAuthnCredential(WebAuthnCredential credential) {
         this.webAuthnCredentials.add(credential);
         credential.setUser(this);}
+
+    @Override
+    public List<String> getRoles() {
+        return List.of("ROLE_CLIENT");
+    }
+
+    public boolean isEnrolled() {
+        return isEnrolled;
+    }
+
+    public void setEnrolled(boolean enrolled) {
+        isEnrolled = enrolled;
+    }
+
+    public BankAgent getResponsibleAgent() {
+        return responsibleAgent;
+    }
+
+    public void setResponsibleAgent(BankAgent responsibleAgent) {
+        this.responsibleAgent = responsibleAgent;
+    }
 
     public Date getDateOfBirth() {
         return dateOfBirth;
@@ -173,12 +201,6 @@ public class Client extends User {
 
     public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
-    }
-
-
-    @Override
-    public List<String> getRoles() {
-        return List.of("ROLE_CLIENT");
     }
 
 }
