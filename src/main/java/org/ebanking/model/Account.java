@@ -1,11 +1,8 @@
 package org.ebanking.model;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
