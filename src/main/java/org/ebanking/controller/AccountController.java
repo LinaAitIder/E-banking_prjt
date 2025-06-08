@@ -2,18 +2,14 @@ package org.ebanking.controller;
 
 import org.ebanking.dto.request.AccountRequest;
 import org.ebanking.dto.response.AccountResponse;
+import org.ebanking.model.enums.AccountType;
 import org.ebanking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/account")
@@ -60,5 +56,16 @@ public class AccountController {
     public ResponseEntity<Void> deleteAccount(@RequestHeader("account-id") Long accountId) {
         accountService.deleteAccount(accountId);
         return ResponseEntity.noContent().build();
+    }
+
+    //getAllAccounts
+    @RequestMapping(value = "/client/{clientId}/accounts", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<List<AccountResponse>> getAccountsByType(
+            @PathVariable("clientId") Long clientId,
+            @RequestParam(value = "type", required = false) AccountType type) {
+
+        List<AccountResponse> accounts = accountService.getAccountsByClientAndType(clientId, type);
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 }

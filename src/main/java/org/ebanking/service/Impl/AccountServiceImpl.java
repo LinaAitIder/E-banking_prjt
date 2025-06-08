@@ -6,6 +6,7 @@ import org.ebanking.dao.ClientRepository;
 import org.ebanking.dto.request.AccountRequest;
 import org.ebanking.dto.response.AccountResponse;
 import org.ebanking.model.*;
+import org.ebanking.model.enums.AccountType;
 import org.ebanking.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,31 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+
+    private AccountResponse mapToResponse(Account account) {
+        AccountResponse response = new AccountResponse();
+        response.setAccountNumber(account.getAccountNumber());
+        response.setHolder(account.getOwner().getFullName()); // or account.getHolder().getFullName()
+        response.setBalance(account.getBalance());
+        response.setAccountType(account.getType().name());
+        response.setCurrency(account.getCurrency());
+        response.setCreatedAt(account.getCreatedAt());
+        response.setRib(account.getRib());
+        response.setId(account.getId());
+
+        if (account instanceof CurrentAccount) {
+            response.setOverdraftLimit(((CurrentAccount) account).getOverdraftLimit());
+        } else if (account instanceof SavingsAccount) {
+            response.setInterestRate(((SavingsAccount) account).getInterestRate());
+        } else if (account instanceof CryptoAccount) {
+            response.setSupportedCryptos(((CryptoAccount) account).getSupportedCryptos());
+        }
+
+        return response;
+    }
+
+
 
     @Override
     public AccountResponse createAccount(Long userId, AccountRequest request) {
@@ -63,14 +90,13 @@ public class AccountServiceImpl implements AccountService {
         account.setOwner(client);
         account.setAccountNumber(generateAccountNumber(request.getAccountType()));
 
+        if ("CURRENT".equalsIgnoreCase(request.getAccountType()) || "SAVINGS".equalsIgnoreCase(request.getAccountType())) {
+            account.setRib(RibGenerator.generateRib());
+        }
+
         // 4. Sauvegarder
         Account savedAccount = accountRepository.save(account);
-
-        // 5. Si c'est le premier compte, le définir comme compte principal
-        if(client.getAccounts().isEmpty()) {
-            client.setMainAccount(savedAccount);
-            clientRepository.save(client);
-        }
+        client.addAccount(savedAccount);
 
         return convertToDto(savedAccount);
     }
@@ -247,6 +273,8 @@ public class AccountServiceImpl implements AccountService {
         response.setCurrency(account.getCurrency());
         response.setActive(account.getActive());
         response.setCreatedAt(account.getCreatedAt());
+        response.setRib(account.getRib());
+        response.setHolder(account.getOwner().getFullName());
 
         // Type-specific fields
         if (account instanceof CurrentAccount) {
@@ -264,6 +292,23 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return response;
+    }
+
+    @Override
+    public List<AccountResponse> getAccountsByClientAndType(Long clientId, AccountType type) {
+        List<Account> accounts;
+
+        if (type == null) {accounts = accountRepository.findByOwnerId(clientId);
+        } else {
+            accounts = accountRepository.findByOwnerIdAndType(clientId, type);
+        }
+
+        List<AccountResponse> result = new ArrayList<>();
+        for (Account account : accounts) {
+            result.add(mapToResponse(account));
+        }
+
+        return result;
     }
 
 
