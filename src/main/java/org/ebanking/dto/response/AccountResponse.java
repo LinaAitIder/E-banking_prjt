@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class AccountResponse {
     private Long id;
+    private String holder;
     private String accountNumber;
     private String accountType;
     private BigDecimal balance;
@@ -18,9 +19,19 @@ public class AccountResponse {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private OffsetDateTime createdAt;
     private Boolean isActive;
+    private String rib;
 
     // Pour SavingsAccount
     private Map<String, String> supportedCryptos; // Pour CryptoAccount
+
+
+    public void setHolder(String holder) {
+        this.holder = holder;
+    }
+
+    public String getHolder() {
+        return holder;
+    }
 
     public Long getId() {
         return id;
@@ -101,4 +112,13 @@ public class AccountResponse {
     public void setActive(Boolean active) {
         isActive = active;
     }
+
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
+    }
+
 }

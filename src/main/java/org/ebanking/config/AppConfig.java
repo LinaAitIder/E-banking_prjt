@@ -63,6 +63,7 @@ public class AppConfig {
         jpaProperties.put("hibernate.globally_quoted_identifiers", env.getProperty("hibernate.globally_quoted_identifiers"));
         jpaProperties.put("hibernate.cache.use_second_level_cache", env.getProperty("hibernate.cache.use_second_level_cache"));
         jpaProperties.put("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
+        jpaProperties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
 
         em.setJpaProperties(jpaProperties);
 

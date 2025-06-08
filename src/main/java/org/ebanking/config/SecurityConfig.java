@@ -1,6 +1,8 @@
 package org.ebanking.config;
 
 import org.ebanking.service.AdminUserDetailsService;
+import org.ebanking.util.JwtAuthenticationFilter;
+import org.ebanking.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -26,6 +29,9 @@ public class SecurityConfig{
 
     @Autowired
     private AdminUserDetailsService adminUserDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,13 +45,18 @@ public class SecurityConfig{
                                 "/api/auth/register/**",
                                 "/api/auth/request-sms-verification",
                                 "/api/auth/verify-sms",
-                                "/api/auth/admin/first-login/change-password"
+                                "/api/auth/admin/first-login/change-password",
+                                "/api/transfer"
+
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                ).addFilterBefore(
+                new JwtAuthenticationFilter(jwtUtil),
+                UsernamePasswordAuthenticationFilter.class
+        );
 
         return http.build();
     }

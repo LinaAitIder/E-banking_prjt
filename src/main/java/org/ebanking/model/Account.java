@@ -1,9 +1,12 @@
 package org.ebanking.model;
 
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import org.ebanking.model.enums.AccountType;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -32,11 +35,7 @@ public abstract class Account {
     @Column(name = "account_type", insertable = false, updatable = false)
     private AccountType type;
 
-    public enum AccountType {
-        CURRENT,
-        SAVINGS,
-        CRYPTO
-    }
+    private String rib;
 
     @Column(name = "balance", precision = 15, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
@@ -139,5 +138,14 @@ public abstract class Account {
     public void setOwner(Client client) {
         this.owner = client;
     }
+
+    public void setRib(String rib) {
+        this.rib = rib;
+    }
+
+    public String getRib() {
+        return rib;
+    }
 }
+
 
