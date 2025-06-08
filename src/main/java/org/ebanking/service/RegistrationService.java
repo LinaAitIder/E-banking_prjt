@@ -1,6 +1,7 @@
 package org.ebanking.service;
 
 import org.ebanking.dao.AccountRepository;
+import org.ebanking.dao.ClientRepository;
 import org.ebanking.dao.UserRepository;
 import org.ebanking.model.*;
 import org.ebanking.dao.WebAuthnCredentialRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
+import org.ebanking.model.enums.AccountType;
 
 import java.math.BigDecimal;
 
@@ -20,6 +22,9 @@ public class RegistrationService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -40,8 +45,9 @@ public class RegistrationService {
         client.setWebAuthnEnabled(false);
         client.setPassword(passwordEncoder.encode(client.getPassword()));
 
+
         // Création d'un compte courant par defaut
-        CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(Account.AccountType.CURRENT);
+        CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(AccountType.CURRENT);
         client.addAccount(defaultAccount);
 
         return userRepository.save(client);
@@ -59,7 +65,7 @@ public class RegistrationService {
         // Enregistrement de base
         agent.setWebAuthnEnabled(false);
         agent.setPassword(passwordEncoder.encode(agent.getPassword()));
-        return (BankAgent) userRepository.save(agent);
+        return userRepository.save(agent);
     }
 
     public void activateWebAuthn(User user, String credentialId, byte[] publicKey) {

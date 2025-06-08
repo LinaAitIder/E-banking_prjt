@@ -12,10 +12,12 @@ import { CommonModule } from '@angular/common';
 @Component({
     selector: 'app-agent-registration',
     imports: [
+        CommonModule,
         ReactiveFormsModule,
         RouterOutlet,
         NavbarComponent,
-        CommonModule 
+
+        CommonModule
     ],
     templateUrl: './agent-registration.component.html',
     styleUrl : 'agent-registration.component.scss'

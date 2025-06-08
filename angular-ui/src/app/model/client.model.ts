@@ -11,13 +11,33 @@ export interface Client extends User {
     country: string;
     termsAccepted: boolean;
     challenge : string;
-    role:'client';
     fullName: string;
     email: string;
     phone: string;
     createdAt: Date | string;
     isActive: boolean;
-    type?: string; // Individual/Business
-    registration?: string; // Date d'inscription formatée
+    type?: string; 
+    registration?: string; 
+    role:'client'
+    isEnrolled: boolean;
+    responsibleAgent?: {
+            id: number;
+            fullName: string;
+            agentCode: string;
+    } | null;
+    accounts?: Account[];
+    mainAccount?: Account | null;
+}
+export interface Account {
+    id: number;
+    accountNumber: string;
+    type: string;
+    balance: number;
+    currency: string;
+    createdAt?: string | Date;
+    // Specific to account types
+    overdraftLimit?: number;    // CURRENT
+    interestRate?: number;      // SAVINGS
+    walletAddress?: string;     // CRYPTO
 
 }

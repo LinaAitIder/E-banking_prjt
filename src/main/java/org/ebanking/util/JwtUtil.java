@@ -13,9 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -90,8 +88,12 @@ public class JwtUtil {
         Claims claims = extractAllClaims(token);
         List<String> roles = claims.get("auth", List.class);
 
+        if (roles == null) {
+            return List.of();
+        }
+
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role))
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 

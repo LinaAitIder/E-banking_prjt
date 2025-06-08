@@ -1,0 +1,102 @@
+.account-requests-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.no-requests {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+.request-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #eee;
+
+    h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+    }
+
+    .request-date {
+        font-size: 14px;
+        color: #666;
+    }
+}
+
+.request-details {
+    padding: 15px 20px;
+
+    .detail {
+        display: flex;
+        margin-bottom: 10px;
+
+        .label {
+            font-weight: 500;
+            color: #555;
+            width: 150px;
+        }
+
+        .value {
+            color: #333;
+        }
+    }
+}
+
+.request-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    gap: 10px;
+
+    button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+
+        &.approve-btn {
+            background-color: #4CAF50;
+            color: white;
+
+            &:hover {
+                background-color: #3e8e41;
+            }
+        }
+
+        &.reject-btn {
+            background-color: #f44336;
+            color: white;
+
+            &:hover {
+                background-color: #d32f2f;
+            }
+        }
+    }
+}

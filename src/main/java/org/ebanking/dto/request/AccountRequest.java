@@ -1,13 +1,12 @@
 package org.ebanking.dto.request;
 
-import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 public class AccountRequest {
 
-    private String accountType;  // "CURRENT", "SAVINGS", etc.
+    private String accountType;  // "CURRENT", "SAVINGS", "CRYPTO"
     private String currency;
     private BigDecimal overdraftLimit;  // Pour CurrentAccount
     private BigDecimal interestRate;    // Pour SavingsAccount
