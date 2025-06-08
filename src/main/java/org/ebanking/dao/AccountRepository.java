@@ -28,8 +28,11 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     boolean existsByAccountNumber(String accountNumber);
 
-    @Query("SELECT a FROM CurrentAccount a WHERE a.owner.id = :clientId")
-    Optional<CurrentAccount> findCurrentAccountByOwnerId(@Param("clientId") Long clientId);
+    @Query("SELECT a FROM CurrentAccount a WHERE a.owner.id = :ownerId")
+    Optional<CurrentAccount> findCurrentAccountByOwnerId(@Param("ownerId") Long ownerId);
+
+    @Query("SELECT a.owner.fullName FROM Account a WHERE a.accountNumber = :accountNumber")
+    Optional<String> findOwnerNameByAccountNumber(@Param("accountNumber") String accountNumber);
 
     Optional<CurrentAccount> findByAccountNumber(String accountNumber);
 

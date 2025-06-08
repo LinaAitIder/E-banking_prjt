@@ -1,6 +1,7 @@
 package org.ebanking.service.Impl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.ebanking.dao.AccountRepository;
 import org.ebanking.dao.TransactionRepository;
 import org.ebanking.dto.response.TransactionResponse;
 import org.ebanking.model.Recharge;
@@ -20,25 +21,45 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Override
     public List<TransactionResponse> getTransactionsByAccount(Long accountId) {
-
-        //List<Transaction> transactions = transactionRepository.findByAccountIdOrderByTransactionDateDesc(accountId);
-
-        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
-
-        return transactions.stream()
+        return transactionRepository.findByAccountId(accountId)
+                .stream()
                 .map(this::mapToTransactionResponse)
                 .collect(Collectors.toList());
     }
 
     private TransactionResponse mapToTransactionResponse(Transaction transaction) {
-        return new TransactionResponse(
-                transaction.getId(),
-                transaction.getTransactionDate(),
-                getTransactionType(transaction),
-                transaction.getAmount()
-        );
+        TransactionResponse response = new TransactionResponse();
+        response.setId(transaction.getId());
+        response.setTransactionDate(transaction.getTransactionDate());
+        response.setType(transaction.getClass().getSimpleName());
+        response.setAmount(transaction.getAmount());
+
+        // Source account info
+        if (transaction.getAccount() != null) {
+            response.setSourceAccount(transaction.getAccount().getAccountNumber());
+            if (transaction.getAccount().getOwner() != null) {
+                response.setSourceUser(transaction.getAccount().getOwner().getFullName());
+            }
+        }
+
+        // Destination info (for transfers)
+        if (transaction instanceof Transfer) {
+            Transfer transfer = (Transfer) transaction;
+            response.setDestinationAccount(transfer.getDestinationAccount());
+
+            // Get destination owner name
+            String destOwnerName = accountRepository
+                    .findOwnerNameByAccountNumber(transfer.getDestinationAccount())
+                    .orElse("Inconnu");
+            response.setDestinationUser(destOwnerName);
+        }
+
+        return response;
     }
 
     private String getTransactionType(Transaction transaction) {
@@ -53,7 +74,16 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionResponse> getRecentTransactions(Long accountId) {
-        List<Transaction> transactions = transactionRepository.findByAccountIdOrderByTransactionDateDesc(accountId);
+        List<Transaction> transactions = transactionRepository.findRecentTransactions(accountId);
+
+        return transactions.stream()
+                .map(this::mapToTransactionResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransactionResponse> getAllTransactions() {
+        List<Transaction> transactions = transactionRepository.findAll();
 
         return transactions.stream()
                 .map(this::mapToTransactionResponse)
