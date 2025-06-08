@@ -96,6 +96,7 @@ public class AuthController {
 
         // Modification pour tous les types d'utilisateurs
         boolean webAuthnEnabled = credentialRepository.existsByUser(user);
+
         return ResponseEntity.ok(new LoginResponse(
                 token,
                 webAuthnEnabled,
