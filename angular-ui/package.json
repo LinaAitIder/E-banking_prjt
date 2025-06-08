@@ -15,8 +15,12 @@
     "@angular/compiler": "^19.2.0",
     "@angular/core": "^19.2.0",
     "@angular/forms": "^19.2.0",
+<<<<<<< Updated upstream
 
     "@angular/material": "^19.2.16",
+=======
+    "@angular/material": "^19.2.18",
+>>>>>>> Stashed changes
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
