@@ -43,8 +43,12 @@ build/
 
 
 ### Secrets ###
+<<<<<<< HEAD
 !**/src/main/resources/database.properties
 src/main/resources/service-account.json
 src/main/resources/database.properties
 
 .env
+=======
+!**/src/main/resources/database.properties
+>>>>>>> upstream/master

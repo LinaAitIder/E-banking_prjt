@@ -5,7 +5,7 @@ import { AuthenService } from '../services/authen.service';
 export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
     const authService = inject(AuthenService);
 
-    const apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
+    const apiUrl = 'http://localhost:8081/E-banking_prjt/api';
 
     const excludedEndpoints = [
         `${apiUrl}/auth/login`,

@@ -12,6 +12,7 @@ export class TestConnectionService {
 
     constructor(private http: HttpClient) { }
 
+
     testConnectionS() {
         return this.http.get(this.apiUrl, {
             responseType: 'text' as 'json',

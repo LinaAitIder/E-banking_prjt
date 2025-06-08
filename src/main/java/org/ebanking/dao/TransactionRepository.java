@@ -8,9 +8,18 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    // Méthodes génériques
-    List<Transaction> findByAccountId(Long accountId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.account.id = :accountId ORDER BY t.transactionDate DESC LIMIT 5")
-    List<Transaction> findByAccountIdOrderByTransactionDateDesc(@Param("accountId") Long accountId);
+
+    @Query("SELECT t FROM Transaction t " +
+            "LEFT JOIN FETCH t.account a " +
+            "LEFT JOIN FETCH a.owner " +
+            "WHERE t.account.id = :accountId")
+    List<Transaction> findByAccountId(@Param("accountId") Long accountId);
+
+    @Query("SELECT t FROM Transaction t " +
+            "LEFT JOIN FETCH t.account a " +
+            "LEFT JOIN FETCH a.owner " +
+            "WHERE t.account.id = :accountId " +
+            "ORDER BY t.transactionDate DESC LIMIT 5")
+    List<Transaction> findRecentTransactions(@Param("accountId") Long accountId);
 }

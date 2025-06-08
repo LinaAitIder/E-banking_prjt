@@ -18,6 +18,7 @@ export interface Client extends User {
     isActive: boolean;
     type?: string; 
     registration?: string; 
+
     role:'client'
     isEnrolled: boolean;
     responsibleAgent?: {

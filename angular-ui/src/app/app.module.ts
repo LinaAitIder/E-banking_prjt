@@ -6,7 +6,9 @@ import {BrowserModule} from "@angular/platform-browser";
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
 import {JwtInterceptor} from "./utils/jwt.interceptor";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
+
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors} from "@angular/common/http";
+import {CommonModule} from "@angular/common";
 
 
 @NgModule({
@@ -18,11 +20,14 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
         ReactiveFormsModule,
         ClientRegistrationComponent,
         AppComponent,
+
+        CommonModule,
         ClientRegistrationComponent,
         RouterModule.forRoot(routes)
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+
+        provideHttpClient(withInterceptors([JwtInterceptor]))
     ],
 })
 export class AppModule { }

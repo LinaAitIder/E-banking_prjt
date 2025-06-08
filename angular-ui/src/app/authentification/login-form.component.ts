@@ -7,7 +7,7 @@ import {WebauthnService} from "../services/webauthn.service";
 import {AuthenService} from "../services/authen.service";
 import {User} from "../model/user.model";
 import {NavbarComponent} from "../home/navbar/navbar.component";
-import { CommonModule } from '@angular/common';
+import {CommonModule} from "@angular/common";
 
 @Component({
     selector: 'app-login-form',

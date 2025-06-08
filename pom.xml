@@ -9,6 +9,7 @@
     <url>http://maven.apache.org</url>
 
 
+<<<<<<< HEAD
   <dependencies>
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
@@ -19,6 +20,11 @@
     </dependency>
 
 
+=======
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+
+>>>>>>> upstream/master
         <!-- https://mvnrepository.com/artifact/com.upokecenter/cbor -->
         <dependency>
             <groupId>com.upokecenter</groupId>
@@ -276,6 +282,7 @@
             <version>3.25.3</version>
             <scope>test</scope>
         </dependency>
+<<<<<<< HEAD
 
 
     <!-- JSON Mapper -->
@@ -371,6 +378,11 @@
   </dependencies>
 
 
+=======
+    </dependencies>
+
+
+>>>>>>> upstream/master
     <build>
         <resources>
             <resource>
@@ -402,4 +414,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
     </properties>
+<<<<<<< HEAD
 </project>
+=======
+</project>
+>>>>>>> upstream/master
