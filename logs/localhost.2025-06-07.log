@@ -1,0 +1,29 @@
+07-Jun-2025 00:30:17.460 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 00:30:18.243 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 01:26:32.071 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 09:48:45.713 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 09:48:46.332 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 11:01:50.180 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 15:30:00.173 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 15:30:00.736 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 15:36:39.010 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 16:04:55.599 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 16:04:56.192 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 16:35:43.433 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 16:36:35.307 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 16:36:35.864 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 16:38:22.031 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 16:39:01.045 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 16:39:01.857 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 16:49:32.816 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 16:50:06.936 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 16:50:07.484 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 16:56:07.690 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 16:56:48.919 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 16:56:49.427 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 17:02:31.013 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 17:03:15.473 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 17:03:15.974 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+07-Jun-2025 17:08:50.987 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+07-Jun-2025 17:09:48.907 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+07-Jun-2025 17:09:49.392 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'

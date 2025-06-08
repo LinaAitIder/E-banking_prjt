@@ -49,3 +49,140 @@
 06-Jun-2025 20:48:22.450 GRAVE [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks L'application web [E-banking_prjt] a crée un ThreadLocal avec une clé de type [java.lang.ThreadLocal] (valeur [java.lang.ThreadLocal@5acf21cb]) et une valeur de type [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap] (valeur [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap@1ec63de6]) mais ne l'a pas supprimé lorsqu'elle a été arrêtée, les threads seront graduellement renouvelés pour éviter une probable fuite de mémoire
 06-Jun-2025 20:48:22.495 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.stop Arrêt du gestionnaire de protocole ["http-nio-8081"]
 06-Jun-2025 20:48:22.521 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.destroy Destruction du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 21:49:17.247 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Nom version serveur :              Apache Tomcat/11.0.2
+06-Jun-2025 21:49:17.331 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Serveur compilé :                  Dec 5 2024 15:19:37 UTC
+06-Jun-2025 21:49:17.341 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version du serveur :               11.0.2.0
+06-Jun-2025 21:49:17.344 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Nom de l'OS :                      Linux
+06-Jun-2025 21:49:17.345 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version OS :                       6.8.0-59-generic
+06-Jun-2025 21:49:17.358 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture :                     amd64
+06-Jun-2025 21:49:17.358 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home :                        /home/eaeule/.jdks/ms-21.0.7
+06-Jun-2025 21:49:17.359 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version JVM :                      21.0.7+6-LTS
+06-Jun-2025 21:49:17.360 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Fournisseur de la JVM :            Microsoft
+06-Jun-2025 21:49:17.376 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE :                    /home/eaeule/E-banking_prjt
+06-Jun-2025 21:49:17.376 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME :                    /home/eaeule/apache-tomcat-11.0.2
+06-Jun-2025 21:49:17.445 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.lang=ALL-UNNAMED
+06-Jun-2025 21:49:17.451 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.io=ALL-UNNAMED
+06-Jun-2025 21:49:17.451 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util=ALL-UNNAMED
+06-Jun-2025 21:49:17.454 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+06-Jun-2025 21:49:17.454 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+06-Jun-2025 21:49:17.458 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.home=/home/eaeule/apache-tomcat-11.0.2
+06-Jun-2025 21:49:17.459 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.base=/home/eaeule/E-banking_prjt
+06-Jun-2025 21:49:17.460 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.io.tmpdir=/home/eaeule/E-banking_prjt/temp
+06-Jun-2025 21:49:17.460 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.config.file=/home/eaeule/E-banking_prjt/conf/logging.properties
+06-Jun-2025 21:49:17.471 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+06-Jun-2025 21:49:17.472 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -javaagent:/snap/intellij-idea-community/609/lib/idea_rt.jar=38633
+06-Jun-2025 21:49:17.474 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dfile.encoding=UTF-8
+06-Jun-2025 21:49:17.475 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stdout.encoding=UTF-8
+06-Jun-2025 21:49:17.475 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stderr.encoding=UTF-8
+06-Jun-2025 21:49:17.519 INFOS [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent La librairie Apache Tomcat Native basée sur APR qui permet des performances optimales dans les environnements de production n'a pas été trouvée sur le java.library.path : [/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib]
+06-Jun-2025 21:49:21.291 INFOS [main] org.apache.coyote.AbstractProtocol.init Initialisation du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 21:49:21.451 INFOS [main] org.apache.catalina.startup.Catalina.load L'initialisation du serveur a pris [6430] millisecondes
+06-Jun-2025 21:49:22.051 INFOS [main] org.apache.catalina.core.StandardService.startInternal Démarrage du service [Catalina]
+06-Jun-2025 21:49:22.055 INFOS [main] org.apache.catalina.core.StandardEngine.startInternal Démarrage du moteur de Servlets : [Apache Tomcat/11.0.2]
+06-Jun-2025 21:49:22.121 INFOS [main] org.apache.catalina.startup.HostConfig.deployDescriptor Déploiement du descripteur de configuration [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml]
+06-Jun-2025 21:49:39.935 INFOS [main] org.apache.jasper.servlet.TldScanner.scanJars Au moins un fichier JAR a été analysé pour trouver des TLDs mais il n'en contenait pas, le mode "debug" du journal peut être activé pour obtenir une liste complète de JAR scannés sans succès ; éviter d'analyser des JARs inutilement peut améliorer sensiblement le temps de démarrage et le temps de compilation des JSPs
+06-Jun-2025 21:50:29.056 INFOS [main] org.apache.catalina.startup.HostConfig.deployDescriptor Le traitement du descripteur de déploiement [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml] a pris [66 934] ms
+06-Jun-2025 21:50:29.074 INFOS [main] org.apache.coyote.AbstractProtocol.start Démarrage du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 21:50:29.113 INFOS [main] org.apache.catalina.startup.Catalina.start Le démarrage du serveur a pris [67649] millisecondes
+06-Jun-2025 22:20:04.453 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.pause Le gestionnaire de protocole ["http-nio-8081"] est mis en pause
+06-Jun-2025 22:20:04.462 INFOS [Thread-2] org.apache.catalina.core.StandardService.stopInternal Arrêt du service [Catalina]
+06-Jun-2025 22:20:05.178 AVERTISSEMENT [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc L'application web [E-banking_prjt] a enregistré un pilote JDBC [org.postgresql.Driver], mais ne l'a pas désenregistré avant l'arrêt de l'application.  Pour éviter une fuite de mémoire, le pilote JDBC a été désenregistré de force.
+06-Jun-2025 22:20:05.181 AVERTISSEMENT [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-shared-destroyer-0] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+06-Jun-2025 22:20:05.183 GRAVE [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks L'application web [E-banking_prjt] a crée un ThreadLocal avec une clé de type [java.lang.ThreadLocal] (valeur [java.lang.ThreadLocal@643b3e6f]) et une valeur de type [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap] (valeur [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap@2605a35b]) mais ne l'a pas supprimé lorsqu'elle a été arrêtée, les threads seront graduellement renouvelés pour éviter une probable fuite de mémoire
+06-Jun-2025 22:20:05.220 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.stop Arrêt du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 22:20:05.238 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.destroy Destruction du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 22:24:36.157 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Nom version serveur :              Apache Tomcat/11.0.2
+06-Jun-2025 22:24:36.182 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Serveur compilé :                  Dec 5 2024 15:19:37 UTC
+06-Jun-2025 22:24:36.185 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version du serveur :               11.0.2.0
+06-Jun-2025 22:24:36.186 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Nom de l'OS :                      Linux
+06-Jun-2025 22:24:36.186 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version OS :                       6.8.0-59-generic
+06-Jun-2025 22:24:36.189 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture :                     amd64
+06-Jun-2025 22:24:36.190 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home :                        /home/eaeule/.jdks/ms-21.0.7
+06-Jun-2025 22:24:36.190 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version JVM :                      21.0.7+6-LTS
+06-Jun-2025 22:24:36.191 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Fournisseur de la JVM :            Microsoft
+06-Jun-2025 22:24:36.192 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE :                    /home/eaeule/E-banking_prjt
+06-Jun-2025 22:24:36.192 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME :                    /home/eaeule/apache-tomcat-11.0.2
+06-Jun-2025 22:24:36.231 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.lang=ALL-UNNAMED
+06-Jun-2025 22:24:36.232 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.io=ALL-UNNAMED
+06-Jun-2025 22:24:36.232 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util=ALL-UNNAMED
+06-Jun-2025 22:24:36.233 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+06-Jun-2025 22:24:36.233 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+06-Jun-2025 22:24:36.234 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.home=/home/eaeule/apache-tomcat-11.0.2
+06-Jun-2025 22:24:36.234 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.base=/home/eaeule/E-banking_prjt
+06-Jun-2025 22:24:36.235 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.io.tmpdir=/home/eaeule/E-banking_prjt/temp
+06-Jun-2025 22:24:36.236 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.config.file=/home/eaeule/E-banking_prjt/conf/logging.properties
+06-Jun-2025 22:24:36.237 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+06-Jun-2025 22:24:36.237 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -javaagent:/snap/intellij-idea-community/609/lib/idea_rt.jar=39847
+06-Jun-2025 22:24:36.238 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dfile.encoding=UTF-8
+06-Jun-2025 22:24:36.238 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stdout.encoding=UTF-8
+06-Jun-2025 22:24:36.239 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stderr.encoding=UTF-8
+06-Jun-2025 22:24:36.257 INFOS [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent La librairie Apache Tomcat Native basée sur APR qui permet des performances optimales dans les environnements de production n'a pas été trouvée sur le java.library.path : [/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib]
+06-Jun-2025 22:24:37.940 INFOS [main] org.apache.coyote.AbstractProtocol.init Initialisation du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 22:24:38.021 INFOS [main] org.apache.catalina.startup.Catalina.load L'initialisation du serveur a pris [2879] millisecondes
+06-Jun-2025 22:24:38.250 INFOS [main] org.apache.catalina.core.StandardService.startInternal Démarrage du service [Catalina]
+06-Jun-2025 22:24:38.251 INFOS [main] org.apache.catalina.core.StandardEngine.startInternal Démarrage du moteur de Servlets : [Apache Tomcat/11.0.2]
+06-Jun-2025 22:24:38.289 INFOS [main] org.apache.catalina.startup.HostConfig.deployDescriptor Déploiement du descripteur de configuration [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml]
+06-Jun-2025 22:24:52.315 INFOS [main] org.apache.jasper.servlet.TldScanner.scanJars Au moins un fichier JAR a été analysé pour trouver des TLDs mais il n'en contenait pas, le mode "debug" du journal peut être activé pour obtenir une liste complète de JAR scannés sans succès ; éviter d'analyser des JARs inutilement peut améliorer sensiblement le temps de démarrage et le temps de compilation des JSPs
+06-Jun-2025 22:25:44.669 INFOS [main] org.apache.catalina.startup.HostConfig.deployDescriptor Le traitement du descripteur de déploiement [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml] a pris [66 378] ms
+06-Jun-2025 22:25:44.696 INFOS [main] org.apache.coyote.AbstractProtocol.start Démarrage du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 22:25:44.735 INFOS [main] org.apache.catalina.startup.Catalina.start Le démarrage du serveur a pris [66706] millisecondes
+06-Jun-2025 22:39:21.003 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Nom version serveur :              Apache Tomcat/11.0.2
+06-Jun-2025 22:39:21.046 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Serveur compilé :                  Dec 5 2024 15:19:37 UTC
+06-Jun-2025 22:39:21.047 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version du serveur :               11.0.2.0
+06-Jun-2025 22:39:21.048 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Nom de l'OS :                      Linux
+06-Jun-2025 22:39:21.048 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version OS :                       6.8.0-59-generic
+06-Jun-2025 22:39:21.049 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture :                     amd64
+06-Jun-2025 22:39:21.049 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home :                        /home/eaeule/.jdks/ms-21.0.7
+06-Jun-2025 22:39:21.052 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Version JVM :                      21.0.7+6-LTS
+06-Jun-2025 22:39:21.053 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Fournisseur de la JVM :            Microsoft
+06-Jun-2025 22:39:21.053 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE :                    /home/eaeule/E-banking_prjt
+06-Jun-2025 22:39:21.054 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME :                    /home/eaeule/apache-tomcat-11.0.2
+06-Jun-2025 22:39:21.103 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.lang=ALL-UNNAMED
+06-Jun-2025 22:39:21.103 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.io=ALL-UNNAMED
+06-Jun-2025 22:39:21.104 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util=ALL-UNNAMED
+06-Jun-2025 22:39:21.108 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+06-Jun-2025 22:39:21.109 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+06-Jun-2025 22:39:21.109 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.home=/home/eaeule/apache-tomcat-11.0.2
+06-Jun-2025 22:39:21.110 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dcatalina.base=/home/eaeule/E-banking_prjt
+06-Jun-2025 22:39:21.110 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.io.tmpdir=/home/eaeule/E-banking_prjt/temp
+06-Jun-2025 22:39:21.110 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.config.file=/home/eaeule/E-banking_prjt/conf/logging.properties
+06-Jun-2025 22:39:21.111 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+06-Jun-2025 22:39:21.112 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -javaagent:/snap/intellij-idea-community/623/lib/idea_rt.jar=34371
+06-Jun-2025 22:39:21.112 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dfile.encoding=UTF-8
+06-Jun-2025 22:39:21.113 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stdout.encoding=UTF-8
+06-Jun-2025 22:39:21.113 INFOS [main] org.apache.catalina.startup.VersionLoggerListener.log Argument de la ligne de commande : -Dsun.stderr.encoding=UTF-8
+06-Jun-2025 22:39:21.125 INFOS [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent La librairie Apache Tomcat Native basée sur APR qui permet des performances optimales dans les environnements de production n'a pas été trouvée sur le java.library.path : [/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib]
+06-Jun-2025 22:39:22.679 INFOS [main] org.apache.coyote.AbstractProtocol.init Initialisation du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 22:39:22.749 INFOS [main] org.apache.catalina.startup.Catalina.load L'initialisation du serveur a pris [3067] millisecondes
+06-Jun-2025 22:39:23.019 INFOS [main] org.apache.catalina.core.StandardService.startInternal Démarrage du service [Catalina]
+06-Jun-2025 22:39:23.020 INFOS [main] org.apache.catalina.core.StandardEngine.startInternal Démarrage du moteur de Servlets : [Apache Tomcat/11.0.2]
+06-Jun-2025 22:39:23.063 INFOS [main] org.apache.catalina.startup.HostConfig.deployDescriptor Déploiement du descripteur de configuration [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml]
+06-Jun-2025 22:39:35.472 INFOS [main] org.apache.jasper.servlet.TldScanner.scanJars Au moins un fichier JAR a été analysé pour trouver des TLDs mais il n'en contenait pas, le mode "debug" du journal peut être activé pour obtenir une liste complète de JAR scannés sans succès ; éviter d'analyser des JARs inutilement peut améliorer sensiblement le temps de démarrage et le temps de compilation des JSPs
+06-Jun-2025 22:40:26.278 INFOS [main] org.apache.catalina.startup.HostConfig.deployDescriptor Le traitement du descripteur de déploiement [/home/eaeule/E-banking_prjt/conf/Catalina/localhost/E-banking_prjt.xml] a pris [63 211] ms
+06-Jun-2025 22:40:26.314 INFOS [main] org.apache.coyote.AbstractProtocol.start Démarrage du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 22:40:26.384 INFOS [main] org.apache.catalina.startup.Catalina.start Le démarrage du serveur a pris [63628] millisecondes
+06-Jun-2025 22:54:04.066 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.pause Le gestionnaire de protocole ["http-nio-8081"] est mis en pause
+06-Jun-2025 22:54:04.074 INFOS [Thread-2] org.apache.catalina.core.StandardService.stopInternal Arrêt du service [Catalina]
+06-Jun-2025 22:54:04.703 AVERTISSEMENT [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc L'application web [E-banking_prjt] a enregistré un pilote JDBC [org.postgresql.Driver], mais ne l'a pas désenregistré avant l'arrêt de l'application.  Pour éviter une fuite de mémoire, le pilote JDBC a été désenregistré de force.
+06-Jun-2025 22:54:04.705 AVERTISSEMENT [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads L'application web [E-banking_prjt] semble avoir démarré un thread nommé [grpc-shared-destroyer-0] mais ne l'a pas arrêté, ce qui va probablement créer une fuite de mémoire ; la trace du thread est : 
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+06-Jun-2025 22:54:04.708 GRAVE [Thread-2] org.apache.catalina.loader.WebappClassLoaderBase.checkThreadLocalMapForLeaks L'application web [E-banking_prjt] a crée un ThreadLocal avec une clé de type [java.lang.ThreadLocal] (valeur [java.lang.ThreadLocal@70778275]) et une valeur de type [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap] (valeur [io.grpc.netty.shaded.io.netty.util.internal.InternalThreadLocalMap@7226c1fd]) mais ne l'a pas supprimé lorsqu'elle a été arrêtée, les threads seront graduellement renouvelés pour éviter une probable fuite de mémoire
+06-Jun-2025 22:54:04.737 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.stop Arrêt du gestionnaire de protocole ["http-nio-8081"]
+06-Jun-2025 22:54:04.747 INFOS [Thread-2] org.apache.coyote.AbstractProtocol.destroy Destruction du gestionnaire de protocole ["http-nio-8081"]

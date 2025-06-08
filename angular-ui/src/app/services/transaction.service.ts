@@ -1,32 +1,26 @@
 // src/app/services/transaction.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MOCK_TRANSACTIONS } from '../mocks/mock-transactions';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { TransactionResponse } from '../model/transaction-response.model'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  private apiUrl = 'http://localhost:8081/E-banking_prjt/api/transactions'; // À remplacer plus tard
-  private mockMode = true; // Passer à false quand le backend sera prêt
+  private apiUrl = 'http://localhost:8081/E-banking_prjt/api/transactions';
 
   constructor(private http: HttpClient) { }
 
-  getMockTransactions() {
-    return MOCK_TRANSACTIONS;
+  // Récupère toutes les transactions (pour l'admin)
+  getAllTransactions(): Observable<TransactionResponse[]> {
+    return this.http.get<TransactionResponse[]>(`${this.apiUrl}/all`);
   }
 
-  getTransactions(): Observable<any> {
-    if (this.mockMode) {
-      return of(this.getMockTransactions());
-    } else {
-      return this.http.get(this.apiUrl);
-    }
-  }
-
-  // À utiliser quand le backend sera prêt
-  getTransactionsFromAPI(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${userId}`);
+  // Récupère les transactions par compte
+  getTransactionsByAccount(accountId: number): Observable<TransactionResponse[]> {
+    return this.http.get<TransactionResponse[]>(`${this.apiUrl}/by-account`, {
+      headers: { 'account-id': accountId.toString() }
+    });
   }
 }

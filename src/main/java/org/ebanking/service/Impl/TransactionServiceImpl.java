@@ -59,4 +59,13 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(this::mapToTransactionResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<TransactionResponse> getAllTransactions() {
+        List<Transaction> transactions = transactionRepository.findAll();
+
+        return transactions.stream()
+                .map(this::mapToTransactionResponse)
+                .collect(Collectors.toList());
+    }
 }

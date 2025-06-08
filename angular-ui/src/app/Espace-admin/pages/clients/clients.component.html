@@ -1,23 +1,25 @@
-<!-- Header -->
 <header class="header">
     <h1>Clients</h1>
-    <button class="btn">+ Ajouter un client</button>
+    
+    <div class="header-actions">
+        <div class="stat">
+            <i class="fas fa-users icon"></i>
+            <div class="stat-content">
+                <span class="stat-value">{{ clients.length }}</span>
+                <small>Total Clients</small>
+            </div>
+        </div>
+        
+        <button class="btn-add-client">
+            <i class="fas fa-plus"></i> Ajouter un client
+        </button>
+    
+    </div>
 </header>
 
 <!-- Statistiques -->
 <div class="stats">
-    <div class="stat">
-        <i class="fas fa-users icon"></i>
-        <div>1,234<br><small>Total Clients</small></div>
-    </div>
-    <div class="stat">
-        <i class="fas fa-user-check icon"></i>
-        <div>567<br><small>Actifs</small></div>
-    </div>
-    <div class="stat">
-        <i class="fas fa-user-times icon"></i>
-        <div>123<br><small>Inactifs</small></div>
-    </div>
+  
 
     <!-- Barre de recherche -->
     <div class="search-container">
@@ -26,8 +28,8 @@
             <i class="fas fa-search search-icon"></i>
         </div>
     </div>
-
 </div>
+
 <!-- Tableau -->
 <div class="table-container">
     <table>
@@ -37,7 +39,6 @@
             <th>ID Client</th>
             <th>Email</th>
             <th>Phone number</th>
-            <th>Type</th>
             <th>Inscription</th>
         </tr>
         </thead>
@@ -47,7 +48,6 @@
             <td>{{ client.id }}</td>
             <td>{{ client.email }}</td>
             <td>{{ client.phone }}</td>
-            <td>{{ client.type }}</td>
             <td>{{ client.registration }}</td>
         </tr>
         </tbody>

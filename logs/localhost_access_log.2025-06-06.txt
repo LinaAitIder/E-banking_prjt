@@ -2,3 +2,12 @@
 127.0.0.1 - - [06/Jun/2025:20:08:39 +0100] "GET /E-banking_prjt/ HTTP/1.1" 403 641
 127.0.0.1 - - [06/Jun/2025:20:08:53 +0100] "OPTIONS /E-banking_prjt/api/auth/admin/admin HTTP/1.1" 200 -
 127.0.0.1 - - [06/Jun/2025:20:08:56 +0100] "POST /E-banking_prjt/api/auth/admin/admin HTTP/1.1" 200 238
+0:0:0:0:0:0:0:1 - - [06/Jun/2025:21:55:46 +0100] "GET /E-banking_prjt/api/clients HTTP/1.1" 403 641
+127.0.0.1 - - [06/Jun/2025:22:43:35 +0100] "OPTIONS /E-banking_prjt/api/auth/admin/admin HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2025:22:43:35 +0100] "OPTIONS /E-banking_prjt/api/auth/admin/admin HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2025:22:43:42 +0100] "POST /E-banking_prjt/api/auth/admin/admin HTTP/1.1" 200 238
+127.0.0.1 - - [06/Jun/2025:22:43:42 +0100] "POST /E-banking_prjt/api/auth/admin/admin HTTP/1.1" 200 238
+127.0.0.1 - - [06/Jun/2025:22:43:52 +0100] "GET /E-banking_prjt/api/clients HTTP/1.1" 200 10008
+127.0.0.1 - - [06/Jun/2025:22:45:49 +0100] "GET /E-banking_prjt/api/clients HTTP/1.1" 200 10008
+127.0.0.1 - - [06/Jun/2025:22:45:51 +0100] "GET /E-banking_prjt/api/clients HTTP/1.1" 200 10008
+127.0.0.1 - - [06/Jun/2025:22:52:40 +0100] "GET /E-banking_prjt/api/clients HTTP/1.1" 200 10008

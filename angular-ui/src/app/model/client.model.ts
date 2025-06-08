@@ -11,6 +11,13 @@ export interface Client extends User {
     country: string;
     termsAccepted: boolean;
     challenge : string;
-    role:'client'
+    role:'client';
+    fullName: string;
+    email: string;
+    phone: string;
+    createdAt: Date | string;
+    isActive: boolean;
+    type?: string; // Individual/Business
+    registration?: string; // Date d'inscription formatée
 
 }
