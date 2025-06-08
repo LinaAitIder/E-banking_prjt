@@ -1,6 +1,7 @@
 package org.ebanking.service;
 
 import org.ebanking.dao.AccountRepository;
+import org.ebanking.dao.ClientRepository;
 import org.ebanking.dao.UserRepository;
 import org.ebanking.model.*;
 import org.ebanking.dao.WebAuthnCredentialRepository;
@@ -22,6 +23,9 @@ public class RegistrationService {
     private AccountRepository accountRepository;
 
     @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -40,9 +44,11 @@ public class RegistrationService {
         client.setWebAuthnEnabled(false);
         client.setPassword(passwordEncoder.encode(client.getPassword()));
 
-        // Création d'un compte courant par defaut
-        CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(Account.AccountType.CURRENT);
-        client.addAccount(defaultAccount);
+        if(client.getAccounts().isEmpty()) {
+            CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(Account.AccountType.CURRENT);
+            client.addAccount(defaultAccount);
+            client.setMainAccount(defaultAccount);
+        }
 
         return userRepository.save(client);
     }
@@ -59,7 +65,7 @@ public class RegistrationService {
         // Enregistrement de base
         agent.setWebAuthnEnabled(false);
         agent.setPassword(passwordEncoder.encode(agent.getPassword()));
-        return (BankAgent) userRepository.save(agent);
+        return userRepository.save(agent);
     }
 
     public void activateWebAuthn(User user, String credentialId, byte[] publicKey) {

@@ -2,6 +2,7 @@ package org.ebanking.model;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "user_consent")
@@ -15,10 +16,14 @@ public class UserConsent {
     private User user;
 
     @Column(nullable = false)
-    private String consentType; // Ex: "MARKETING", "COOKIES", "DATA_PROCESSING"
+    private String consentType; // "MARKETING", "COOKIES", "DATA_PROCESSING"...
 
     @Column(nullable = false, unique = true)
-    private String reference; // "CONSENT-2023-XYZ123"
+    private String reference = generateReference(); // "CONSENT-XYZ1233454"
+
+    private String generateReference() {
+        return "CONSENT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
 
     @Column(nullable = false)
     private Instant givenAt;
