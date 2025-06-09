@@ -2,7 +2,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <header class="header">
-            <h1>Welcome, John Doe</h1>
+            <h1>Welcome, {{ userData?.name || 'User' }}</h1>
             <div class="user-profile">
                 <i class="icon user-circle"></i>
             </div>
@@ -17,14 +17,13 @@
                         <div class="chip"></div>
                         <div class="card-number">1234 5678 9012 3456</div>
                         <div class="card-info">
-                            <div class="card-holder">JOHN DOE</div>
+                            <div class="card-holder">{{ userData?.name?.toUpperCase() || 'USER' }}</div>
                             <div class="card-brand">VISA</div>
                         </div>
                     </div>
                 </div>
                 <div class="balance-text">Balance: 5,200.00 $</div>
             </div>
-
 
             <!-- Recent Transactions -->
             <div class="card">
@@ -61,24 +60,55 @@
                                 formControlName="recipient"
                                 placeholder="Enter recipient"
                                 class="form-control"
+                                required
                         >
+                        <div *ngIf="transferForm.get('recipient')?.invalid && transferForm.get('recipient')?.touched"
+                             class="error-message">
+                            Recipient is required
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="amount">Amount</label>
                         <input
-                                type="text"
+                                type="number"
                                 id="amount"
                                 formControlName="amount"
                                 placeholder="$0.00"
                                 class="form-control"
+                                required
+                                step="0.01"
+                                min="0.01"
                         >
+                        <div *ngIf="transferForm.get('amount')?.invalid && transferForm.get('amount')?.touched"
+                             class="error-message">
+                            Valid amount is required (e.g. 100.00)
+                        </div>
                     </div>
 
-                    <button type="submit" class="transfer-button">Transfer</button>
+                    <div class="form-group">
+                        <label for="reason">Reason</label>
+                        <input
+                                type="text"
+                                id="reason"
+                                formControlName="reason"
+                                placeholder="Enter transfer reason"
+                                class="form-control"
+                                required
+                        >
+                        <div *ngIf="transferForm.get('reason')?.invalid && transferForm.get('reason')?.touched"
+                             class="error-message">
+                            Reason is required
+                        </div>
+                    </div>
+
+                    <button type="submit" class="transfer-button" [disabled]="!transferForm.valid">Transfer</button>
+
+                    <div *ngIf="transferStatus" class="transfer-status" [class.success]="transferStatus.includes('successful')" [class.error]="transferStatus.includes('failed') || transferStatus.includes('Error')">
+                        {{ transferStatus }}
+                    </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
