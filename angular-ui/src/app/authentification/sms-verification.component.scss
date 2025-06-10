@@ -1,0 +1,120 @@
+.sms-verification-form {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fdfdfd;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: block;
+      color: #444;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+      }
+
+      &[readonly] {
+        background-color: #f0f0f0;
+        color: #888;
+      }
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      margin-top:6px;
+      margin-right:2px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover:not(:disabled) {
+        background-color: #0056b3;
+      }
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+
+    .info {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .hint {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .success {
+    margin-top: 1rem;
+    color: #28a745;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .error {
+    margin-top: 1rem;
+    color: #dc3545;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .code-sent-form {
+    margin-top : 1rem;
+  }
+
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+  border: 3px solid red;
+  border-top: 3px solid blue;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

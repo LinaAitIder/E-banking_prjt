@@ -11,6 +11,10 @@ export class WebauthnService {
 
   constructor(private authenService:AuthenService, private router:Router) { }
 
+  redirectToSMSVerifPage(){
+    this.router.navigate(['/smsVerificationPage'], { queryParams: { purpose: 'login' } });
+  }
+
   // Asynchrounous since we are waiing for the user to enter its biometric credentials
   async registerWebAuthenCredentials(
       challenge: any,
@@ -59,6 +63,8 @@ export class WebauthnService {
     return firstValueFrom(this.authenService.verifyAuthenticatorRequest(attestationObject, user));
   }
 
+
+
   async login(challenge: any, userRole :string , user: User, allowedCredentialId: any) {
 
     console.log("allowedCredentialId:", allowedCredentialId);
@@ -102,6 +108,7 @@ export class WebauthnService {
         role : userRole,
       };
 
+
       this.authenService.loginUser(loginPayload).subscribe({
         next: (res) => {
           console.log("received :"+ res);
@@ -133,7 +140,9 @@ export class WebauthnService {
     } catch (err) {
       if (err instanceof DOMException && err.name === "NotAllowedError") {
         alert("Authentication timed out or was cancelled. Please try again.");
+        this.redirectToSMSVerifPage();
       }
+      throw err;
     }
   }
 
