@@ -2,7 +2,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <header class="header">
-            <h1>Welcome, {{ userData?.name || 'User' }}</h1>
+            <h1>Welcome, {{ userData?.fullName || 'User' }}</h1>
             <div class="user-profile">
                 <i class="icon user-circle"></i>
             </div>
@@ -15,14 +15,16 @@
                 <div class="balance-container">
                     <div class="credit-card">
                         <div class="chip"></div>
-                        <div class="card-number">1234 5678 9012 3456</div>
+                        <div class="card-number">{{ mainAccount?.rib || userData?.rib || '•••• •••• •••• ••••' }}</div>
                         <div class="card-info">
-                            <div class="card-holder">{{ userData?.name?.toUpperCase() || 'USER' }}</div>
+                            <div class="card-holder">{{ userData?.fullName?.toUpperCase() || 'USER' }}</div>
                             <div class="card-brand">VISA</div>
                         </div>
                     </div>
                 </div>
-                <div class="balance-text">Balance: 5,200.00 $</div>
+                <div class="balance-text">
+                    Balance: {{ mainAccount ? (mainAccount.balance | currency:'MAD':'symbol':'1.2-2') : '0,00 MAD' }}
+                </div>
             </div>
 
             <!-- Recent Transactions -->
@@ -38,10 +40,10 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let transaction of transactions">
-                        <td>{{ transaction.date }}</td>
-                        <td>{{ transaction.description }}</td>
-                        <td class="amount-column" [ngClass]="getAmountClass(transaction.amount)">
-                            {{ transaction.amount }}
+                        <td>{{ transaction.transactionDate | date:'shortDate' }}</td>
+                        <td>{{ getTransactionDescription(transaction) }}</td>
+                        <td class="amount-column" [ngClass]="{'negative': transaction.amount < 0, 'positive': transaction.amount >= 0}">
+                            {{ transaction.amount | currency }}
                         </td>
                     </tr>
                     </tbody>
@@ -74,7 +76,7 @@
                                 type="number"
                                 id="amount"
                                 formControlName="amount"
-                                placeholder="$0.00"
+                                placeholder="MAD0.00"
                                 class="form-control"
                                 required
                                 step="0.01"

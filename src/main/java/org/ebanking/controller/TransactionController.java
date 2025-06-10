@@ -27,11 +27,19 @@ public class TransactionController {
         return ResponseEntity.ok(responses);
     }
 
+    @GetMapping("/by-client")
+    public ResponseEntity<List<TransactionResponse>> getAllClientTransactions(
+            @RequestHeader("client-id") Long clientId) {
+
+        List<TransactionResponse> responses = transactionService.getAllClientTransactions(clientId);
+        return ResponseEntity.ok(responses);
+    }
+
     @GetMapping("/recent")
     public ResponseEntity<List<TransactionResponse>> getRecentTransactions(
-            @RequestHeader("account-id") Long accountId) {
+            @RequestHeader("client-id") Long clientId) {
 
-        List<TransactionResponse> responses = transactionService.getRecentTransactions(accountId);
+        List<TransactionResponse> responses = transactionService.getRecentTransactions(clientId);
         return ResponseEntity.ok(responses);
     }
 

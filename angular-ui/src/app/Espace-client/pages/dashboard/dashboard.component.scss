@@ -359,3 +359,18 @@
 .form-control.ng-invalid.ng-touched {
   border-color: #dc3545;
 }
+
+.amount-column {
+  &.negative {
+    color: #ff3b30; // Rouge pour les montants négatifs
+    &::before {
+      content: "-";
+    }
+  }
+  &.positive {
+    color: #34c759; // Vert pour les montants positifs
+    &::before {
+      content: "+";
+    }
+  }
+}
