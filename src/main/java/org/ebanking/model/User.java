@@ -59,6 +59,7 @@ public abstract class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<WebAuthnCredential> webAuthnCredentials = new HashSet<>();
 
+
     public abstract List<String> getRoles();
 
     public String getRole() {

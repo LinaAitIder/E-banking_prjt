@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+<div class="sms-verification-form">
+    <h2>Second Verification Via SMS</h2>
+
+    <form [formGroup]="smsForm">
+        <div>
+            <label>Phone Number</label>
+            <input type="text" formControlName="phone" [readonly]="isCodeSent" />
+        </div>
+
+        <button
+                type="button"
+                (click)="sendCode()"
+                [disabled]="isCodeSent || isSending || smsForm.get('phone')?.invalid">
+            {{ isSending ? 'Sending...' : 'Send Verification Code' }}
+        </button>
+        <div *ngIf="isSending" class="spinner" style="margin-top: 10px;"></div>
+
+        <div *ngIf="isCodeSent"  class="code-sent-form">
+            <div>
+                <label>Enter Code</label>
+                <input type="text" formControlName="code" />
+            </div>
+            <button type="button" (click)="verifyCode()">Verify Code</button>
+
+            <p *ngIf="countdown > 0" class="info">You can resend code in {{ countdown }}s</p>
+            <button *ngIf="countdown === 0" (click)="resendCode()" type="button">Resend Code</button>
+
+            <p class="hint">
+                Didn’t receive the code? It may take up to 1 minute. Check your SMS inbox.
+            </p>
+        </div>
+    </form>
+
+    <p class="success" *ngIf="message">{{ message }}</p>
+    <p class="error" *ngIf="error">{{ error }}</p>
+</div>
