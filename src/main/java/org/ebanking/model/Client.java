@@ -17,7 +17,7 @@ public class Client extends User {
     @Column(name = "is_enrolled", nullable = false)
     private boolean isEnrolled = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "responsible_agent_id")
     private BankAgent responsibleAgent;
 
@@ -98,6 +98,8 @@ public class Client extends User {
     public List<String> getRoles() {
         return List.of("ROLE_CLIENT");
     }
+
+
 
     public boolean isEnrolled() {
         return isEnrolled;
