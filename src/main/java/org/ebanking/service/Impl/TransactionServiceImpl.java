@@ -11,6 +11,7 @@ import org.ebanking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(this::mapToTransactionResponse)
                 .collect(Collectors.toList());
     }
+
 
     private TransactionResponse mapToTransactionResponse(Transaction transaction) {
         TransactionResponse response = new TransactionResponse();
@@ -73,11 +75,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionResponse> getRecentTransactions(Long accountId) {
-        List<Transaction> transactions = transactionRepository.findRecentTransactions(accountId);
-
-        return transactions.stream()
-                .map(this::mapToTransactionResponse)
+    public List<TransactionResponse> getRecentTransactions(Long clientId) {
+        List<TransactionResponse> allTransactions = getAllClientTransactions(clientId);
+        return allTransactions.stream()
+                .limit(5)
                 .collect(Collectors.toList());
     }
 
@@ -88,5 +89,52 @@ public class TransactionServiceImpl implements TransactionService {
         return transactions.stream()
                 .map(this::mapToTransactionResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransactionResponse> getAllClientTransactions(Long clientId) {
+        // Transactions sortantes
+        List<Transaction> outgoing = transactionRepository.findOutgoingTransactions(clientId);
+        // Transfers entrants
+        List<Transfer> incoming = transactionRepository.findIncomingTransfers(clientId);
+
+        List<TransactionResponse> responses = outgoing.stream()
+                .map(t -> mapToTransactionResponse(t, clientId, true))
+                .collect(Collectors.toList());
+
+        responses.addAll(incoming.stream()
+                .map(t -> mapToTransactionResponse(t, clientId, false))
+                .collect(Collectors.toList()));
+
+        // Trier par date
+        responses.sort(Comparator.comparing(TransactionResponse::getTransactionDate).reversed());
+
+        return responses;
+    }
+
+    private TransactionResponse mapToTransactionResponse(Transaction transaction, Long clientId, boolean isOutgoing) {
+        TransactionResponse response = new TransactionResponse();
+        response.setId(transaction.getId());
+        response.setTransactionDate(transaction.getTransactionDate());
+        response.setAmount(transaction.getAmount());
+        response.setType((isOutgoing ? "OUTGOING_" : "INCOMING_") + getTransactionType(transaction));
+
+        if (transaction.getAccount() != null) {
+            response.setSourceAccount(transaction.getAccount().getAccountNumber());
+            if (transaction.getAccount().getOwner() != null) {
+                response.setSourceUser(transaction.getAccount().getOwner().getFullName());
+            }
+        }
+
+        if (transaction instanceof Transfer) {
+            Transfer transfer = (Transfer) transaction;
+            response.setDestinationAccount(transfer.getDestinationAccount());
+            String destOwnerName = accountRepository
+                    .findOwnerNameByAccountNumber(transfer.getDestinationAccount())
+                    .orElse("Inconnu");
+            response.setDestinationUser(destOwnerName);
+        }
+
+        return response;
     }
 }
