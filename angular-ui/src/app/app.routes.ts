@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import {LoginFormComponent} from "./authentification/login-form.component";
 import {ClientRegistrationComponent} from "./registration/client-registration/client-registration.component";
 import {AppComponent} from "./app.component";
-import {SmsVerificationComponent} from "./authentification/sms.verification.component";
+import {SmsVerificationComponent} from "./authentification/sms-verification.component";
 import {HomeComponent} from "./home/home.component";
 import {EspaceAdminComponent} from "./Espace-admin/Espace-admin.component";
 import {EspaceClientComponent} from "./Espace-client/Espace-client.component";

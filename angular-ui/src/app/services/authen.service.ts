@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, of, throwError} from "rxjs";
+
 import {Client} from "../model/client.model";
 import {User} from "../model/user.model";
 
@@ -78,7 +79,7 @@ export class AuthenService {
         return this.http.post(`${this.apiUrl}/auth/login`, usercredential);
     }
 
-adminLogin(credentials: {email: string, password: string}): Observable<any> {
+    adminLogin(credentials: {email: string, password: string}): Observable<any> {
         return this.http.post(`${this.apiUrl}/auth/admin/admin`, credentials);
     }
 
@@ -101,5 +102,44 @@ adminLogin(credentials: {email: string, password: string}): Observable<any> {
         console.log('Current Token:', token);
         return token;
     }
+
+    verifyPhoneNumber(phoneNumber:string) {
+        const params = new HttpParams().set('phoneNumber', phoneNumber);
+        return this.http.post(`${this.apiUrl}/auth/request-sms-verification`,
+            null, { params }
+        );
+    }
+
+    verifySMSCode(phone: string, codeVerification: string, user: { email: string; fullName: string; [key: string]: any }) {
+        const params = new HttpParams()
+            .set('phoneNumber', phone)
+            .set('codeVerification', codeVerification);
+
+        return this.http.post(`${this.apiUrl}/auth/verify-2fa`, user, { params });
+    }
+
+    verifyLogin2FA(phone: string, code: string) {
+        const params = new HttpParams()
+            .set('codeVerification', code)
+            .set('phoneNumber', phone);
+
+        const headers = new HttpHeaders({
+            'Accept': 'application/json'
+        });
+
+        return this.http.post<{
+            user: any,
+            role: string,
+            jwtToken: string
+        }>(`${this.apiUrl}/auth/login-verify-2fa`, null, {
+            params,
+            headers,
+            observe: 'response'
+        });
+    }
+
+
+
+
 
 }

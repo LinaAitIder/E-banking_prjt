@@ -13,6 +13,7 @@ export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
         `${apiUrl}/auth/register/agent`,
         `${apiUrl}/auth/register/admin`,
         `${apiUrl}/auth/verification/password`,
+        `${apiUrl}/auth/request-sms-verification`
     ];
 
     console.log('Intercepting:', request.url); // Debug log

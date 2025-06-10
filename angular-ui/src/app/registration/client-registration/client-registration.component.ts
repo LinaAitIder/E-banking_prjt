@@ -54,10 +54,16 @@ export class ClientRegistrationComponent {
         this.router.navigate(['/login']);
     }
 
-    redirectToSMSVerifPage(client: Client){
-        this.router.navigate(['/smsVerificationPage']);
-
+    redirectToSMSVerifPage(clientData: any) {
+        const clientDataString = encodeURIComponent(JSON.stringify(clientData));
+        this.router.navigate(['/smsVerificationPage'], {
+            queryParams: {
+                purpose: 'registration',
+                data: clientDataString
+            }
+        });
     }
+
 
     async onSubmitPersonalInfo() {
         if (this.registrationForm.invalid) {

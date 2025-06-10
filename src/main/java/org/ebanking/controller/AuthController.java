@@ -1,11 +1,13 @@
 package org.ebanking.controller;
 
+import org.ebanking.dao.UserRepository;
 import org.ebanking.dto.request.BiometricLoginRequest;
 import org.ebanking.dto.request.LoginRequest;
 import org.ebanking.dto.response.LoginResponse;
 import org.ebanking.model.Client;
 import org.ebanking.dao.ClientRepository;
 import org.ebanking.model.WebAuthnCredential;
+import org.ebanking.service.UserService;
 import org.ebanking.util.JwtUtil;
 import org.ebanking.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,9 @@ public class AuthController {
 
     @Autowired
     private final WebAuthnCredentialRepository credentialRepository;
+
+    @Autowired
+    private UserService userService;
 
 
     @Autowired
@@ -96,6 +101,8 @@ public class AuthController {
 
         // Modification pour tous les types d'utilisateurs
         boolean webAuthnEnabled = credentialRepository.existsByUser(user);
+        userService.enableWebAuthn(user);
+
 
         return ResponseEntity.ok(new LoginResponse(
                 token,
