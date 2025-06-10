@@ -31,22 +31,32 @@ export class AuthenService {
             });
     }
 
-    getCurrentUser(): User | null {
-        const userData = localStorage.getItem('currentUser');
-        if (!userData) return null;
+    // Dans auth.service.ts
+private readonly CURRENT_USER_KEY = 'currentUser';
+
+getCurrentUser(): User | null {
+    const userData = localStorage.getItem(this.CURRENT_USER_KEY);
+    if (!userData) {
+        console.log('Aucune donnée utilisateur dans le localStorage');
+        return null;
+    }
+    
+    try {
+        const user = JSON.parse(userData);
+        console.log('User parsed from localStorage:', user);
         
-        try {
-          const user = JSON.parse(userData);
-          // Vérification basique que l'utilisateur a bien un ID
-          if (user && (user.id || user.userId)) {
+        // Vérification plus complète
+        if (user && (user.id || user.userId) && user.email) {
+            console.log('Utilisateur valide trouvé');
             return user;
-          }
-          return null;
-        } catch (e) {
-          console.error('Error parsing user data', e);
-          return null;
         }
-      }
+        console.warn('Données utilisateur incomplètes:', user);
+        return null;
+    } catch (e) {
+        console.error('Error parsing user data', e);
+        return null;
+    }
+}
 
     getCurrentUserObservable(): Observable<User> {
         const user = this.getCurrentUser();

@@ -6,6 +6,7 @@ import { TransactionService } from '../services/transaction.service';
 import { AccountService } from '../services/account.service';
 import { AuthenService } from '../services/authen.service';
 import { Client } from '../model/client.model';
+import { Output, EventEmitter } from '@angular/core';
 
 interface ChatMessage {
   sender: 'user' | 'ai';
@@ -21,6 +22,10 @@ interface ChatMessage {
   templateUrl: './assistant.component.html',
   styleUrls: ['./assistant.component.css']
 })
+
+
+
+
 export class AssistantComponent {
   userInput = '';
   messages: ChatMessage[] = [];
@@ -44,29 +49,32 @@ export class AssistantComponent {
 
   private loadCurrentClient() {
     const currentUser = this.authService.getCurrentUser();
-    if (currentUser && 'id' in currentUser) {
-      this.clientId = (currentUser as Client).id;
+    if (currentUser && currentUser.id) { // Vérifiez simplement l'ID
+      this.clientId = currentUser.id;
       this.loadClientAccount();
     } else {
       console.error('Aucun client connecté ou utilisateur non reconnu');
       // Optionnel : rediriger vers la page de connexion
     }
-  }
+}
+private loadClientAccount() {
+  if (!this.clientId) return;
 
-  private loadClientAccount() {
-    if (!this.clientId) return;
-
-    this.accountService.getAccountsByClientAndType(this.clientId, undefined).subscribe({
-      next: (accounts: any[]) => {
-        if (accounts.length > 0) {
-          this.accountId = accounts[0].id;
-        }
-      },
-      error: (err: any) => {
-        console.error('Error loading client account:', err);
+  this.accountService.getAccountsByClientAndType(this.clientId, undefined).subscribe({
+    next: (accounts: any[]) => {
+      if (accounts && accounts.length > 0) {
+        this.accountId = accounts[0].id;
+        console.log('Compte trouvé:', this.accountId);
+      } else {
+        console.warn('Aucun compte trouvé pour ce client');
+        // Vous pourriez créer un compte par défaut ou demander à l'utilisateur d'en créer un
       }
-    });
-  }
+    },
+    error: (err: any) => {
+      console.error('Error loading client account:', err);
+    }
+  });
+}
 
   private generateSessionId(): string {
     return 'session-' + Math.random().toString(36).substring(2, 9);
@@ -150,6 +158,13 @@ export class AssistantComponent {
       }
     });
   }
+
+
+@Output() closeChatEvent = new EventEmitter<void>();
+
+closeChat() {
+  this.closeChatEvent.emit();
+}
 
   private handleTransactionQuery(messageIndex: number): void {
     if (!this.accountId) {

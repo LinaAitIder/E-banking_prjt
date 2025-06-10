@@ -3,5 +3,7 @@
 
     <div class="content">
         <router-outlet></router-outlet>
-    </div>
+        <app-assistant *ngIf="showAssistant" (closeChatEvent)="toggleAssistant()"></app-assistant>
+        <app-assistant-button (chatToggled)="toggleAssistant()"></app-assistant-button>    </div>
 </div>
+
