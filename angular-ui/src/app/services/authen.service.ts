@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {Client} from "../model/client.model";
 import {User} from "../model/user.model";
+import {environment} from "../../../environment.prod";
 
 @Injectable({
     providedIn: 'root'
@@ -11,8 +12,7 @@ import {User} from "../model/user.model";
 
 export class AuthenService {
     constructor(private http: HttpClient) {}
-    private apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
-
+    private apiUrl = environment.apiUrl;
     getChallengeAgent(user: { email: string; fullName: string; [key: string]: any }): Observable<any> {
         return this.http.post(`${this.apiUrl}/auth/register/agent`,user,{
             observe: 'response'
