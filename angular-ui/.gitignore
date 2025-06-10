@@ -40,3 +40,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+
+
+src/main/resources/service-account.json
+src/main/resources/database.properties
