@@ -2,22 +2,26 @@
     <h2 class="section-title">Accounts</h2>
 
     <div class="summary-cards">
-        <div class="card" *ngFor="let card of summaryCards">
+        <div class="card" *ngFor="let card of summaryCards" [ngClass]="'card-' + card.type.toLowerCase()">
             <h3>{{ card.title }}</h3>
-            <p class="balance">${{ card.balance.toLocaleString() }}</p>
-            <p class="number">Account Number: {{ card.number }}</p>
+            <p class="number">{{ card.number }}</p>
         </div>
     </div>
 
     <div class="toolbar">
-        <select>
-            <option>All</option>
-            <option>Checking</option>
-            <option>Savings</option>
-            <option>Business</option>
+        <select (change)="onTypeChange($any($event).target.value)">
+            <option value="ALL">All</option>
+            <option value="CURRENT">Current</option>
+            <option value="SAVINGS">Savings</option>
+            <option value="CRYPTO">Crypto</option>
         </select>
-        <input type="text" placeholder="Search..." />
-        <button class="btn-primary">NEW ACCOUNT</button>
+        <input 
+        type="text" 
+        placeholder="Search by holder or account number..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        style="width: 350px;"  
+    />
     </div>
 
     <table class="accounts-table">
@@ -28,30 +32,19 @@
             <th>Balance</th>
             <th>Type</th>
             <th>Created</th>
-            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let acc of accounts">
-
+        <tr *ngFor="let acc of filteredAccounts">
             <td>{{ acc.accountNumber }}</td>
             <td>{{ acc.holder }}</td>
             <td>${{ acc.balance.toLocaleString() }}</td>
             <td>{{ acc.type }}</td>
-            <td>{{ acc.createdAt }}</td>
-            <td class="actions">
-                <i class="fa fa-eye text-view"></i>
-                <i class="fa fa-edit text-edit"></i>
-                <i class="fa fa-trash text-delete"></i>
-            </td>
+            <td>{{ acc.createdAt | date }}</td>
+        </tr>
+        <tr *ngIf="filteredAccounts.length === 0">
+            <td colspan="5" style="text-align: center;">No accounts found</td>
         </tr>
         </tbody>
     </table>
-
-    <div class="pagination">
-        <button disabled>&lt;</button>
-        <span class="current">1</span>
-        <span>of 5</span>
-        <button>&gt;</button>
-    </div>
 </div>

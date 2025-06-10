@@ -6,6 +6,10 @@
         <tr>
             <th>Date</th>
             <th>Type</th>
+            <th>De</th>
+            <th>Compte source</th>
+            <th>Vers</th>
+            <th>Compte destination</th>
             <th>Montant</th>
         </tr>
         </thead>
@@ -13,10 +17,14 @@
         <tr *ngFor="let t of transactions">
             <td>{{ t.transactionDate | date:'dd/MM/yyyy' }}</td>
             <td>{{ t.type }}</td>
+            <td>{{ t.sourceUser || 'Système' }}</td>
+            <td>{{ t.sourceAccount || 'N/A' }}</td>
+            <td>{{ t.destinationUser || 'Système' }}</td>
+            <td>{{ t.destinationAccount || 'N/A' }}</td>
             <td [class.negative]="t.amount < 0" [class.positive]="t.amount > 0">
                 {{ t.amount | currency:'EUR':'symbol':'1.2-2' }}
             </td>
         </tr>
         </tbody>
     </table>
-  </div>
+</div>

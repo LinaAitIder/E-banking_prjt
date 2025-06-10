@@ -8,6 +8,7 @@ import org.ebanking.model.enums.AccountType;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public interface AccountService {
 
@@ -37,4 +38,5 @@ public interface AccountService {
 
     List<AccountResponse> getAccountsByClientAndType(Long clientId, AccountType type);
 
+    List<AccountResponse> getAllAccounts();
 }

@@ -1,75 +1,36 @@
 <div class="security-container">
     <h2 class="section-title">Security Settings</h2>
 
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+    </div>
+
     <div class="settings-cards">
         <!-- Password -->
         <div class="card">
             <h3>Change Password</h3>
             <div class="form-group">
                 <label>Current Password</label>
-                <input type="password" />
+                <input type="password" [(ngModel)]="passwordData.currentPassword" />
             </div>
             <div class="form-group">
                 <label>New Password</label>
-                <input type="password" />
+                <input type="password" [(ngModel)]="passwordData.newPassword" />
             </div>
             <div class="form-group">
                 <label>Confirm New Password</label>
-                <input type="password" />
+                <input type="password" [(ngModel)]="passwordData.confirmPassword" />
             </div>
-            <button class="btn-primary" (click)="changePassword()">Update Password</button>
-        </div>
-
-        <!-- 2FA -->
-        <div class="card">
-            <h3>Two-Factor Authentication</h3>
-            <p>Increase your account security by requiring a verification code each time you log in.</p>
-
-            <label class="toggle-label">
-                <input type="checkbox" [(ngModel)]="twoFactorEnabled" (change)="toggle2FA()" />
-                Enable Two-Factor Authentication
-            </label>
-
-            <p *ngIf="twoFactorEnabled" class="info-text">
-                You will receive a code on your registered phone/email each time you log in.
-            </p>
-        </div>
-
-        <!-- Alerts -->
-        <div class="card">
-            <h3>Login Alerts</h3>
-            <p>Receive notifications when someone logs into your account from a new device or location.</p>
-
-            <label class="toggle-label">
-                <input type="checkbox" [(ngModel)]="loginAlerts" />
-                Enable login alerts
-            </label>
-
-            <p *ngIf="loginAlerts" class="info-text">
-                Alerts will be sent to your email and mobile number.
-            </p>
-        </div>
-
-
-        <!-- Trusted Devices -->
-        <div class="card">
-            <h3>Trusted Devices</h3>
-            <table>
-                <thead>
-                <tr>
-                    <th>Device</th>
-                    <th>Last Used</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let device of trustedDevices; let i = index">
-                    <td>{{ device.name }}</td>
-                    <td>{{ device.lastUsed }}</td>
-                    <td><button (click)="removeDevice(i)">Remove</button></td>
-                </tr>
-                </tbody>
-            </table>
+            <button 
+                class="btn-primary" 
+                (click)="changePassword()"
+                [disabled]="isLoading">
+                {{ isLoading ? 'Processing...' : 'Update Password' }}
+            </button>
         </div>
     </div>
 

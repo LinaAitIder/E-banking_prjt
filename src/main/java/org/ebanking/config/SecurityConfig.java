@@ -48,7 +48,6 @@ public class SecurityConfig{
                                 "/api/auth/admin/first-login/change-password",
                                 "/api/transfer"
 
-
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

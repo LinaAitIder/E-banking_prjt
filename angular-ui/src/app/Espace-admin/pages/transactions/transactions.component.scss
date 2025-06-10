@@ -19,11 +19,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
 
     th, td {
-      padding: 1rem 1.2rem;
+      padding: 0.8rem 0.6rem; // Réduit un peu le padding pour plus d'espace
       text-align: left;
       border-bottom: 1px solid #e3e6e8;
       color: #4a4a4a;
-      font-size: 0.95rem;
+      font-size: 0.85rem; // Taille de police légèrement réduite
       transition: background-color 0.3s ease;
     }
 
@@ -33,6 +33,7 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      white-space: nowrap; // Empêche le texte de se casser sur plusieurs lignes
     }
 
     tbody tr {

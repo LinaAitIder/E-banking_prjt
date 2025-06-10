@@ -1,8 +1,8 @@
-// src/app/dashboard/dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../services/transaction.service';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
+import { AuthenService } from '../services/authen.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,16 +14,40 @@ import { CommonModule } from '@angular/common';
 export class DashboardComponent implements OnInit {
   transactions: any[] = [];
   alerts: string[] = [];
-  
-  constructor(private transactionService: TransactionService) {
+  clientId?: number;
+
+  constructor(
+    private transactionService: TransactionService,
+    private authService: AuthenService
+  ) {
     Chart.register(...registerables);
   }
 
   ngOnInit(): void {
-    this.transactions = this.transactionService.getMockTransactions();
-    this.createCharts();
-    this.generateAlerts();
-    this.analyzeSpending();
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser && 'id' in currentUser) {
+      this.clientId = (currentUser as any).id;
+      this.loadTransactions();
+    } else {
+      console.error('Aucun client connecté ou utilisateur non reconnu');
+      // Optionnel : rediriger vers la page de connexion
+    }
+  }
+
+  private loadTransactions(): void {
+    if (!this.clientId) return;
+
+    this.transactionService.getTransactionsByAccount(this.clientId).subscribe({
+      next: (data) => {
+        this.transactions = data;
+        this.createCharts();
+        this.generateAlerts();
+      },
+      error: (err) => {
+        console.error('Failed to load transactions', err);
+        this.alerts.push('Impossible de charger les transactions');
+      }
+    });
   }
 
   createCharts() {
@@ -109,7 +133,7 @@ export class DashboardComponent implements OnInit {
   private groupByCategory(): {[key: string]: number} {
     const categories: {[key: string]: number} = {};
     this.transactions
-      .filter(t => t.amount < 0) // Seulement les dépenses
+      .filter(t => t.amount < 0)
       .forEach(t => {
         categories[t.category] = (categories[t.category] || 0) + Math.abs(t.amount);
       });
@@ -119,16 +143,15 @@ export class DashboardComponent implements OnInit {
   private groupByMonth(): {[key: string]: number} {
     const months: {[key: string]: number} = {};
     this.transactions
-      .filter(t => t.amount < 0) // Seulement les dépenses
+      .filter(t => t.amount < 0)
       .forEach(t => {
-        const month = new Date(t.date).toLocaleString('default', { month: 'long' });
+        const month = new Date(t.transactionDate).toLocaleString('default', { month: 'long' });
         months[month] = (months[month] || 0) + Math.abs(t.amount);
       });
     return months;
   }
 
   private calculateSavingsTrend() {
-    // Simulation de données d'épargne sur plusieurs mois
     return {
       dates: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai'],
       amounts: [1000, 1500, 1200, 1800, 2000]
@@ -139,25 +162,25 @@ export class DashboardComponent implements OnInit {
     const totalSpent = this.calculateTotalSpent();
     const categories = this.groupByCategory();
     const totalIncome = this.calculateTotalIncome();
-
+  
     if (totalSpent > totalIncome * 0.7) {
       this.alerts.push(`Attention: Vous avez dépensé ${totalSpent}€, soit plus de 70% de vos revenus!`);
     }
-
-    if (categories['Entertainment'] > totalSpent * 0.3) {
-      this.alerts.push(`Alerte: Vous dépensez plus de 30% dans les loisirs (${categories['Entertainment']}€)`);
+  
+    if (categories['Loisirs'] > totalSpent * 0.3) {
+      this.alerts.push(`Alerte: Vous dépensez plus de 30% dans les loisirs (${categories['Loisirs']}€)`);
     }
-  }
-
-  private analyzeSpending() {
-    // Simulation d'analyse IA locale
-    const biggestExpense = Math.max(...this.transactions.filter(t => t.amount < 0).map(t => Math.abs(t.amount)));
-    const mainCategory = Object.entries(this.groupByCategory()).sort((a, b) => b[1] - a[1])[0];
-    
-    this.alerts.push(
-      `Analyse IA: Votre plus grosse dépense était de ${biggestExpense}€`,
-      `Analyse IA: Votre catégorie principale est ${mainCategory[0]} (${mainCategory[1]}€)`
-    );
+  
+    const expenses = this.transactions.filter(t => t.amount < 0);
+    if (expenses.length > 0) {
+      const biggestExpense = Math.max(...expenses.map(t => Math.abs(t.amount)));
+      this.alerts.push(`Analyse: Votre plus grosse dépense était de ${biggestExpense}€`);
+    }
+  
+    if (Object.keys(categories).length > 0) {
+      const mainCategory = Object.entries(categories).sort((a, b) => b[1] - a[1])[0];
+      this.alerts.push(`Analyse: Votre catégorie principale est ${mainCategory[0]} (${mainCategory[1]}€)`);
+    }
   }
 
   private calculateTotalSpent(): number {

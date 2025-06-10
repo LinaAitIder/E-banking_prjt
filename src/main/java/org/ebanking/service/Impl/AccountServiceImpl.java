@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
     private AccountResponse mapToResponse(Account account) {
         AccountResponse response = new AccountResponse();
         response.setAccountNumber(account.getAccountNumber());
-        response.setHolder(account.getOwner().getFullName()); // or account.getHolder().getFullName()
+        response.setHolder(account.getOwner() != null ? account.getOwner().getFullName() : "Unknown");
         response.setBalance(account.getBalance());
         response.setAccountType(account.getType().name());
         response.setCurrency(account.getCurrency());
@@ -54,7 +55,6 @@ public class AccountServiceImpl implements AccountService {
 
         return response;
     }
-
 
 
     @Override
@@ -311,5 +311,12 @@ public class AccountServiceImpl implements AccountService {
         return result;
     }
 
+
+    public List<AccountResponse> getAllAccounts() {
+        List<Account> accounts = accountRepository.findAll();
+        return accounts.stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
 
 }

@@ -1,32 +1,10 @@
-08-Jun-2025 09:27:13.200 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 09:27:13.943 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 09:44:22.962 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 09:46:11.309 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 09:46:11.847 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 09:48:08.456 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 09:48:43.228 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 09:48:43.788 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 09:51:44.252 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 10:14:01.935 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 10:14:02.597 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 10:18:17.633 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 10:49:17.187 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 10:49:17.725 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 11:01:07.591 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 11:01:08.289 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 11:05:57.449 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 12:05:10.275 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 12:05:10.995 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 12:07:48.041 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 12:18:01.130 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 12:18:02.051 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 14:39:34.116 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 20:04:20.065 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 20:04:20.592 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 20:19:48.708 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 20:19:49.234 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 20:20:29.372 GRAVE [main] org.apache.catalina.core.ApplicationContext.log "Servlet.init()" pour la servlet [dispatcher] a généré une exception
-	org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in org.ebanking.config.AppConfig: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [This connection has been closed.] [n/a]
+10-Jun-2025 00:14:47.437 INFOS [Thread-1] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+10-Jun-2025 04:02:01.144 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+10-Jun-2025 04:02:01.835 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+10-Jun-2025 10:10:34.427 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+10-Jun-2025 10:10:34.970 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+10-Jun-2025 10:11:08.793 GRAVE [main] org.apache.catalina.core.ApplicationContext.log "Servlet.init()" pour la servlet [dispatcher] a généré une exception
+	org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in org.ebanking.config.AppConfig: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [La tentative de connexion a échoué.] [n/a]
 		at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1806)
 		at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
 		at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
@@ -83,14 +61,14 @@
 		at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 		at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:342)
 		at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:470)
-	Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [This connection has been closed.] [n/a]
+	Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [La tentative de connexion a échoué.] [n/a]
 		at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:421)
 		at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
 		at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
 		at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853)
 		at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802)
 		... 55 more
-	Caused by: org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [This connection has been closed.] [n/a]
+	Caused by: org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [La tentative de connexion a échoué.] [n/a]
 		at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:100)
 		at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
 		at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
@@ -117,11 +95,14 @@
 		at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
 		at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
 		... 59 more
-	Caused by: org.postgresql.util.PSQLException: This connection has been closed.
-		at org.postgresql.jdbc.PgConnection.checkClosed(PgConnection.java:1009)
-		at org.postgresql.jdbc.PgConnection.setTransactionIsolation(PgConnection.java:1071)
-		at com.zaxxer.hikari.pool.PoolBase.setupConnection(PoolBase.java:415)
-		at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:365)
+	Caused by: org.postgresql.util.PSQLException: La tentative de connexion a échoué.
+		at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:358)
+		at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+		at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+		at org.postgresql.Driver.makeConnection(Driver.java:446)
+		at org.postgresql.Driver.connect(Driver.java:298)
+		at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+		at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
 		at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
 		at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
 		at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:550)
@@ -131,12 +112,32 @@
 		at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:428)
 		at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46)
 		... 79 more
-08-Jun-2025 20:20:29.373 GRAVE [main] org.apache.catalina.core.StandardContext.loadOnStartup Le Servlet [dispatcher] dans l'application web [/E-banking_prjt] a retourné une exception lors de son chargement
-	org.postgresql.util.PSQLException: This connection has been closed.
-		at org.postgresql.jdbc.PgConnection.checkClosed(PgConnection.java:1009)
-		at org.postgresql.jdbc.PgConnection.setTransactionIsolation(PgConnection.java:1071)
-		at com.zaxxer.hikari.pool.PoolBase.setupConnection(PoolBase.java:415)
-		at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:365)
+	Caused by: java.net.SocketTimeoutException: Connect timed out
+		at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+		at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+		at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+		at java.base/java.net.Socket.connect(Socket.java:751)
+		at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+		at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+		at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:136)
+		at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+		... 93 more
+10-Jun-2025 10:11:08.794 GRAVE [main] org.apache.catalina.core.StandardContext.loadOnStartup Le Servlet [dispatcher] dans l'application web [/E-banking_prjt] a retourné une exception lors de son chargement
+	java.net.SocketTimeoutException: Connect timed out
+		at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+		at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592)
+		at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+		at java.base/java.net.Socket.connect(Socket.java:751)
+		at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+		at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+		at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:136)
+		at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+		at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+		at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+		at org.postgresql.Driver.makeConnection(Driver.java:446)
+		at org.postgresql.Driver.connect(Driver.java:298)
+		at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+		at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
 		at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
 		at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
 		at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:550)
@@ -224,19 +225,10 @@
 		at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 		at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:342)
 		at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:470)
-08-Jun-2025 20:20:55.503 INFOS [http-nio-8081-exec-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 20:50:31.984 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 20:50:32.533 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 20:54:11.537 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 20:58:28.541 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 20:58:29.031 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 21:04:27.387 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 21:07:01.205 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 21:07:01.673 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 21:10:39.318 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 21:22:09.431 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 21:22:10.112 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 21:26:28.999 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
-08-Jun-2025 21:32:43.025 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
-08-Jun-2025 21:32:43.523 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
-08-Jun-2025 21:34:26.617 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+10-Jun-2025 10:11:36.562 INFOS [http-nio-8081-exec-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+10-Jun-2025 10:48:18.349 INFOS [Thread-1] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'
+10-Jun-2025 11:12:59.251 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+10-Jun-2025 11:12:59.960 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+10-Jun-2025 11:24:16.560 INFOS [main] org.apache.catalina.core.ApplicationContext.log 1 Spring WebApplicationInitializers detected on classpath
+10-Jun-2025 11:24:17.190 INFOS [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring DispatcherServlet 'dispatcher'
+10-Jun-2025 11:26:41.597 INFOS [Thread-2] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'dispatcher'

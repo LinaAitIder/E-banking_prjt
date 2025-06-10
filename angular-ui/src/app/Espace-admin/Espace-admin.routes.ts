@@ -8,7 +8,6 @@ import {AccountsComponent} from "./pages/accounts/accounts.component";
 import {TransactionsComponent} from "./pages/transactions/transactions.component";
 import {SettingsComponent} from "./pages/settings/settings.component";
 import {SecurityComponent} from "./pages/security/security.component";
-import {SupportComponent} from "./pages/support/support.component";
 
 export const ADMIN_ROUTES: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -17,6 +16,5 @@ export const ADMIN_ROUTES: Routes = [
     {path:'transactions',component:TransactionsComponent},
     {path:'settings',component:SettingsComponent},
     {path:'security',component:SecurityComponent},
-    {path:'support',component:SupportComponent},
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];

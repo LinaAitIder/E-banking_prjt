@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {Client} from "../model/client.model";
 import {User} from "../model/user.model";
 
@@ -28,6 +28,30 @@ export class AuthenService {
         return this.http.post(`${this.apiUrl}/auth/register`,user,{
                 observe: 'response'
             });
+    }
+
+    getCurrentUser(): User | null {
+        const userData = localStorage.getItem('currentUser');
+        if (!userData) return null;
+        
+        try {
+          const user = JSON.parse(userData);
+          // Vérification basique que l'utilisateur a bien un ID
+          if (user && (user.id || user.userId)) {
+            return user;
+          }
+          return null;
+        } catch (e) {
+          console.error('Error parsing user data', e);
+          return null;
+        }
+      }
+
+    getCurrentUserObservable(): Observable<User> {
+        const user = this.getCurrentUser();
+        return user 
+            ? of(user)
+            : throwError(() => new Error('User not found in localStorage'));
     }
 
 

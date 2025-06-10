@@ -24,4 +24,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("SELECT c FROM Client c LEFT JOIN FETCH c.accounts WHERE c.id = :clientId")
     Optional<Client> findByIdWithAccounts(@Param("clientId") Long clientId);
+
+        @Query("SELECT c FROM Client c LEFT JOIN FETCH c.responsibleAgent")
+        List<Client> findAllWithAgent();
+
 }

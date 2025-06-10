@@ -19,14 +19,8 @@ public class ClientController {
 
     @GetMapping
     public List<Client> getAllClients() {
-        return clientRepository.findAll().stream()
-                .map(this::mapToClientDTO)
-                .collect(Collectors.toList());
-    }
-
-    private Client mapToClientDTO(Client client) {
-        // Vous pouvez ajouter des transformations si nécessaire
-        return client;
+        // Utilisez JOIN FETCH pour charger les relations nécessaires
+        return clientRepository.findAllWithAgent();
     }
 }
 

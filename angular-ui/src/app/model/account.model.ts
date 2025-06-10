@@ -4,7 +4,7 @@ export interface Account {
     accountType:string;
     holder: string;
     balance: number;
-    type: string;
+    type: string; 
     currency: string;
     overdraftLimit?: number;
     interestRate?: number;
@@ -13,6 +13,4 @@ export interface Account {
     createdAt: string;
 
 }
-
-
 

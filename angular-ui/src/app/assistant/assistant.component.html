@@ -17,12 +17,21 @@
       </div>
     </div>
   </div>
+
+  <div class="predefined-questions">
+    <h4>Questions rapides:</h4>
+    <button *ngFor="let question of predefinedQuestions" 
+            (click)="selectQuestion(question)"
+            [disabled]="messages.length && messages[messages.length - 1].loading">
+      {{question}}
+    </button>
+  </div>
   
   <div class="input-area">
     <input [(ngModel)]="userInput" 
            placeholder="Posez votre question..." 
            (keyup.enter)="sendMessage()"
-           [disabled]="!!messages.length && !!messages[messages.length - 1]?.loading">
+           [disabled]="!!messages.length && !!messages[messages.length - 1].loading">
     <button (click)="sendMessage()" 
             [disabled]="!userInput.trim() || (messages.length && messages[messages.length - 1].loading)">
       Envoyer

@@ -34,19 +34,7 @@ export class SettingsComponent {
         eth: 0.001
     };
 
-    // Informations bancaires
-    bankInfo = {
-        name: 'MyBank',
-        swift: 'MYBKUS33',
-        defaultCurrency: 'USD'
-    };
-
-    // Options supplémentaires
-    toggles = {
-        instantTransfers: true,
-        autoConversion: false,
-        cryptoWallet: true
-    };
+    
 
     // Méthodes de sauvegarde simulées
     updateRates() {
@@ -64,14 +52,6 @@ export class SettingsComponent {
         alert('Crypto fees saved!');
     }
 
-    saveBankInfo() {
-        console.log('Bank Info:', this.bankInfo);
-        alert('Bank info updated!');
-    }
-
-    saveToggles() {
-        console.log('Toggles:', this.toggles);
-        alert('Settings toggles saved!');
-    }
+    
 }
 

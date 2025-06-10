@@ -1,27 +1,60 @@
-<div class="dashboard-row">
-    <!-- Bloc gauche : Transactions Overview -->
-    <div class="transactions-overview">
-        <h3>Transactions Overview</h3>
-        <div class="chart-container" *ngIf="isBrowser">
-            <canvas
+<div class="admin-dashboard">
+   
+
+    <!-- Graphiques -->
+    <div class="dashboard-row">
+        <!-- Bloc gauche : Evolution des Transactions -->
+        <div class="transactions-overview">
+            <div class="header-section">
+                <h3>Évolution des Transactions</h3>
+                <button class="refresh-btn" (click)="refreshAdminData()" [disabled]="isLoading">
+                    <span class="refresh-icon" [class.spinning]="isLoading">↻</span>
+                </button>
+            </div>
+            
+            <div class="chart-container" *ngIf="isBrowser && !isLoading">
+                <canvas
                     baseChart
                     [type]="'line'"
                     [data]="lineChartData"
                     [options]="lineChartOptions">
-            </canvas>
+                </canvas>
+            </div>
+            
+            <div class="loading-container" *ngIf="isLoading">
+                <div class="spinner"></div>
+                <span>Chargement des statistiques...</span>
+            </div>
         </div>
-    </div>
 
-    <!-- Bloc droit : Account Types -->
-    <div class="account-types">
-        <h3>Account Types</h3>
-        <div class="chart-container" *ngIf="isBrowser">
-            <canvas
+        <!-- Bloc droit : Répartition des Types de Comptes -->
+        <div class="account-types">
+            <div class="header-section">
+                <h3>Types de Comptes</h3>
+            </div>
+            
+            <div class="chart-container" *ngIf="isBrowser && !isLoading">
+                <canvas
                     baseChart
                     [type]="'doughnut'"
                     [data]="accountChartData"
                     [options]="accountChartOptions">
-            </canvas>
+                </canvas>
+            </div>
+            
+            <div class="loading-container" *ngIf="isLoading">
+                <div class="spinner"></div>
+                <span>Chargement...</span>
+            </div>
+
+            <!-- Légende détaillée -->
+            <div class="account-legend" *ngIf="!isLoading && accountChartData.labels.length > 0">
+                <div class="legend-item" *ngFor="let label of accountChartData.labels; let i = index">
+                    <div class="legend-color" [style.background-color]="accountChartData.datasets[0].backgroundColor[i]"></div>
+                    <span class="legend-text">{{ label }}</span>
+                    <span class="legend-count">({{ accountChartData.datasets[0].data[i] }})</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

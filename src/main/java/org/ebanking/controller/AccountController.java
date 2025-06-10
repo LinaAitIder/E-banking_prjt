@@ -68,4 +68,11 @@ public class AccountController {
         List<AccountResponse> accounts = accountService.getAccountsByClientAndType(clientId, type);
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<AccountResponse>> getAllAccounts() {
+        List<AccountResponse> accounts = accountService.getAllAccounts();
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
 }

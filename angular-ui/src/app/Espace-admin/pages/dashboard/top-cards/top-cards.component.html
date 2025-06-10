@@ -1,38 +1,14 @@
-<link rel="stylesheet" href="top-cards.component.scss">
 <div class="dashboard-header">
     <h1>Admin Dashboard</h1>
 </div>
 
 <div class="top-cards">
-    <div class="card-item">
-        <div class="icon"><i class="fas fa-users"></i></div>
+    <div class="card-item" *ngFor="let card of topCards">
+        <div class="icon"><i [class]="card.icon"></i></div>
         <div class="details">
-            <p>Total Clients</p>
-            <h2>1,250</h2>
-        </div>
-    </div>
-
-    <div class="card-item">
-        <div class="icon"><i class="fas fa-university"></i></div>
-        <div class="details">
-            <p>Total Accounts</p>
-            <h2>890</h2>
-        </div>
-    </div>
-
-    <div class="card-item">
-        <div class="icon"><i class="fas fa-exchange-alt"></i></div>
-        <div class="details">
-            <p>Transactions</p>
-            <h2>3,500</h2>
-        </div>
-    </div>
-
-    <div class="card-item">
-        <div class="icon"><i class="fas fa-dollar-sign"></i></div>
-        <div class="details">
-            <p>Revenue</p>
-            <h2>$85,000</h2>
+            <p>{{ card.label }}</p>
+            <h2 *ngIf="!card.loading">{{ card.value }}</h2>
+            <h2 *ngIf="card.loading">Loading...</h2>
         </div>
     </div>
 </div>

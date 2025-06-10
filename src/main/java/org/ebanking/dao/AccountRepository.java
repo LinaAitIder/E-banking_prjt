@@ -24,6 +24,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     List<Account> findByOwnerId(Long OwnerId);
 
+    @Query("SELECT a FROM Account a WHERE a.owner IS NOT NULL")
+    List<Account> findAllWithOwner();
+
     boolean existsByOwnerId(Long OwnerId);
 
     boolean existsByAccountNumber(String accountNumber);

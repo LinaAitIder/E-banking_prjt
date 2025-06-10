@@ -6,7 +6,6 @@ import {BrowserModule} from "@angular/platform-browser";
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
 import {JwtInterceptor} from "./utils/jwt.interceptor";
-
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 
