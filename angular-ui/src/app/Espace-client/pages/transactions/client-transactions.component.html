@@ -1,0 +1,46 @@
+<div class="transaction-container">
+    <div class="transaction-header">
+        <h1>Transactions</h1>
+    </div>
+
+    <div class="transaction-table-wrapper">
+        <table class="transaction-table">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Reference</th>
+                <th>Status</th>
+                <th>Date of the Transaction</th>
+                <th>Recipient</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let transaction of transactions">
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.amount | currency }}</td>
+                <td>{{ transaction.reference }}</td>
+                <td [ngClass]="{'status': true, 'completed': transaction.status === 'Completed', 'pending': transaction.status === 'Pending'}">
+                    {{ transaction.status }}
+                </td>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.recipient }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Formulaire de transfert -->
+    <div class="transfer-form">
+        <h2>Saving Money</h2>
+        <form (ngSubmit)="transferMoney()">
+            <label for="amount">Amount to transfer:</label>
+            <input type="number" id="amount" [(ngModel)]="transferAmount" name="amount" required min="1" step="10" />
+            <button type="submit">Save</button>
+        </form>
+
+        <div *ngIf="transferMessage" class="transfer-message">
+            {{ transferMessage }}
+        </div>
+    </div>
+</div>
