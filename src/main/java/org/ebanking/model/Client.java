@@ -53,7 +53,7 @@ public class Client extends User {
     @JsonIgnore
     private List<Enrollment> enrollments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Account> accounts = new ArrayList<>();
 

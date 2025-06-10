@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AgentService } from '../../../services/agent.service';
 import { AccountRequestService } from '../../../services/account-request.service';
-import { MessageService } from '../../../services/message.service';
+import { AccountRequest } from '../../../model/account-request.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-account-requests',
@@ -12,51 +11,51 @@ import { MessageService } from '../../../services/message.service';
     styleUrls: ['./account-requests.component.scss']
 })
 export class AccountRequestsComponent implements OnInit {
-    pendingRequests: any[] = [];
+    pendingRequests: AccountRequest[] = [];
+    isLoading = false;
 
-    constructor(
-        private accountRequestService: AccountRequestService,
-        private messageService: MessageService
-    ) {}
+    constructor(private accountRequestService: AccountRequestService) {}
 
     ngOnInit(): void {
         this.loadPendingRequests();
     }
 
     loadPendingRequests(): void {
+        this.isLoading = true;
         this.accountRequestService.getPendingRequests().subscribe({
             next: (requests) => {
                 this.pendingRequests = requests;
+                this.isLoading = false;
             },
             error: (err) => {
-                this.messageService.showError('Failed to load requests');
-                console.error(err);
+                console.error('Failed to load requests:', err);
+                this.isLoading = false;
             }
         });
     }
 
     approveRequest(requestId: number): void {
+        if (!requestId) return;
+
         this.accountRequestService.approveRequest(requestId).subscribe({
             next: () => {
-                this.messageService.showSuccess('Request approved successfully');
                 this.loadPendingRequests();
             },
             error: (err) => {
-                this.messageService.showError('Failed to approve request');
-                console.error(err);
+                console.error('Approval failed:', err);
             }
         });
     }
 
     rejectRequest(requestId: number): void {
+        if (!requestId) return;
+
         this.accountRequestService.rejectRequest(requestId).subscribe({
             next: () => {
-                this.messageService.showSuccess('Request rejected successfully');
                 this.loadPendingRequests();
             },
             error: (err) => {
-                this.messageService.showError('Failed to reject request');
-                console.error(err);
+                console.error('Rejection failed:', err);
             }
         });
     }

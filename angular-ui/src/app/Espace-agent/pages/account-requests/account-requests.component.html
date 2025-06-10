@@ -7,7 +7,7 @@
 
     <div *ngFor="let request of pendingRequests" class="request-card">
         <div class="request-header">
-            <h3>{{ request.client.fullName }}</h3>
+            <h3>{{ request.clientName }}</h3>
             <span class="request-date">{{ request.requestDate | date:'medium' }}</span>
         </div>
 
@@ -34,8 +34,10 @@
         </div>
 
         <div class="request-actions">
+            <ng-container *ngIf="request.id !== undefined">
             <button class="approve-btn" (click)="approveRequest(request.id)">Approve</button>
             <button class="reject-btn" (click)="rejectRequest(request.id)">Reject</button>
+            </ng-container>
         </div>
     </div>
 </div>

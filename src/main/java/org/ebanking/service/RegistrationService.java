@@ -12,6 +12,9 @@ import jakarta.transaction.Transactional;
 import org.ebanking.model.enums.AccountType;
 
 import java.math.BigDecimal;
+import java.util.UUID;
+
+import static org.ebanking.model.RibGenerator.generateRib;
 
 @Service
 @Transactional
@@ -35,6 +38,10 @@ public class RegistrationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private String generateAccountNumber() {
+        return "ACC-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
     public Client registerClient(Client client) {
         // Validation métier
         if (userRepository.existsByNationalId(client.getNationalId())) {
@@ -48,9 +55,15 @@ public class RegistrationService {
 
         // Création d'un compte courant par defaut
         CurrentAccount defaultAccount = (CurrentAccount) accountFactory.createAccount(AccountType.CURRENT);
+        defaultAccount.setAccountNumber(generateAccountNumber());
+        defaultAccount.setCurrency("MAD");
+        defaultAccount.setOwner(client);
+        defaultAccount.setRib(generateRib());
         client.addAccount(defaultAccount);
+        client.setMainAccount(defaultAccount);
 
-        return userRepository.save(client);
+        userRepository.save(client);
+        return client;
     }
 
     public BankAgent registerBankAgent(BankAgent agent) {

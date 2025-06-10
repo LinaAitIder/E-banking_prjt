@@ -21,7 +21,6 @@ public class AccountResponse {
     private Boolean isActive;
     private String rib;
 
-    // Pour SavingsAccount
     private Map<String, String> supportedCryptos; // Pour CryptoAccount
 
 

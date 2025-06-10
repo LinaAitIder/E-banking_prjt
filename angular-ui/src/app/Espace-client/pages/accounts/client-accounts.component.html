@@ -1,5 +1,4 @@
 <h1>Manage Your Accounts</h1>
-
 <form [formGroup]="accountForm" (ngSubmit)="submitAccount()" class="account-form">
     <div class="form-row">
         <label for="accountType">Account Type</label>
@@ -42,6 +41,28 @@
     <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
 </form>
 
+<div *ngIf="isLoading" class="loading">Loading...</div>
+
+<!-- Section pour les comptes awaiting approval -->
+<section>
+    <h2>Pending Account Requests</h2>
+    <div *ngIf="pendingAccounts.length === 0">
+        No pending account requests awaiting approval.
+    </div>
+    <div *ngIf="pendingAccounts.length > 0">
+     <div *ngFor="let account of pendingAccounts" class="account-card pending">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong>{{ account.accountType }} Account</strong>
+            <span class="status-badge">Pending Approval</span>
+        </div>
+        <p><strong>Currency:</strong> {{ account.currency }}</p>
+        <p *ngIf="account.overdraftLimit"><strong>Overdraft Limit:</strong> {{ account.overdraftLimit }}</p>
+        <p *ngIf="account.interestRate"><strong>Interest Rate:</strong> {{ account.interestRate }}%</p>
+        <button (click)="cancelRequest(account.id)" class="cancel-btn">Cancel Request</button>
+      </div>
+    </div>
+</section>
+
 <div class="account-sections">
     <section>
         <h2>Current Accounts</h2>
@@ -71,7 +92,7 @@
             <div *ngFor="let account of savingsAccounts" class="account-card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <strong>{{ account.currency }}</strong>
-                        <span style="font-weight: bold; text-align: right;">
+                    <span style="font-weight: bold; text-align: right;">
                         {{ account.balance | number:'1.2-2' }} {{ account.currency }}
                       </span>
                 </div>

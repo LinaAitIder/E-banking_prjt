@@ -3,7 +3,7 @@ package org.ebanking.service.Impl;
 import jakarta.persistence.EntityNotFoundException;
 import org.ebanking.dao.AccountRepository;
 import org.ebanking.dao.ClientRepository;
-import org.ebanking.dto.request.AccountRequest;
+import org.ebanking.dto.request.AccountRequestDto;
 import org.ebanking.dto.response.AccountResponse;
 import org.ebanking.model.*;
 import org.ebanking.model.enums.AccountType;
@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public AccountResponse createAccount(Long userId, AccountRequest request) {
+    public AccountResponse createAccount(Long userId, AccountRequestDto request) {
         // 1. Récupérer le client
         Client client = clientRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Client not found with id: " + userId));
@@ -194,7 +194,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    // verify if the Client has already account with the same type
+    // verify if the Client has already an account with the same type
     @Override
     public boolean clientCanHaveAccountType(Long clientId, Class<? extends Account> accountType) {
         if (CurrentAccount.class.equals(accountType)) {

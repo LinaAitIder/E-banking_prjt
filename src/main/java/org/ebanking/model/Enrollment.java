@@ -3,18 +3,10 @@ package org.ebanking.model;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
-import org.ebanking.model.enums.EnrollmentStatus;
-import org.ebanking.model.enums.DocumentType;
 import org.hibernate.annotations.*;
-import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.util.Map;
 
-/**
- * Represents a client enrollment process with a bank agent.
- * Tracks enrollment status, documents, and agent assignment
- */
 @Entity
 @Table(name = "enrollment")
 public class Enrollment {
@@ -26,13 +18,13 @@ public class Enrollment {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Client client;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "agent_id", nullable = false)
+    @JoinColumn(name = "agent_id", referencedColumnName = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private BankAgent agent;
 

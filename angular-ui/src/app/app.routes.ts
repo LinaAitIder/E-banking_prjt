@@ -52,7 +52,7 @@ export const routes: Routes = [
         loadChildren: () => import('./Espace-agent/Espace-agent.routes').then(m => m.AGENT_ROUTES)
     },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: '**', redirectTo: 'home' } // Redirection pour les routes inconnues
+    { path: '**', redirectTo: 'home' }
 
 ];
 
