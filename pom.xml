@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
-    <artifactId>E-banking_Prjt</artifactId>
+    <artifactId>EbankingPrjt</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>E-banking_Prjt Maven Webapp</name>
@@ -269,6 +269,9 @@
             <version>3.25.3</version>
             <scope>test</scope>
         </dependency>
+
+
+
     </dependencies>
 
 

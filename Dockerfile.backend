@@ -1,10 +1,15 @@
-FROM openjdk:17-jdk-alpine
-VOLUME /tmp
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+
 WORKDIR /app
-RUN ls -la /target/ || echo "No target directory yet"
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-COPY target/EbankingPrjt-1.0-SNAPSHOT.jar app.jar
+FROM tomcat:9.0-jre11
+
+RUN rm -rf /usr/local/tomcat/webapps/ROOT
+
+COPY --from=build /app/target/EbankingPrjt-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
 
