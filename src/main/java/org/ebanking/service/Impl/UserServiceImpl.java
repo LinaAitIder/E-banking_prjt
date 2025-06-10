@@ -65,4 +65,13 @@ public class UserServiceImpl implements UserService {
 
         return dto;
     }
+
+    @Transactional
+    public void enableWebAuthn(User user){
+        User dbUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        dbUser.setWebAuthnEnabled(true);
+        userRepository.save(dbUser);
+    }
+
 }

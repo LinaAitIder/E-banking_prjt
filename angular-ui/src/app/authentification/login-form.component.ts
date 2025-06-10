@@ -8,6 +8,7 @@ import {AuthenService} from "../services/authen.service";
 import {User} from "../model/user.model";
 import {NavbarComponent} from "../home/navbar/navbar.component";
 import {CommonModule} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-login-form',
@@ -19,7 +20,7 @@ import {CommonModule} from "@angular/common";
 export class LoginFormComponent {
     loginForm: FormGroup;
 
-    constructor(private fb: FormBuilder, private http: HttpClient,  private authenService: AuthenService, private webAuthnService : WebauthnService ) {
+    constructor(private fb: FormBuilder,private router: Router, private http: HttpClient,  private authenService: AuthenService, private webAuthnService : WebauthnService ) {
         this.loginForm = this.fb.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
@@ -36,6 +37,10 @@ export class LoginFormComponent {
         return bytes.buffer;
     }
 
+
+    redirectToSMSVerifPage(){
+        this.router.navigate(['/smsVerificationPage'], { queryParams: { purpose: 'login' } });
+    }
 
     onLogin(): void {
         if (this.loginForm.valid) {
@@ -54,9 +59,11 @@ export class LoginFormComponent {
                     );
                     const userRole = res.role;
                     this.webAuthnService.login(challenge, userRole, user, allowedCredentials);
+
                 },
                 error : (error) =>{
                     console.log(error)
+                    this.redirectToSMSVerifPage();
                 }
             })
         } else {
