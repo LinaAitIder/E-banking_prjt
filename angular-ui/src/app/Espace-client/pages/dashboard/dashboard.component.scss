@@ -333,3 +333,44 @@
   color: #1f2937;
   text-align: center;
 }
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.transfer-status {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+
+  &.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
+
+.form-control.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.amount-column {
+  &.negative {
+    color: #ff3b30; // Rouge pour les montants négatifs
+    &::before {
+      content: "-";
+    }
+  }
+  &.positive {
+    color: #34c759; // Vert pour les montants positifs
+    &::before {
+      content: "+";
+    }
+  }
+}

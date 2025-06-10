@@ -8,4 +8,5 @@ public interface TransactionService {
     List<TransactionResponse> getTransactionsByAccount(Long accountID);
     List<TransactionResponse> getRecentTransactions(Long accountId);
     List<TransactionResponse> getAllTransactions();
+    List<TransactionResponse> getAllClientTransactions(Long clientId);
 }

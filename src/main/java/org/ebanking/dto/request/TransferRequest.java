@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class TransferRequest {
     private String destinationAccount;
     private BigDecimal amount;
-    //private String reason;
+    private String reason;
 
 
     public String getDestinationAccount() {
@@ -24,4 +24,11 @@ public class TransferRequest {
         this.amount = amount;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 }

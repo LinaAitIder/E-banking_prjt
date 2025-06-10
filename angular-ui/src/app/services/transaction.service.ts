@@ -3,6 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TransactionResponse } from '../model/transaction-response.model'; 
 
+
+
+
+export interface Transaction {
+  type: string;
+  amount: number;
+  reference: string;
+  status: string;
+  date: string;
+  recipient: string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -20,4 +31,9 @@ export class TransactionService {
       headers: { 'account-id': accountId.toString() }
     });
   }
+
+  getTransactions(): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(this.apiUrl);
+}
+
 }
