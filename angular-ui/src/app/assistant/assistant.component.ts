@@ -48,13 +48,18 @@ export class AssistantComponent {
   }
 
   private loadCurrentClient() {
+    console.log('Début de loadCurrentClient');
     const currentUser = this.authService.getCurrentUser();
-    if (currentUser && currentUser.id) { // Vérifiez simplement l'ID
-      this.clientId = currentUser.id;
-      this.loadClientAccount();
+    console.log('Utilisateur récupéré:', currentUser);
+    
+    if (currentUser && currentUser.id) {
+        console.log('Utilisateur valide trouvé, ID:', currentUser.id);
+        this.clientId = currentUser.id;
+        this.loadClientAccount();
     } else {
-      console.error('Aucun client connecté ou utilisateur non reconnu');
-      // Optionnel : rediriger vers la page de connexion
+        console.error('Aucun client connecté ou utilisateur non reconnu');
+        console.error('Données utilisateur complètes:', currentUser);
+        // Optionnel : rediriger vers la page de connexion
     }
 }
 private loadClientAccount() {
