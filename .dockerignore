@@ -1,0 +1,7 @@
+*
+!target/EbankingPrjt-1.0-SNAPSHOT.jar
+**/.git
+**/.idea
+**/node_modules
+**/target/*.jar
+!**/target/EbankingPrjt-1.0-SNAPSHOT.jar
