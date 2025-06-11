@@ -26,4 +26,6 @@ This project is a prototype for a secure and modern e-banking web application, i
 - CORS issues occurred during Render deployment, affecting frontend-backend communication. These issues are absent in local Docker deployments. Troubleshooting is ongoing.
 - Nginx routing served the default welcome page due to hash-based routing conflicts. Workaround implemented using /#/home to load frontend correctly
   
+---
 
+## Videos and screenshoors
