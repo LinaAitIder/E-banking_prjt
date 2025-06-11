@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from "../../../environment.prod";
 
 
 export interface Transaction {
@@ -16,13 +17,13 @@ export interface Transaction {
     providedIn: 'root'
 })
 export class TransactionService {
-    private apiUrl = 'http://localhost:8080/E-banking_Prjt/api/transactions';
+    private apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
 
 
     getTransactions(): Observable<Transaction[]> {
-        return this.http.get<Transaction[]>(this.apiUrl);
+        return this.http.get<Transaction[]>(`${this.apiUrl}/transactions`);
     }
 
 

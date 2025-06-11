@@ -44,3 +44,4 @@ build/
 
 ### Secrets ###
 !**/src/main/resources/database.properties
+.env
