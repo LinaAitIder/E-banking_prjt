@@ -1,8 +1,2 @@
 node_modules
-angular.json
-tsconfig.json
-README.md
-Dockerfile.frontend
 .git
-.gitignore
-README.md
