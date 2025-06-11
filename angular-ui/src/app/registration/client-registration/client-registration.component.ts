@@ -114,8 +114,7 @@ export class ClientRegistrationComponent {
         } catch (error) {
             console.error('Registration failed:', error);
             this.errorMessage = "Failed to create account. Please try again.";
-            window.alert("Something went wrong during registration.");
-            this.redirectToSMSVerifPage(clientData);
+            window.alert("Something went wrong during registration. Possible reasons : Email or phone already exist!");
         }
     }
 }

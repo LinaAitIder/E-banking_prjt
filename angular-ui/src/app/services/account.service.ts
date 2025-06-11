@@ -3,12 +3,13 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {AccountRequest} from "../model/account-request.model";
 import {Account} from "../model/account.model";
+import {environment} from "../../environments/environment.prod";
 @Injectable({
     providedIn: 'root'
 })
 export class AccountService {
     constructor(private http: HttpClient) {}
-    private apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
+    private apiUrl = environment.apiUrl;
 
     //getAllClientAccounts
     verifyClientHasAccounts(clientId: any): Observable<any> {

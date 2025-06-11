@@ -1,11 +1,12 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthenService } from '../services/authen.service';
+import {environment} from "../../environments/environment.prod";
 
 export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
     const authService = inject(AuthenService);
+    const apiUrl = environment.apiUrl;
 
-    const apiUrl = 'http://localhost:8080/E-banking_Prjt/api';
 
     const excludedEndpoints = [
         `${apiUrl}/auth/login`,

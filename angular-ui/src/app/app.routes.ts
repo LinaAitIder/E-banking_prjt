@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {LoginFormComponent} from "./authentification/login-form.component";
 import {ClientRegistrationComponent} from "./registration/client-registration/client-registration.component";
 import {AppComponent} from "./app.component";
@@ -10,6 +10,7 @@ import {EspaceAgentComponent} from "./Espace-agent/Espace-agent.component";
 import { AdminLoginComponent } from './registration/admin-login/admin-login.component';
 import {AgentRegistrationComponent} from "./registration/agent-registration/agent-registration.component";
 import {RegistrationTypeComponent} from "./registration/registration-type.component";
+import {NgModule} from "@angular/core";
 
 export const routes: Routes = [
     {
@@ -56,3 +57,8 @@ export const routes: Routes = [
 
 ];
 
+@NgModule({
+    imports: [RouterModule.forRoot(routes, { useHash: true })],
+    exports: [RouterModule],
+})
+export class AppRoutingModule {}
