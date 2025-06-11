@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { DatePipe } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 
+
 interface Transaction {
     id: number;
     transactionDate: string;
@@ -39,7 +40,7 @@ export class DashboardComponent implements OnInit {
     isLoading = false;
     transactions: Transaction[] = [];
     accounts: AccountResponse[] = [];
-    mainAccount: AccountResponse | null = null;
+    mainAccount: AccountResponse | undefined = undefined;
 
     private readonly API_URL = 'http://localhost:8080/E-banking_Prjt/api';
 
@@ -51,7 +52,19 @@ export class DashboardComponent implements OnInit {
         });
     }
 
+
+
     ngOnInit(): void {
+        // Charge d'abord les données en cache
+        const savedUser = localStorage.getItem('userData');
+        const savedAccount = localStorage.getItem('currentAccount');
+        const savedTransactions = localStorage.getItem(`transactions_${this.userData?.id}`);
+
+        if (savedUser) this.userData = JSON.parse(savedUser);
+        if (savedAccount) this.mainAccount = JSON.parse(savedAccount);
+        if (savedTransactions) this.transactions = JSON.parse(savedTransactions);
+
+        // Puis met à jour avec les données du serveur
         this.initializeComponent();
     }
 
@@ -71,31 +84,29 @@ export class DashboardComponent implements OnInit {
             .subscribe({
                 next: (accounts) => {
                     console.log('Accounts from API:', accounts);
-                    this.accounts = accounts;
+                    this.accounts = accounts.map(account => ({
+                        ...account,
+                        rib: account.rib || account.accountNumber
+                    }));
 
-                    // 1. Essayer de trouver un compte courant
+                    // Trouver le compte courant
                     this.mainAccount = accounts.find(account =>
-                        account.type === 'COURANT' || account.type === 'CURRENT'
-                    ) || null;
+                        account.type?.toUpperCase() === 'CURRENT' ||
+                        account.accountNumber?.startsWith('ACC-')
+                    ) ?? accounts[0] ?? this.createDefaultAccount();
 
-                    // 2. Si aucun compte courant, prendre le premier compte
-                    if (!this.mainAccount && accounts.length > 0) {
-                        this.mainAccount = accounts[0];
-                    }
-
-                    // 3. Si aucun compte n'existe, créer un compte par défaut
-                    if (!this.mainAccount) {
-                        this.mainAccount = this.createDefaultAccount();
-                    }
+                    console.log('Selected main account:', this.mainAccount);
 
                     // Mise à jour des données utilisateur
                     if (this.mainAccount) {
                         this.updateUserData(this.mainAccount);
+                        localStorage.setItem('currentAccount', JSON.stringify(this.mainAccount));
                     }
                 },
                 error: (error) => {
                     console.error("Error loading accounts:", error);
-                    this.mainAccount = this.createDefaultAccount();
+                    const savedAccount = localStorage.getItem('currentAccount');
+                    this.mainAccount = savedAccount ? JSON.parse(savedAccount) : this.createDefaultAccount();
                 }
             });
     }
@@ -105,21 +116,24 @@ export class DashboardComponent implements OnInit {
             id: 0,
             accountNumber: '•••• •••• •••• ••••',
             balance: 0,
-            type: 'COURANT',
+            type: 'CURRENT', // Changé de 'COURANT' à 'CURRENT' pour cohérence
             creationDate: new Date().toISOString(),
-            rib : '•••• •••• •••• ••••'
+            rib: '•••• •••• •••• ••••'
         };
     }
 
     private updateUserData(account: AccountResponse): void {
+        console.log('Updating user data with account:', account);
         this.userData = {
             ...this.userData,
             accountNumber: account.accountNumber,
             balance: account.balance,
-            rib: account.rib
+            rib: account.rib || account.accountNumber
         };
+        console.log('Updated user data:', this.userData);
         localStorage.setItem("userData", JSON.stringify(this.userData));
     }
+
 
     private loadUserData(): Promise<void> {
         return new Promise((resolve) => {
@@ -143,6 +157,8 @@ export class DashboardComponent implements OnInit {
         if (!this.userData?.id) return;
 
         this.isLoading = true;
+
+        // Charge d'abord les données en cache pour une réponse immédiate
         this.loadCachedTransactions();
 
         const headers = {
@@ -155,13 +171,15 @@ export class DashboardComponent implements OnInit {
                 next: (transactions) => {
                     this.transactions = transactions.map(t => ({
                         ...t,
-                        // Assurez-vous que le montant est négatif pour les sortantes
                         amount: t.type.startsWith('OUTGOING_') ? -Math.abs(t.amount) : Math.abs(t.amount)
                     }));
                     localStorage.setItem(`transactions_${this.userData.id}`, JSON.stringify(this.transactions));
                 },
                 error: (error) => {
                     console.error("Error loading transactions:", error);
+                    if (this.transactions.length === 0) {
+                        this.transferStatus = "Using cached transactions";
+                    }
                 },
                 complete: () => this.isLoading = false
             });

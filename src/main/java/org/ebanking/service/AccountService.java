@@ -3,6 +3,8 @@ package org.ebanking.service;
 import org.ebanking.dto.request.AccountRequestDto;
 import org.ebanking.dto.response.AccountResponse;
 import org.ebanking.model.Account;
+import org.ebanking.model.CurrentAccount;
+import org.ebanking.model.SavingsAccount;
 import org.ebanking.model.enums.AccountType;
 
 import java.math.BigDecimal;
@@ -14,6 +16,8 @@ public interface AccountService {
     public AccountResponse createAccount(Long userId, AccountRequestDto request);
 
     Optional<Account> getAccountById(Long id);
+
+    public boolean clientHasSavingsAccount(Long clientId);
 
     Account updateAccount(Account account);
 
@@ -36,5 +40,8 @@ public interface AccountService {
     public AccountResponse getAccountDetails(Long accountId);
 
     List<AccountResponse> getAccountsByClientAndType(Long clientId, AccountType type);
+
+    Optional<SavingsAccount> findSavingsAccountByClientId(Long clientId);
+    Optional<CurrentAccount> findCurrentAccountByClientId(Long clientId);
 
 }

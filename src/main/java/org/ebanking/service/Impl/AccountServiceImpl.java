@@ -311,5 +311,23 @@ public class AccountServiceImpl implements AccountService {
         return result;
     }
 
+    public boolean clientHasSavingsAccount(Long clientId) {
+        return accountRepository.clientHasSavingsAccount(clientId);
+    }
+
+    @Override
+    public Optional<SavingsAccount> findSavingsAccountByClientId(Long clientId) {
+        return accountRepository.findByOwnerIdAndType(clientId, AccountType.SAVINGS)
+                .stream()
+                .filter(a -> a instanceof SavingsAccount)
+                .map(a -> (SavingsAccount) a)
+                .findFirst();
+    }
+
+    @Override
+    public Optional<CurrentAccount> findCurrentAccountByClientId(Long clientId) {
+        return accountRepository.findCurrentAccountByOwnerId(clientId);
+    }
+
 
 }

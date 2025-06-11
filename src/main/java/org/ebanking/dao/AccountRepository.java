@@ -2,6 +2,7 @@ package org.ebanking.dao;
 
 import org.ebanking.model.Account;
 import org.ebanking.model.CurrentAccount;
+import org.ebanking.model.SavingsAccount;
 import org.ebanking.model.enums.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     // - delete()
     // - findAll() etc.
 
+
+    @Query("SELECT COUNT(a) > 0 FROM Account a WHERE a.owner.id = :clientId AND a.type = org.ebanking.model.enums.AccountType.SAVINGS")
+    boolean clientHasSavingsAccount(@Param("clientId") Long clientId);
 
     List<Account> findByOwnerId(Long OwnerId);
 
@@ -43,5 +47,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     findByIsActiveTrue();
 
     List<Account> findByOwnerIdAndType(Long clientId, AccountType type);
+
+    @Query("SELECT a FROM SavingsAccount a WHERE a.owner.id = :ownerId")
+    Optional<SavingsAccount> findSavingsAccountByOwnerId(@Param("ownerId") Long ownerId);
 
 }

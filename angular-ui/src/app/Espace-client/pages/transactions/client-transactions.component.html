@@ -1,46 +1,75 @@
 <div class="transaction-container">
+    <!-- Formulaire de transfert -->
+    <div class="transfer-form">
+        <h2>Transfer Between Accounts</h2>
+
+        <div *ngIf="!hasSavingsAccount" class="no-savings-message">
+            You don't have a savings account. Please contact support to create one.
+        </div>
+
+        <div *ngIf="hasSavingsAccount">
+            <form (ngSubmit)="transferBetweenAccounts()">
+                <div class="form-group">
+                    <label>Transfer Direction:</label>
+                    <div>
+                        <label>
+                            <input type="radio" name="direction" [(ngModel)]="transferDirection"
+                                   value="TO_SAVINGS" [ngModelOptions]="{standalone: true}">
+                            Current → Savings
+                        </label>
+                        <label>
+                            <input type="radio" name="direction" [(ngModel)]="transferDirection"
+                                   value="FROM_SAVINGS" [ngModelOptions]="{standalone: true}">
+                            Savings → Current
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="transferAmount">Amount (MAD):</label>
+                    <input type="number" id="transferAmount" [(ngModel)]="transferAmount"
+                           name="transferAmount" required min="1" step="0.01">
+                </div>
+
+                <button type="submit" [disabled]="isLoading || !transferAmount">
+                    {{ transferDirection === 'TO_SAVINGS' ? 'Save to Savings' : 'Withdraw from Savings' }}
+                </button>
+
+                <div *ngIf="transferMessage" class="transfer-message">
+                    {{ transferMessage }}
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="transaction-header">
         <h1>Transactions</h1>
     </div>
 
-    <div class="transaction-table-wrapper">
+    <div *ngIf="isLoading" class="loading-indicator">
+        Loading transactions...
+    </div>
+
+    <div class="transaction-table-wrapper" *ngIf="!isLoading">
         <table class="transaction-table">
             <thead>
             <tr>
                 <th>Type</th>
                 <th>Amount</th>
-                <th>Reference</th>
-                <th>Status</th>
-                <th>Date of the Transaction</th>
-                <th>Recipient</th>
+                <th>Date</th>
+                <th>Recipient/Sender</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let transaction of transactions">
                 <td>{{ transaction.type }}</td>
-                <td>{{ transaction.amount | currency }}</td>
-                <td>{{ transaction.reference }}</td>
-                <td [ngClass]="{'status': true, 'completed': transaction.status === 'Completed', 'pending': transaction.status === 'Pending'}">
-                    {{ transaction.status }}
+                <td [ngClass]="{'positive': transaction.amount >= 0, 'negative': transaction.amount < 0}">
+                    {{ transaction.amount | currency:'MAD':'symbol':'1.2-2' }}
                 </td>
-                <td>{{ transaction.date }}</td>
-                <td>{{ transaction.recipient }}</td>
+                <td>{{ transaction.transactionDate }}</td>
+                <td>{{ transaction.destinationUser }}</td>
             </tr>
             </tbody>
         </table>
-    </div>
-
-    <!-- Formulaire de transfert -->
-    <div class="transfer-form">
-        <h2>Saving Money</h2>
-        <form (ngSubmit)="transferMoney()">
-            <label for="amount">Amount to transfer:</label>
-            <input type="number" id="amount" [(ngModel)]="transferAmount" name="amount" required min="1" step="10" />
-            <button type="submit">Save</button>
-        </form>
-
-        <div *ngIf="transferMessage" class="transfer-message">
-            {{ transferMessage }}
-        </div>
     </div>
 </div>

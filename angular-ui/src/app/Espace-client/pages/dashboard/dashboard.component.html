@@ -22,8 +22,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="balance-text">
-                    Balance: {{ mainAccount ? (mainAccount.balance | currency:'MAD':'symbol':'1.2-2') : '0,00 MAD' }}
+                <div class="balance-text" *ngIf="mainAccount">
+                    {{ mainAccount.type === 'SAVINGS' ? 'Épargne' : 'Courant' }}:
+                    {{ mainAccount.balance | currency:'MAD':'symbol':'1.2-2' }}
                 </div>
             </div>
 
