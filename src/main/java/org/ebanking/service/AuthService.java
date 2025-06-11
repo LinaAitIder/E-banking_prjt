@@ -6,14 +6,18 @@ import org.ebanking.model.Admin;
 import org.ebanking.model.BankAgent;
 import org.ebanking.model.Client;
 import org.ebanking.model.User;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
+
     @PersistenceContext
     private EntityManager em;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -24,18 +28,10 @@ public class AuthService {
                 .getSingleResult();
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new SecurityException("Invalid credentials");
+            throw new BadCredentialsException("Invalid credentials");
         }
 
-        // Chargement de l'entité concrète selon le type
-        if (user instanceof Client) {
-            return em.find(Client.class, user.getId());
-        } else if (user instanceof BankAgent) {
-            return em.find(BankAgent.class, user.getId());
-        } else if (user instanceof Admin) {
-            return em.find(Admin.class, user.getId());
-        }
-        return user;
+        return em.find(User.class, user.getId());
     }
 }
 

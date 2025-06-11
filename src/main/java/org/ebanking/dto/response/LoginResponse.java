@@ -1,6 +1,10 @@
 package org.ebanking.dto.response;
 
+import org.ebanking.model.Client;
 import org.ebanking.model.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginResponse {
     private String token;
@@ -27,3 +31,4 @@ public class LoginResponse {
 
     public User getUser() { return user; }
 }
+

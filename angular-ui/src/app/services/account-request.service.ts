@@ -1,24 +1,54 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AccountRequest } from '../model/account-request.model';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AccountRequestService {
-    private apiUrl = '/api/account-requests';
+  private apiUrl = 'http://localhost:8080/E-banking_Prjt/api/account-requests';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    getPendingRequests(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiUrl}/pending`);
+  createAccountRequest(request: any): Observable<any> {
+      return this.http.post(this.apiUrl, request, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'client-id': JSON.parse(localStorage.getItem('userData')!).id.toString()
+        })
+      });
     }
 
-    approveRequest(requestId: number): Observable<any> {
-        return this.http.post(`${this.apiUrl}/${requestId}/approve`, {});
-    }
+ getPendingRequests(): Observable<AccountRequest[]> {
+     const agentId = JSON.parse(localStorage.getItem('userData')!).id;
+     return this.http.get<AccountRequest[]>(`${this.apiUrl}/pending`, {
+         headers: new HttpHeaders({
+             'agent-id': agentId.toString()
+         })
+     });
+ }
 
-    rejectRequest(requestId: number): Observable<any> {
-        return this.http.post(`${this.apiUrl}/${requestId}/reject`, {});
-    }
+   cancelRequest(requestId: number): Observable<any> {
+       return this.http.delete(`${this.apiUrl}/${requestId}`);
+     }
+
+  approveRequest(requestId: number): Observable<any> {
+    const agentId = JSON.parse(localStorage.getItem('userData')!).id;
+    return this.http.post(
+      `${this.apiUrl}/${requestId}/approve`,
+      {},
+      { headers: new HttpHeaders({ 'agent-id': agentId.toString() }) }
+    );
+  }
+
+  rejectRequest(requestId: number): Observable<any> {
+    const agentId = JSON.parse(localStorage.getItem('userData')!).id;
+    return this.http.post(
+      `${this.apiUrl}/${requestId}/reject`,
+      {},
+      { headers: new HttpHeaders({ 'agent-id': agentId.toString() }) }
+    );
+  }
 }

@@ -13,11 +13,10 @@ import java.util.Optional;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    //@EntityGraph(attributePaths = {"user"})
     Optional<Client> findById(Long id);
 
     @Query("SELECT c FROM Client c WHERE c.isEnrolled = false")
-    List<Client> findByIsEnrolledFalse();
+    List<Client> findClientsWithoutEnrollment();
 
     @Query("SELECT c FROM Client c WHERE c.responsibleAgent.id = :agentId")
     List<Client> findByResponsibleAgentId(@Param("agentId") Long agentId);

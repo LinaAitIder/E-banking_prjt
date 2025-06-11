@@ -1,6 +1,6 @@
 package org.ebanking.service;
 
-import org.ebanking.dto.request.AccountRequest;
+import org.ebanking.dto.request.AccountRequestDto;
 import org.ebanking.dto.response.AccountResponse;
 import org.ebanking.model.Account;
 import org.ebanking.model.enums.AccountType;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface AccountService {
 
-    public AccountResponse createAccount(Long userId, AccountRequest request);
+    public AccountResponse createAccount(Long userId, AccountRequestDto request);
 
     Optional<Account> getAccountById(Long id);
 

@@ -1,6 +1,6 @@
 package org.ebanking.controller;
 
-import org.ebanking.dto.request.AccountRequest;
+import org.ebanking.dto.request.AccountRequestDto;
 import org.ebanking.dto.response.AccountResponse;
 import org.ebanking.model.enums.AccountType;
 import org.ebanking.service.AccountService;
@@ -30,7 +30,7 @@ public class AccountController {
     @PostMapping("/create")
     public ResponseEntity<AccountResponse> createAccount(
             @RequestHeader("user-id") Long userId,
-            @RequestBody AccountRequest accountRequest) {
+            @RequestBody AccountRequestDto accountRequest) {
 
         AccountResponse createdAccount = accountService.createAccount(userId, accountRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);

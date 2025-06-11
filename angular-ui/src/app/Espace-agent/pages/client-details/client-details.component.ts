@@ -28,16 +28,23 @@ export class ClientDetailsComponent implements OnInit {
     }
 
     loadClientDetails(clientId: number): void {
-        this.agentService.getClientDetails(clientId).subscribe({
-            next: (client) => {
-                this.client = client;
-            },
-            error: (err) => {
-                console.error('Failed to load client details', err);
-                // Handle error
-            }
-        });
-    }
+            this.agentService.getClientDetails(clientId).subscribe({
+                next: (client) => {
+                    // Transformation des donnees si nécessaire
+                    this.client = {
+                        ...client,
+                        isEnrolled: true,
+                        accounts: client.accounts?.map(account => ({
+                            ...account,
+                            createdAt: account.createdAt ? new Date(account.createdAt) : null
+                        })) || []
+                    };
+                },
+                error: (err) => {
+                    console.error('Failed to load client details', err);
+                }
+            });
+        }
 
     goBack(): void {
         this.router.navigate(['/agent/clients']);

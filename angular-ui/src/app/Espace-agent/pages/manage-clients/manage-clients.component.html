@@ -4,37 +4,56 @@
         <div *ngIf="clients.length === 0" class="empty-message">
             You don't have any clients yet.
         </div>
-        <ul class="client-list">
-            <li *ngFor="let client of clients" class="client-item">
-                <div class="client-info">
-                    <span class="client-name">{{ client.fullName }}</span>
-                    <span class="client-email">{{ client.email }}</span>
-                </div>
-                <div class="client-actions">
-                    <button class="btn-view" (click)="viewClientDetails(client.id)">
-                        View Accounts
-                    </button>
-                </div>
-            </li>
-        </ul>
+        <!-- <div *ngIf="clients.length > 0">
+       <h4>Debug Data:</h4>
+       <pre>{{ clients | json }}</pre>   </div> -->
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Accounts</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let client of clients">
+                    <td>{{ client.fullName }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>
+                            <span *ngIf="client.accounts && client.accounts.length > 0; else noAccounts">
+                                <span *ngFor="let account of client.accounts; let last = last">
+                                    {{ account.accountNumber }} ({{ account.type }}){{ !last ? ', ' : '' }}
+                                </span>
+                            </span>
+                        <ng-template #noAccounts>No accounts</ng-template>
+                    </td>
+                    <td>
+                        <button (click)="viewClientDetails(client.id)">View Details</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
     </div>
 
     <div class="section">
         <h3>Clients Without Enrollment</h3>
-        <div *ngIf="unenrolledClients.length === 0" class="empty-message">
-            No unenrolled clients available.
+
+        <div *ngIf="isLoading" class="loading">Loading...</div>
+
+        <div *ngIf="!isLoading && unenrolledClients.length === 0" class="empty-message">
+            No unenrolled clients found
         </div>
+
         <ul class="client-list">
             <li *ngFor="let client of unenrolledClients" class="client-item">
                 <div class="client-info">
                     <span class="client-name">{{ client.fullName }}</span>
                     <span class="client-email">{{ client.email }}</span>
                 </div>
-                <div class="client-actions">
-                    <button class="btn-enroll" (click)="enrollClient(client.id)">
-                        Create Enrollment
-                    </button>
-                </div>
+                <button class="btn-enroll" (click)="enrollClient(client.id)">
+                    Enroll Client
+                </button>
             </li>
         </ul>
     </div>

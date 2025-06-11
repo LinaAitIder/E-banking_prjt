@@ -22,6 +22,11 @@ public class BankAgent extends User {
     @Column(name = "agency", nullable = false)
     private String agency;
 
+    @Override
+    public List<String> getRoles() {
+        return List.of("ROLE_BANKAGENT");
+    }
+
     // Constructors
     public BankAgent() {}
 
@@ -30,8 +35,4 @@ public class BankAgent extends User {
     public void setAgentCode(String agentCode) { this.agentCode = agentCode; }
     public String getAgency() { return agency; }
     public void setAgency(String agency) { this.agency = agency; }
-    @Override
-    public List<String> getRoles() {
-        return List.of("ROLE_BANKAGENT");
-    }
 }

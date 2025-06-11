@@ -27,7 +27,7 @@ export interface Account {
     type: string;
     balance: number;
     currency: string;
-    createdAt?: string | Date;
+    createdAt?: string | Date | null;
     // Specific to account types
     overdraftLimit?: number;    // CURRENT
     interestRate?: number;      // SAVINGS

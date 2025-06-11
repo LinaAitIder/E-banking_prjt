@@ -47,8 +47,11 @@ export class AccountService {
         );
     }
 
-
-
+    getAccountsByClientAndType(clientId: number, type: any): Observable<any> {
+        return this.http.get<any[]>(`${this.apiUrl}/client/${clientId}/accounts`, {
+            params: type ? { type } : {}
+        });
+    }
 
     deleteAccount(accountId: any): Observable<void> {
         const headers = new HttpHeaders({
