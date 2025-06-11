@@ -68,4 +68,10 @@ public class AccountController {
         List<AccountResponse> accounts = accountService.getAccountsByClientAndType(clientId, type);
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
+
+    @GetMapping("/has-savings")
+    public ResponseEntity<Boolean> clientHasSavingsAccount(@RequestHeader("client-id") Long clientId) {
+        boolean hasSavings = accountService.clientHasSavingsAccount(clientId);
+        return ResponseEntity.ok(hasSavings);
+    }
 }
