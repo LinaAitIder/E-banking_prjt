@@ -6,7 +6,7 @@ This project is a prototype for a secure and modern e-banking web application, i
 
 - **Biometric Authentication** using WebAuthn (windows Hello, FingerPrint scan, flexible depending on the machine)
 - **SMS Verification** through Infobip API
-- **AI Assistant** powered by DialogFlow for user support
+- **AI Assistant** powered by DialogFlow for user support (ongoing - waiting to resolve merge conflicts for this part)
 - **Dockerized** backend and frontend for easier deployment
 - **Hash-based Routing** for frontend navigation (due to deployment constraints)
 
